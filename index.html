@@ -280,7 +280,7 @@
 
 <script>
   /* ── Paper data ──────────────────────────────────────────────────────
-     topic  : "Public Datasets" | "SMPL-X Body Regression" | "Hand Regression"
+     topic  : "Public Datasets" | "SMPL-X Body Regression/Generation" | "Hand Regression"
      subtopic (optional) : sub-group label shown inside the topic card
   */
   const PAPERS = [
@@ -354,33 +354,33 @@
       id: "hmd_poser",
       abbr: "HMD-Poser (On-Device Body from Sparse HMD+IMU)",
       year: 2024,
-      note: "SMPL-X Body Regression: LSTM+Transformer TSFL; scalable HMD-only/+2IMU/+3IMU; online shape head ↓37% MPJPE; 90 FPS on PICO 4; MPJPE 3.19cm HMD-only vs 5.03cm prior SOTA",
+      note: "SMPL-X Body Regression/Generation: LSTM+Transformer TSFL; scalable HMD-only/+2IMU/+3IMU; online shape head ↓37% MPJPE; 90 FPS on PICO 4; MPJPE 3.19cm HMD-only vs 5.03cm prior SOTA",
       path: "subpages/hmd_poser.html",
       arxiv: "https://arxiv.org/abs/2403.03561",
       pdf: "https://arxiv.org/pdf/2403.03561",
-      topic: "SMPL-X Body Regression",
+      topic: "SMPL-X Body Regression/Generation",
       subtopic: "Sparse Sensor / HMD"
     },
     {
       id: "egoego",
       abbr: "EgoEgo (Ego-Body via Ego-Head Pose)",
       year: 2023,
-      note: "SMPL-X Body Regression: SLAM+GravityNet+HeadNet → head pose → conditional diffusion → SMPL body; unpaired training; CVPR 2023 precursor to EgoAllo; MPJPE 121mm on ARES",
+      note: "SMPL-X Body Regression/Generation: SLAM+GravityNet+HeadNet → head pose → conditional diffusion → SMPL body; unpaired training; CVPR 2023 precursor to EgoAllo; MPJPE 121mm on ARES",
       path: "subpages/egoego.html",
       arxiv: "https://arxiv.org/abs/2212.04636",
       pdf: "https://arxiv.org/pdf/2212.04636",
-      topic: "SMPL-X Body Regression",
+      topic: "SMPL-X Body Regression/Generation",
       subtopic: "Egocentric Estimation"
     },
     {
       id: "egoallo",
       abbr: "EgoAllo (Egocentric Body & Hand Estimation)",
       year: 2024,
-      note: "SMPL-X Body Regression: Conditional diffusion for allocentric body+hand motion from egocentric SLAM footage, ↓18% body error / ↓40% hand error",
+      note: "SMPL-X Body Regression/Generation: Conditional diffusion for allocentric body+hand motion from egocentric SLAM footage, ↓18% body error / ↓40% hand error",
       path: "subpages/egoallo.html",
       arxiv: "https://arxiv.org/abs/2410.03665",
       pdf: "https://arxiv.org/pdf/2410.03665",
-      topic: "SMPL-X Body Regression",
+      topic: "SMPL-X Body Regression/Generation",
       subtopic: "Egocentric Estimation"
     },
     {
@@ -506,7 +506,7 @@
   ];
 
   /* Topic display order */
-  const TOPIC_ORDER = ["Public Datasets", "SMPL-X Body Regression", "Hand Regression", "Major Group", "Tools"];
+  const TOPIC_ORDER = ["Public Datasets", "SMPL-X Body Regression/Generation", "Hand Regression", "Major Group", "Tools"];
 
   let activePaper = null;
 
