@@ -1,0 +1,385 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.30);color:var(--accent2);background:rgba(139,255,207,.05);margin:2px 3px 2px 0;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:#c084fc;background:rgba(192,132,252,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  /* Task section */
+  .task-section{margin-bottom:20px;}
+  .task-title{font-size:13px;font-weight:600;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:10px;margin:0 0 10px;}
+  .paper-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start;}
+  .paper-row:last-child{border-bottom:none;}
+  .venue-badge{font-size:10px;font-family:var(--mono);padding:2px 7px;border-radius:6px;border:1px solid rgba(255,255,255,.12);color:var(--muted);white-space:nowrap;flex-shrink:0;margin-top:2px;}
+  .venue-cvpr{border-color:rgba(122,162,255,.4);color:var(--accent);}
+  .venue-iccv{border-color:rgba(139,255,207,.35);color:var(--accent2);}
+  .venue-neurips{border-color:rgba(255,180,80,.35);color:#ffb450;}
+  .venue-iclr{border-color:rgba(192,132,252,.35);color:#c084fc;}
+  .venue-other{border-color:rgba(255,255,255,.12);color:var(--muted);}
+  .paper-content{flex:1;min-width:0;}
+  .paper-title{font-size:13px;color:var(--text);line-height:1.4;margin-bottom:3px;}
+  .paper-desc{font-size:11.5px;color:var(--muted);line-height:1.5;}
+  .paper-desc-zh{font-size:11.5px;color:var(--muted);line-height:1.5;display:none;}
+  .link-btn{display:inline-flex;font-size:10.5px;padding:2px 7px;border-radius:6px;border:1px solid var(--border);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;transition:.12s;margin:3px 3px 0 0;}
+  .link-btn:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);text-decoration:none;}
+  /* Stats bar */
+  .stats-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .stat-chip{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 14px;text-align:center;}
+  .stat-num{font-family:var(--mono);font-size:18px;color:var(--accent2);display:block;}
+  .stat-label{font-size:11px;color:var(--muted);display:block;margin-top:2px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    card.querySelectorAll('.paper-desc').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.paper-desc-zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:980px;margin:0 auto;">
+
+  <!-- Header -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">CVPR Trend · Ego-Exo4D Dataset Usage Survey</div>
+    <h1>CVPR Trend: Works Using Ego-Exo4D</h1>
+    <div style="margin-top:8px;font-size:13px;color:rgba(232,236,255,.6);">
+      Ego-Exo4D (CVPR 2024) · 36+ downstream papers across CVPR / ICCV / NeurIPS / ICLR
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Cross-View Correspondence</span>
+      <span class="tag">Proficiency Estimation</span>
+      <span class="tag">Keystep Recognition</span>
+      <span class="tag">Ego Pose</span>
+      <span class="tag">View Translation</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en">Since its CVPR 2024 release, Ego-Exo4D has spawned <b>36+ downstream papers</b> at top venues. The dominant research thread is <b>cross-view object correspondence / segmentation</b> (ego↔exo). A second strong thread is <b>expert coaching and proficiency estimation</b> leveraging the dataset's unique expert commentary annotations.</div>
+      <div class="zh">自 CVPR 2024 发布以来，Ego-Exo4D 已衍生出在顶级会议发表的 <b>36+ 篇下游论文</b>。最主要的研究方向是<b>跨视角物体对应/分割</b>（ego↔exo）。第二条强线是利用数据集独特专家评论标注的<b>专家指导与技能水平估计</b>。</div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="card">
+    <h2>By the Numbers</h2>
+    <div class="stats-row">
+      <div class="stat-chip"><span class="stat-num">36+</span><span class="stat-label">Downstream papers</span></div>
+      <div class="stat-chip"><span class="stat-num">3</span><span class="stat-label">CVPR / CVPRW papers</span></div>
+      <div class="stat-chip"><span class="stat-num">5+</span><span class="stat-label">ICCV 2025 papers</span></div>
+      <div class="stat-chip"><span class="stat-num">2</span><span class="stat-label">NeurIPS 2024 papers</span></div>
+      <div class="stat-chip"><span class="stat-num">2</span><span class="stat-label">ICLR 2025/2026 papers</span></div>
+      <div class="stat-chip"><span class="stat-num">6</span><span class="stat-label">Task categories</span></div>
+    </div>
+  </div>
+
+  <!-- Task 1: Cross-View Correspondence -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="task-title">① Cross-View Object Correspondence &amp; Segmentation （最热门任务）</div>
+    <div class="task-section">
+
+      <div class="paper-row">
+        <span class="venue-badge venue-iccv">ICCV 2025 🌟Highlight</span>
+        <div class="paper-content">
+          <div class="paper-title">ObjectRelator: Enabling Cross-View Object Relation Understanding Across Ego/Exo Perspectives</div>
+          <div class="paper-desc">Language-guided cross-view segmentation with self-supervised ego-exo alignment; SOTA on Ego-Exo4D correspondence + HANDAL-X benchmarks.</div>
+          <div class="paper-desc-zh">语言引导的跨视角分割，含自监督 ego-exo 对齐；在 Ego-Exo4D 对应和 HANDAL-X 基准上达到最优。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2411.19083" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-cvpr">CVPRW 2025 🥈2nd Prize</span>
+        <div class="paper-content">
+          <div class="paper-title">Cross-View Multi-Modal Segmentation @ Ego-Exo4D Challenges 2025</div>
+          <div class="paper-desc">Multimodal condition fusion + cross-view object alignment module; 2nd prize in EgoVis @ CVPR 2025 Relations challenge.</div>
+          <div class="paper-desc-zh">多模态条件融合 + 跨视角物体对齐模块；荣获 EgoVis @ CVPR 2025 Relations 挑战赛二等奖。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2506.05856" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-iccv">ICCV 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">O-MaMa: Learning Object Mask Matching between Egocentric and Exocentric Views</div>
+          <div class="paper-desc">Cycle-consistent mask prediction for ego↔exo object correspondence without semantic labels.</div>
+          <div class="paper-desc-zh">循环一致掩码预测，无需语义标签实现 ego↔exo 物体对应。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2506.06026" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">CVPR 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">Learning Cross-View Object Correspondence via Cycle-Consistent Mask Prediction</div>
+          <div class="paper-desc">Cycle-consistency-based correspondence training between ego and exo views; main track at CVPR 2026.</div>
+          <div class="paper-desc-zh">基于循环一致性的 ego-exo 视角间对应关系训练；CVPR 2026 主会。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2602.18996" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">ACM MM 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">DOMR: Establishing Cross-View Segmentation via Dense Object Matching</div>
+          <div class="paper-desc">Dense per-pixel object matching to improve ego↔exo segmentation without explicit correspondence supervision.</div>
+          <div class="paper-desc-zh">密集逐像素物体匹配，无需显式对应监督实现 ego↔exo 分割提升。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2508.04050" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Task 2: View Translation / Generation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="task-title">② Ego ↔ Exo View Translation &amp; Generation</div>
+    <div class="task-section">
+
+      <div class="paper-row">
+        <span class="venue-badge venue-iclr">ICLR 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">EgoExo-Gen: Ego-centric Video Prediction by Watching Exo-centric Videos</div>
+          <div class="paper-desc">Two-stage pipeline predicting hand-object masks to guide diffusion models for ego video generation from exo observations.</div>
+          <div class="paper-desc-zh">两阶段流水线：预测手-物体掩码引导扩散模型，从外部视角观测生成自我中心视频。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2504.11732" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-iclr">ICLR 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">EgoWorld: Translating Exocentric View to Egocentric View using Rich Exocentric Observations</div>
+          <div class="paper-desc">Rich multi-modal exo observations (pose, depth, audio) as conditions for realistic ego video synthesis.</div>
+          <div class="paper-desc-zh">以丰富的多模态外部观测（姿态、深度、音频）为条件合成逼真自我中心视频。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2506.17896" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-iccv">ICCV 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">MonoFusion: Sparse-View 4D Reconstruction via Monocular Fusion</div>
+          <div class="paper-desc">Monocular video-based dynamic 4D scene reconstruction evaluated on Ego-Exo4D multi-view sequences.</div>
+          <div class="paper-desc-zh">基于单目视频的动态 4D 场景重建，在 Ego-Exo4D 多视角序列上评估。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2507.23782" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Task 3: Expert Feedback & Proficiency -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="task-title">③ Expert Coaching &amp; Proficiency Estimation</div>
+    <div class="task-section">
+
+      <div class="paper-row">
+        <span class="venue-badge venue-cvpr">CVPR 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">ExpertAF: Expert Actionable Feedback from Video</div>
+          <div class="paper-desc">VLM trained on Ego-Exo4D expert commentary generates coaching feedback (text + expert video retrieval + 3D pose correction) from activity videos.</div>
+          <div class="paper-desc-zh">在 Ego-Exo4D 专家评论上训练的 VLM，从活动视频生成指导反馈（文字 + 专家视频检索 + 3D 姿态纠正）。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2408.00672" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">ExpertEdit: Learning Skill-Aware Motion Editing from Expert Videos</div>
+          <div class="paper-desc">Motion editing conditioned on expert demonstrations from Ego-Exo4D to improve novice performance.</div>
+          <div class="paper-desc-zh">以 Ego-Exo4D 专家示范为条件的动作编辑，用于提升新手表现。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2604.10466" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">Parameter-Efficient Multi-View Proficiency Estimation</div>
+          <div class="paper-desc">Efficient adaptation of pre-trained video models for proficiency estimation using ego+exo views jointly.</div>
+          <div class="paper-desc-zh">高效调整预训练视频模型，联合利用 ego+exo 视角进行技能水平估计。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2605.03848" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Task 4: Keystep Recognition -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="task-title">④ Keystep Recognition &amp; Procedural Understanding</div>
+    <div class="task-section">
+
+      <div class="paper-row">
+        <span class="venue-badge venue-iccv">ICCV Workshop 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">Keystep Recognition using Graph Neural Networks</div>
+          <div class="paper-desc">GNN-based temporal graph over multi-modal Ego-Exo4D features for fine-grained keystep recognition.</div>
+          <div class="paper-desc-zh">基于 GNN 的时序图，在 Ego-Exo4D 多模态特征上进行细粒度关键步骤识别。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2506.01102" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">Improving Keystep Recognition in Ego-Video via Dexterous Focus</div>
+          <div class="paper-desc">Attention mechanism focusing on hand-object dexterous manipulation regions to improve keystep classification.</div>
+          <div class="paper-desc-zh">聚焦手-物体灵巧操作区域的注意力机制，提升关键步骤分类精度。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2506.00827" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">Graph-Based Multimodal and Multi-view Alignment for Keystep Recognition</div>
+          <div class="paper-desc">Joint ego+exo graph alignment for multi-modal keystep recognition, tested on Ego-Exo4D keystep benchmark.</div>
+          <div class="paper-desc-zh">联合 ego+exo 图对齐进行多模态关键步骤识别，在 Ego-Exo4D 基准上测试。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2501.04121" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">How to Correctly Make Mistakes: Mistake-Aware Egocentric Procedural Videos</div>
+          <div class="paper-desc">Framework for constructing and benchmarking mistake detection in procedural videos using Ego-Exo4D.</div>
+          <div class="paper-desc-zh">构建并基准测试程序性视频中错误检测的框架，使用 Ego-Exo4D。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2604.15134" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Task 5: Ego Body/Hand Pose -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="task-title">⑤ Egocentric Body &amp; Hand Pose Estimation</div>
+    <div class="task-section">
+
+      <div class="paper-row">
+        <span class="venue-badge venue-neurips">NeurIPS 2024</span>
+        <div class="paper-content">
+          <div class="paper-title">Estimating Ego-Body Pose from Doubly Sparse Egocentric Video Data</div>
+          <div class="paper-desc">Body pose estimation from sparse egocentric video using Ego-Exo4D ego pose benchmark for evaluation.</div>
+          <div class="paper-desc-zh">从稀疏自我中心视频估计体态，使用 Ego-Exo4D ego pose 基准评估。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2411.03561" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-neurips">NeurIPS 2024</span>
+        <div class="paper-content">
+          <div class="paper-title">EgoChoir: Capturing 3D Human-Object Interaction Regions from Egocentric Views</div>
+          <div class="paper-desc">3D HOI region estimation from ego video; evaluated on Ego-Exo4D for hand-object interaction scenarios.</div>
+          <div class="paper-desc-zh">从自我中心视频捕捉 3D 人-物交互区域；在 Ego-Exo4D 手-物交互场景上评估。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2405.13659" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">The Invisible EgoHand: 3D Hand Forecasting through EgoBody Pose Estimation</div>
+          <div class="paper-desc">Predicting future hand positions in ego video by reasoning about body pose from Ego-Exo4D ego streams.</div>
+          <div class="paper-desc-zh">通过从 Ego-Exo4D 自我流中推断体态来预测自我中心视频中未来的手部位置。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2504.08654" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Task 6: Other / Video Understanding -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="task-title">⑥ Multimodal Reasoning &amp; Video Understanding</div>
+    <div class="task-section">
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">AAAI 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">Exo2Ego: Exocentric Knowledge Guided MLLM for Egocentric Video Understanding</div>
+          <div class="paper-desc">MLLM trained to transfer exo knowledge for egocentric video QA and understanding tasks on Ego-Exo4D.</div>
+          <div class="paper-desc-zh">训练 MLLM 将外部视角知识迁移至自我中心视频问答和理解任务。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2503.09143" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">arXiv 2026</span>
+        <div class="paper-content">
+          <div class="paper-title">TrajPilot: Trajectory-Conditioned Egocentric Prediction</div>
+          <div class="paper-desc">Future trajectory conditioning for egocentric video prediction benchmarked on Ego-Exo4D sequences.</div>
+          <div class="paper-desc-zh">以未来轨迹为条件的自我中心视频预测，在 Ego-Exo4D 序列上基准测试。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2605.20388" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+      <div class="paper-row">
+        <span class="venue-badge venue-other">UIST 2025</span>
+        <div class="paper-content">
+          <div class="paper-title">HAGI++: Head-Assisted Gaze Imputation and Generation</div>
+          <div class="paper-desc">Leverages Ego-Exo4D gaze annotations to train and evaluate gaze prediction from egocentric video.</div>
+          <div class="paper-desc-zh">利用 Ego-Exo4D 视线标注训练并评估自我中心视频中的视线预测。</div>
+          <a class="link-btn" href="https://arxiv.org/abs/2511.02468" target="_blank">arXiv</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent2);">TL;DR — Research Trends</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      <b>① Cross-view correspondence dominates</b> — the ego↔exo object segmentation task has generated the most papers (5+), with ICCV 2025 highlights and a dedicated CVPRW 2025 challenge track.<br><br>
+      <b>② Expert commentary = unique value</b> — Ego-Exo4D's novel expert coaching labels enable a new class of "AI coach" papers (ExpertAF @ CVPR 2025, ExpertEdit 2026) that no other dataset supports.<br><br>
+      <b>③ Pose track is growing</b> — the ego pose benchmark attracts NeurIPS-level work on body/hand estimation from sparse egocentric video.<br><br>
+      <b>④ EgoVis Workshop @ CVPR</b> is the main venue for challenge results — annual tech-report papers (2024 + 2025) make it low-barrier to publish with Ego-Exo4D results.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      <b>① 跨视角对应主导</b>——ego↔exo 物体分割任务产生了最多论文（5+），ICCV 2025 有高亮论文，CVPRW 2025 有专属挑战赛赛道。<br><br>
+      <b>② 专家评论 = 独特价值</b>——Ego-Exo4D 新颖的专家指导标签催生了一类"AI 教练"论文（ExpertAF @ CVPR 2025，ExpertEdit 2026），这是其他数据集无法支撑的。<br><br>
+      <b>③ 姿态赛道持续增长</b>——自我中心姿态基准吸引了 NeurIPS 级别的从稀疏自我中心视频进行体态/手部估计的工作。<br><br>
+      <b>④ EgoVis Workshop @ CVPR</b> 是挑战赛结果的主要发表平台——年度技术报告论文（2024 + 2025）发表门槛低，是利用 Ego-Exo4D 结果发文的好渠道。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,681 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MaxInsights Intern — Paper Digest</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#0f1733;
+      --panel2:#0c1430;
+      --text:#e8ecff;
+      --muted:#aeb7e6;
+      --border:rgba(255,255,255,.10);
+      
+      --accent:#7aa2ff;
+      --accent2:#8bffcf;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background: radial-gradient(1200px 800px at 15% 10%, rgba(122,162,255,.18), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 30%, rgba(139,255,207,.10), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .app{
+      height:100%;
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap:16px;
+      padding:16px;
+    }
+    .sidebar,.main{
+      background: linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:0;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar-header{
+      padding:16px 16px 12px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      background:rgba(0,0,0,.12);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .brand h1{margin:0;font-size:16px;letter-spacing:.3px;}
+    .pill{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      background:rgba(255,255,255,.03);
+      white-space:nowrap;
+    }
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      outline:none;
+      font-size:13px;
+    }
+    .search input::placeholder{color:rgba(232,236,255,.55);}
+    .list{
+      padding:10px;
+      overflow:auto;
+      height:calc(100% - 98px);
+    }
+    .item{
+      padding:12px 12px;
+      border:1px solid transparent;
+      border-radius:14px;
+      background:rgba(0,0,0,.12);
+      cursor:pointer;
+      transition:.15s ease;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .item:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.35);}
+    .item.active{
+      border-color:rgba(122,162,255,.70);
+      background:linear-gradient(180deg,rgba(122,162,255,.18),rgba(0,0,0,.10));
+    }
+    .badge{
+      min-width:44px;
+      height:30px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+      flex-shrink:0;
+    }
+    .meta{display:flex;flex-direction:column;gap:4px;min-width:0;}
+    .meta .abbr{
+      font-family:var(--mono);
+      font-size:13px;
+      color:var(--text);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:250px;
+    }
+    .meta .desc{
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:250px;
+    }
+
+    /* ── Main panel ── */
+    .main-header{
+      padding:16px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background:rgba(0,0,0,.12);
+    }
+    .main-title{display:flex;flex-direction:column;gap:4px;min-width:0;}
+    .main-title h2{margin:0;font-size:16px;letter-spacing:.2px;}
+    .main-title .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      max-width:60vw;
+    }
+    .actions{display:flex;gap:10px;align-items:center;flex-shrink:0;}
+    .btn{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:12px;
+      transition:.15s ease;
+    }
+    .btn:hover{border-color:rgba(139,255,207,.6);transform:translateY(-1px);}
+    .content{
+      height:calc(100% - 66px);
+      overflow:auto;
+      padding:16px;
+      background:linear-gradient(180deg,rgba(0,0,0,.06),transparent);
+    }
+    .empty{
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:var(--radius);
+      padding:18px;
+      color:var(--muted);
+      background:rgba(0,0,0,.12);
+      line-height:1.55;
+    }
+
+    /* Dashboard topic cards */
+    .topic-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:16px;
+      margin-top:16px;
+    }
+    .topic-card{
+      background:rgba(0,0,0,.15);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:16px;
+    }
+    .topic-card h4{
+      margin:0 0 12px;
+      color:var(--accent2);
+      font-size:14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      padding-bottom:8px;
+    }
+    .topic-card ul{
+      margin:0;padding-left:20px;
+      font-size:13px;
+      color:rgba(232,236,255,.75);
+      line-height:1.6;
+    }
+    .topic-card li{cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+    .topic-card li:hover{color:var(--text);}
+
+    @media(max-width:920px){
+      .app{grid-template-columns:1fr;grid-template-rows:320px 1fr;}
+      .list{height:calc(100% - 98px);}
+      .main-title .sub{max-width:100%;}
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- LEFT: paper index -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <h1>📚 Lu Dong Paper Digest</h1>
+        <span class="pill" id="countPill">0 papers</span>
+      </div>
+      <div class="search">
+        <input id="searchInput" type="text" placeholder="搜索：标题缩写 / 年份 / 关键词..." />
+      </div>
+    </div>
+    <div class="list" id="paperList"></div>
+  </aside>
+
+  <!-- RIGHT: panel -->
+  <main class="main">
+    <div class="main-header">
+      <div class="main-title">
+        <h2 id="panelTitle">MaxInsights-Intern</h2>
+        <p class="sub" id="panelSub">📊 Topics &amp; Papers</p>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btnArxiv" style="display:none">ArXiv</button>
+        <button class="btn" id="btnPdf"   style="display:none">PDF</button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <div class="empty" id="emptyState">
+        <b style="color:#e8ecff;font-size:15px;">
+          MaxInsights-Intern
+          <span id="totalCount" style="opacity:.6;font-weight:normal;font-size:13px;"></span>
+        </b>
+        <div class="topic-grid" id="topicGrid"></div>
+
+        <!-- Related Work panel -->
+        <div id="relatedWorkPanel" style="margin-top:20px;padding:16px;border:1px solid rgba(192,132,252,.30);border-radius:var(--radius);background:rgba(192,132,252,.04);">
+          <b style="color:#c084fc;font-size:14px;letter-spacing:.2px;">Related Work</b>
+          <div class="topic-grid" id="relatedWorkGrid" style="margin-top:12px;"></div>
+        </div>
+
+        <div style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(255,255,255,.15);color:rgba(232,236,255,.55);font-size:12px;">
+          Select a paper from the left list or click a title above to view details.
+        </div>
+      </div>
+      <iframe id="paperFrame" style="width:100%;height:100%;border:none;display:none;"></iframe>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  /* ── Paper data ──────────────────────────────────────────────────────
+     topic  : "Public Datasets" | "SMPL-X Body Regression" | "Hand Regression"
+     subtopic (optional) : sub-group label shown inside the topic card
+  */
+  const PAPERS = [
+    {
+      id: "nymeriaplus",
+      abbr: "NymeriaPlus (Enriched Nymeria)",
+      year: 2026,
+      note: "Public Datasets · Egocentric: adds MHR+SMPL body format, motion quality ↓64.6% wrist error, 10K+ 3D OBBs, 4,547 object meshes, 600h wristband video, 600h audio",
+      path: "subpages/nymeriaplus.html",
+      arxiv: "https://arxiv.org/abs/2603.18496",
+      pdf: "https://arxiv.org/pdf/2603.18496",
+      topic: "Public Datasets",
+      subtopic: "Egocentric"
+    },
+    {
+      id: "nymeria",
+      abbr: "Nymeria (Multimodal Egocentric Daily Motion)",
+      year: 2024,
+      note: "Public Datasets · Egocentric: 300h motion from 264 participants, synchronized multi-device egocentric data with full-body MoCap and motion-language pairs",
+      path: "subpages/nymeria.html",
+      arxiv: "https://arxiv.org/abs/2406.09905",
+      pdf: "https://arxiv.org/pdf/2406.09905",
+      topic: "Public Datasets",
+      subtopic: "Egocentric"
+    },
+    {
+      id: "epic_kitchens",
+      abbr: "EPIC-KITCHENS (Dataset Family)",
+      year: 2022,
+      note: "Public Datasets · Egocentric: 100h kitchen activity from 45 homes, 90K actions, VISOR/EPIC-Sounds/EPIC-Fields/HD-EPIC extensions; annual EgoVis@CVPR challenge",
+      path: "subpages/epic_kitchens.html",
+      arxiv: "https://arxiv.org/abs/2006.13256",
+      pdf: "https://arxiv.org/pdf/2006.13256",
+      topic: "Public Datasets",
+      subtopic: "Egocentric"
+    },
+    {
+      id: "ego_exo4d_v2",
+      abbr: "Ego-Exo4D v2 (IJCV 2025)",
+      year: 2025,
+      note: "Public Datasets · Egocentric: journal expansion — larger v2 dataset, new procedure understanding benchmark, full pose annotation breakdown, complete baselines across all 5 task families",
+      path: "subpages/ego_exo4d_v2.html",
+      arxiv: "https://arxiv.org/abs/2311.18259",
+      pdf: "pdfs/Ego-Exo4D-v2.pdf",
+      topic: "Public Datasets",
+      subtopic: "Egocentric"
+    },
+    {
+      id: "ego_exo4d",
+      abbr: "Ego-Exo4D (First- & Third-Person Video)",
+      year: 2023,
+      note: "Public Datasets · Egocentric: 1,286h synchronized ego+exo video from 740 participants, skilled activities with expert commentary benchmarks",
+      path: "subpages/ego_exo4d.html",
+      arxiv: "https://arxiv.org/abs/2311.18259",
+      pdf: "https://arxiv.org/pdf/2311.18259",
+      topic: "Public Datasets",
+      subtopic: "Egocentric"
+    },
+    {
+      id: "emhi",
+      abbr: "EMHI (Multimodal Egocentric HMD+IMU Dataset)",
+      year: 2025,
+      note: "Dataset + Baseline: PICO4 stereo HMD + 5 body-worn IMUs · 885 seq · 58 subj · 39 actions · 28.5h · SMPL GT · MEPoser MPJPE 3.7cm P1 (↓32.7% vs UnrealEgo) · AAAI 2025 Pico",
+      path: "subpages/emhi.html",
+      arxiv: "https://arxiv.org/abs/2408.17168",
+      pdf: "https://arxiv.org/pdf/2408.17168",
+      topic: "Body Pose Estimation",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "hmd_poser",
+      abbr: "HMD-Poser (On-Device Body from Sparse HMD+IMU)",
+      year: 2024,
+      note: "SMPL-X Body Regression: LSTM+Transformer TSFL; scalable HMD-only/+2IMU/+3IMU; online shape head ↓37% MPJPE; 90 FPS on PICO 4; MPJPE 3.19cm HMD-only vs 5.03cm prior SOTA",
+      path: "subpages/hmd_poser.html",
+      arxiv: "https://arxiv.org/abs/2403.03561",
+      pdf: "https://arxiv.org/pdf/2403.03561",
+      topic: "SMPL-X Body Regression",
+      subtopic: "Sparse Sensor / HMD"
+    },
+    {
+      id: "egoego",
+      abbr: "EgoEgo (Ego-Body via Ego-Head Pose)",
+      year: 2023,
+      note: "SMPL-X Body Regression: SLAM+GravityNet+HeadNet → head pose → conditional diffusion → SMPL body; unpaired training; CVPR 2023 precursor to EgoAllo; MPJPE 121mm on ARES",
+      path: "subpages/egoego.html",
+      arxiv: "https://arxiv.org/abs/2212.04636",
+      pdf: "https://arxiv.org/pdf/2212.04636",
+      topic: "SMPL-X Body Regression",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "egoallo",
+      abbr: "EgoAllo (Egocentric Body & Hand Estimation)",
+      year: 2024,
+      note: "SMPL-X Body Regression: Conditional diffusion for allocentric body+hand motion from egocentric SLAM footage, ↓18% body error / ↓40% hand error",
+      path: "subpages/egoallo.html",
+      arxiv: "https://arxiv.org/abs/2410.03665",
+      pdf: "https://arxiv.org/pdf/2410.03665",
+      topic: "SMPL-X Body Regression",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "egoposeformer",
+      abbr: "EgoPoseFormer (Stereo Egocentric 3D Pose)",
+      year: 2024,
+      note: "Egocentric Pose: PPN (2-layer MLP, global pool) + PRFormer (DETR-style, Deformable Stereo Attn); MPJPE 33.4mm ↓45% vs Ego3DPose; 14.1M params / 7.3G FLOPs; SceneEgo MPJPE 93.0mm ↓21%; Edinburgh + Meta; ECCV 2024",
+      path: "subpages/egoposeformer.html",
+      pdf: "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/07241.pdf",
+      topic: "Body Pose Estimation",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "egoposeformer_v2",
+      abbr: "EgoPoseFormer v2 (Egocentric Body for AR/VR)",
+      year: 2026,
+      note: "Egocentric Pose (XYZ + Momentum body model, NOT SMPL-X): Single holistic query transformer + projection-conditioned MV attention + causal temporal + ALS (70M unlabeled); MPJPE 4.02cm ↓22.4% vs EgoBody3M; 0.8ms GPU; CVPR 2026 Meta",
+      path: "subpages/egoposeformer_v2.html",
+      arxiv: "https://arxiv.org/abs/2603.04090",
+      pdf: "https://arxiv.org/pdf/2603.04090",
+      topic: "Body Pose Estimation",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "hamer",
+      abbr: "HaMeR (Hands in 3D with Transformers)",
+      year: 2024,
+      note: "Hand Regression: ViT-H + transformer decoder → MANO; 2.7M training samples; 2–3× PCK gain on HInt (Ego4D/EPIC-KITCHENS/YouTube); new occlusion-labeled benchmark",
+      path: "subpages/hamer.html",
+      arxiv: "https://arxiv.org/abs/2312.05251",
+      pdf: "https://arxiv.org/pdf/2312.05251",
+      topic: "Hand Regression",
+      subtopic: "MANO Regression"
+    },
+    {
+      id: "wilor",
+      abbr: "WiLoR (End-to-end Hand Localization & Reconstruction)",
+      year: 2025,
+      note: "Hand Regression: ViT-L + built-in 138FPS detector + multi-scale per-vertex refinement → MANO; PA-MPJPE 5.5mm on FreiHAND (vs HaMeR 6.0mm); WHIM 2M YouTube training set",
+      path: "subpages/wilor.html",
+      arxiv: "https://arxiv.org/abs/2409.12259",
+      pdf: "https://rolpotamias.github.io/pdfs/WiLoR.pdf",
+      topic: "Hand Regression",
+      subtopic: "MANO Regression"
+    },
+    {
+      id: "hawor",
+      abbr: "HaWoR (World-Space Hand Motion from Ego Video)",
+      year: 2025,
+      note: "Hand Regression: WiLoR backbone + IAM/PAM temporal attention + adaptive SLAM → world-space MANO trajectories; W-MPJPE 33.2mm vs HaMeR-SLAM 156mm (↓78.7%); 40ms/frame",
+      path: "subpages/hawor.html",
+      arxiv: "https://arxiv.org/abs/2501.02973",
+      pdf: "https://arxiv.org/pdf/2501.02973",
+      topic: "Hand Regression",
+      subtopic: "MANO Regression"
+    },
+    {
+      id: "dynhamr",
+      abbr: "Dyn-HaMR (4D Interacting Hand from Dynamic Camera)",
+      year: 2025,
+      note: "Hand Regression: 3-stage opt (SLAM + bimanual prior + biomechanical); G-MPJPE ↓80% vs HaMeR on Ego-Exo4D; Jerk ↓37×; from Imperial/Zafeiriou lab (same as WiLoR/HaWoR)",
+      path: "subpages/dynhamr.html",
+      arxiv: "https://arxiv.org/abs/2412.12861",
+      pdf: "https://arxiv.org/pdf/2412.12861",
+      topic: "Hand Regression",
+      subtopic: "MANO Regression"
+    },
+    {
+      id: "ego_body_estimation_trend",
+      abbr: "After EgoAllo: Ego Full-Body Estimation (CVPR 2026+)",
+      year: 2026,
+      note: "CVPR Trend: EgoPoseFormer v2 (CVPR26), EgoForce (diffusion forcing, ↓56% MPJPE vs EgoAllo), OmniEgoCap (camera-agnostic), NeurIPS24 doubly-sparse; 3 research directions",
+      path: "subpages/ego_body_estimation_trend.html",
+      arxiv: "",
+      pdf: "",
+      topic: "CVPR Trend",
+      subtopic: "Egocentric Body Estimation"
+    },
+    {
+      id: "egoexo4d_cvpr_trend",
+      abbr: "CVPR Trend — Works Using Ego-Exo4D",
+      year: 2025,
+      note: "CVPR Trend: 36+ downstream papers across CVPR/ICCV/NeurIPS/ICLR using Ego-Exo4D — cross-view correspondence, expert coaching, keystep recognition, ego pose estimation",
+      path: "subpages/egoexo4d_cvpr_trend.html",
+      arxiv: "",
+      pdf: "",
+      topic: "CVPR Trend",
+      subtopic: "Ego-Exo4D"
+    },
+    {
+      id: "future_ego_smplx",
+      abbr: "EgoSMPL-X: Egocentric-Guided Full-Body SMPL-X (Proposal)",
+      year: 2026,
+      note: "Future Work: 3-branch diffusion (EgoAllo body + HaWoR hands + audio face) → unified world-space SMPL-X; builds on NymeriaPlus/HOT3D/EgoBody; target CVPR 2027 / SIGGRAPH Asia 2026",
+      path: "subpages/future_ego_smplx.html",
+      arxiv: "",
+      pdf: "",
+      topic: "Future Work",
+      subtopic: "Research Proposal"
+    },
+    {
+      id: "ego_groups_overview",
+      abbr: "Egocentric Dataset Landscape — Who Else?",
+      year: 2025,
+      note: "Major Group: Quick analysis of non-Meta egocentric groups — Bristol, ETH Zurich, Microsoft, Ego4D consortium, Alibaba; with SMPL-X support and focus area comparison",
+      path: "subpages/ego_groups_overview.html",
+      arxiv: "",
+      pdf: "",
+      topic: "Major Group",
+      subtopic: "Overview"
+    },
+    {
+      id: "aria_group",
+      abbr: "Project Aria Group (Meta Reality Labs)",
+      year: 2026,
+      note: "Major Group: Meta's egocentric AR research program — 8 public datasets (Nymeria, HOT3D, ADT, AEA, ASE, DTC, AEO, Gen2 Pilot) covering body motion, hand-object, scene understanding, synthetic environments",
+      path: "subpages/aria_group.html",
+      arxiv: "https://arxiv.org/abs/2308.13561",
+      pdf: "",
+      topic: "Major Group",
+      subtopic: "Meta Reality Labs"
+    },
+    {
+      id: "viser",
+      abbr: "Viser (Imperative, Web-based 3D Visualization in Python)",
+      year: 2025,
+      note: "Tools · 3D Visualization: imperative Python API + web-based viewer (SSH-friendly); supports point clouds, meshes, Gaussian splats, coordinate frames + rich GUI widgets; React/three.js frontend; 2.6k stars, used by nerfstudio/gsplat",
+      path: "subpages/viser.html",
+      arxiv: "https://arxiv.org/abs/2507.22885",
+      pdf: "https://arxiv.org/pdf/2507.22885",
+      topic: "Tools",
+      subtopic: "3D Visualization"
+    }
+  ];
+
+  /* Topic display order */
+  const TOPIC_ORDER = ["Public Datasets", "SMPL-X Body Regression", "Hand Regression", "Major Group", "Tools"];
+
+  let activePaper = null;
+
+  const els = {
+    list:       document.getElementById("paperList"),
+    search:     document.getElementById("searchInput"),
+    count:      document.getElementById("countPill"),
+    panelTitle: document.getElementById("panelTitle"),
+    panelSub:   document.getElementById("panelSub"),
+    empty:      document.getElementById("emptyState"),
+    frame:      document.getElementById("paperFrame"),
+    topicGrid:       document.getElementById("topicGrid"),
+    relatedWorkGrid: document.getElementById("relatedWorkGrid"),
+    totalCount: document.getElementById("totalCount"),
+    btnArxiv:   document.getElementById("btnArxiv"),
+    btnPdf:     document.getElementById("btnPdf"),
+  };
+
+  /* ── Render sidebar list ── */
+  function renderList(items) {
+    els.list.innerHTML = "";
+    const sorted = [...items].sort((a, b) => b.year - a.year);
+    sorted.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.dataset.id = p.id;
+      div.innerHTML = `
+        <div class="badge">${p.year}</div>
+        <div class="meta">
+          <div class="abbr">${escapeHtml(p.abbr)}</div>
+          <div class="desc">${escapeHtml(p.note || "")}</div>
+        </div>`;
+      div.addEventListener("click", () => selectPaper(p));
+      els.list.appendChild(div);
+    });
+    els.count.textContent = `${items.length} papers`;
+  }
+
+  /* ── Select paper → iframe ── */
+  function selectPaper(p) {
+    activePaper = p;
+    document.querySelectorAll(".item").forEach(n =>
+      n.classList.toggle("active", n.dataset.id === p.id)
+    );
+    els.panelTitle.textContent = `${p.abbr} (${p.year})`;
+    els.panelSub.textContent   = `加载：${p.path}`;
+
+    if (p.arxiv) {
+      els.btnArxiv.style.display = "inline-block";
+      els.btnArxiv.textContent = "ArXiv";
+      els.btnArxiv.onclick = () => window.open(p.arxiv, "_blank");
+    } else { els.btnArxiv.style.display = "none"; }
+
+    if (p.pdf) {
+      els.btnPdf.style.display = "inline-block";
+      els.btnPdf.textContent = "PDF";
+      els.btnPdf.onclick = () => window.open(p.pdf, "_blank");
+    } else { els.btnPdf.style.display = "none"; }
+
+    els.empty.style.display = "none";
+    els.frame.style.display = "block";
+    els.frame.src = p.path;
+  }
+
+  function selectPaperById(id) {
+    const p = PAPERS.find(x => x.id === id);
+    if (p) selectPaper(p);
+  }
+
+  /* ── Dashboard ── */
+  const RELATED_WORK_TOPICS = new Set(["Major Group", "CVPR Trend", "Future Work"]);
+
+  function buildTopicCards(topics, byTopic) {
+    let html = "";
+    for (const topic of topics) {
+      const subs = byTopic[topic] || {};
+      const allInTopic = Object.values(subs).flat();
+      allInTopic.sort((a, b) => b.year - a.year);
+      html += `<div class="topic-card">
+        <h4>${escapeHtml(topic)} <span style="opacity:.5;font-weight:normal;">(${allInTopic.length})</span></h4>`;
+      if (allInTopic.length === 0) {
+        html += `<p style="font-size:12px;color:rgba(232,236,255,.35);margin:0 0 4px;">No papers yet.</p>`;
+      } else {
+        const subNames = Object.keys(subs);
+        if (subNames.length === 1 && subNames[0] === "General") {
+          html += `<ul>`;
+          allInTopic.forEach(p => {
+            html += `<li onclick="selectPaperById('${p.id}')">${escapeHtml(p.abbr)} <span style="opacity:.55;font-size:11px;">(${p.year})</span></li>`;
+          });
+          html += `</ul>`;
+        } else {
+          for (const [sub, list] of Object.entries(subs)) {
+            list.sort((a, b) => b.year - a.year);
+            html += `<div style="margin-top:8px;">
+              <div style="font-size:11px;color:var(--accent);opacity:.8;margin-bottom:4px;">${escapeHtml(sub)}</div>
+              <ul>`;
+            list.forEach(p => {
+              html += `<li onclick="selectPaperById('${p.id}')">${escapeHtml(p.abbr)} <span style="opacity:.55;font-size:11px;">(${p.year})</span></li>`;
+            });
+            html += `</ul></div>`;
+          }
+        }
+      }
+      html += `</div>`;
+    }
+    return html;
+  }
+
+  function renderDashboard() {
+    els.totalCount.textContent = `— ${PAPERS.length} papers`;
+
+    // Group all papers by topic → subtopic
+    const byTopic = {};
+    PAPERS.forEach(p => {
+      if (!byTopic[p.topic]) byTopic[p.topic] = {};
+      const sub = p.subtopic || "General";
+      if (!byTopic[p.topic][sub]) byTopic[p.topic][sub] = [];
+      byTopic[p.topic][sub].push(p);
+    });
+
+    // Main topics (exclude Related Work topics)
+    const mainTopics = [...new Set([...TOPIC_ORDER, ...Object.keys(byTopic)])]
+      .filter(t => !RELATED_WORK_TOPICS.has(t));
+
+    // Related Work topics
+    const rwTopics = [...new Set([...Object.keys(byTopic)])]
+      .filter(t => RELATED_WORK_TOPICS.has(t));
+
+    els.topicGrid.innerHTML       = buildTopicCards(mainTopics, byTopic);
+    els.relatedWorkGrid.innerHTML = buildTopicCards(rwTopics, byTopic);
+
+    els.panelTitle.textContent = "MaxInsights-Intern";
+    els.panelSub.textContent   = `📊 Topics & Papers (${PAPERS.length} papers)`;
+    els.btnArxiv.style.display = "none";
+    els.btnPdf.style.display   = "none";
+  }
+
+  /* ── Search ── */
+  function applySearch() {
+    const q = els.search.value.trim().toLowerCase();
+    const filtered = q
+      ? PAPERS.filter(p => `${p.abbr} ${p.year} ${p.note} ${p.id} ${p.topic}`.toLowerCase().includes(q))
+      : PAPERS;
+    renderList(filtered);
+  }
+
+  els.search.addEventListener("input", applySearch);
+
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&","&amp;").replaceAll("<","&lt;")
+      .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  /* ── Init ── */
+  renderList(PAPERS);
+  renderDashboard();
+</script>
+</body>
+</html>

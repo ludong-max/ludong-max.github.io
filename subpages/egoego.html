@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours td{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .step-label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-cvpr{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-cvpr:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.28);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2212.04636 · CVPR 2023</div>
+    <h1>EgoEgo: Ego-Body Pose Estimation via Ego-Head Pose Estimation</h1>
+    <div class="authors">
+      Jiaman Li, C. Karen Liu†, Jiajun Wu†<br>
+      <span style="opacity:.7">Stanford University</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">SMPL-X Body Regression</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Conditional Diffusion</span>
+      <span class="tag">SLAM</span>
+      <span class="tag">Unpaired Training</span>
+      <span class="tag tag-blue">CVPR 2023</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2212.04636" target="_blank">📄 arXiv</a>
+      <a class="link-btn link-cvpr" href="https://openaccess.thecvf.com/content/CVPR2023/papers/Li_Ego-Body_Pose_Estimation_via_Ego-Head_Pose_Estimation_CVPR_2023_paper.pdf" target="_blank">📋 CVPR PDF</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can we estimate full-body 3D human motion from monocular egocentric video — where the body is almost never visible — by using <em>head motion as an intermediate representation</em>, without requiring paired egocentric video + 3D motion training data?</div>
+      <div class="zh"><b>一句话问题：</b>能否通过将<em>头部运动作为中间表示</em>，从单目自我中心视频（身体几乎不可见）估计全身 3D 人体运动——且无需配对的自我中心视频 + 3D 动作训练数据？</div>
+    </div>
+    <div class="note-box">
+      ⚠️ <b>关系定位：</b> EgoEgo 是 <a href="https://arxiv.org/abs/2410.03665" target="_blank">EgoAllo (ECCV 2024)</a> 的直接前身——同样是"头部 → 全身扩散"两阶段范式，但仅输出<b>相机坐标系</b>的 SMPL 体态，不含手部，不含世界坐标系轨迹。
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>EgoEgo two-stage decomposition:</b> Stage 1 estimates head pose from egocentric video (SLAM + learned GravityNet + HeadNet); Stage 2 generates full-body SMPL motion conditioned on the head pose via conditional diffusion. Each stage can be trained on separate single-modality datasets.</div>
+        <div class="zh"><b>EgoEgo 两阶段分解：</b>第一阶段从自我中心视频估计头部姿态（SLAM + 学习型 GravityNet + HeadNet）；第二阶段通过条件扩散以头部姿态为条件生成全身 SMPL 运动。每个阶段可在独立的单模态数据集上训练。</div>
+      </li>
+      <li>
+        <div class="en"><b>Hybrid head pose estimation:</b> Addresses three SLAM failure modes (unknown gravity, non-metric scale, rotation errors) with GravityNet (gravity direction from AMASS) and HeadNet (scale + rotation from optical flow via ResNet-18 + Transformer). GravityNet trained on AMASS; HeadNet on ARES/Kinpoly-RealWorld/GIMO.</div>
+        <div class="zh"><b>混合头部姿态估计：</b>用 GravityNet（从 AMASS 估计重力方向）和 HeadNet（从光流估计尺度 + 旋转，ResNet-18 + Transformer）解决 SLAM 三大失效模式（未知重力、非公制尺度、旋转误差）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Conditional diffusion body generator:</b> DDPM-based Transformer denoising network conditioned on head pose sequence H ∈ R^{T×D'}; generates diverse plausible full-body SMPL motions (22 joints, global position + rotation). Trained on AMASS alone — no egocentric video needed.</div>
+        <div class="zh"><b>条件扩散体态生成器：</b>基于 DDPM 的 Transformer 去噪网络，以头部姿态序列 H ∈ R^{T×D'} 为条件；生成多样合理的全身 SMPL 运动（22 关节，全局位置 + 旋转）。仅在 AMASS 上训练——无需自我中心视频。</div>
+      </li>
+      <li>
+        <div class="en"><b>ARES synthetic benchmark:</b> AMASS-Replica-Ego-Syn — 1.66M frames (~15h) across 18 indoor scenes, paired egocentric video + 3D motion, generated via AI Habitat renderer. Enables systematic benchmarking without real paired capture.</div>
+        <div class="zh"><b>ARES 合成基准：</b>AMASS-Replica-Ego-Syn——18 个室内场景 166 万帧（约 15 小时），配对自我中心视频 + 3D 运动，通过 AI Habitat 渲染器生成。无需真实配对采集即可系统性评测。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method Architecture -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Architecture</h2>
+    <div class="arch-box">
+      <span class="step-label">Stage 1 — Head Pose from Egocentric Video</span>
+      <span style="color:rgba(232,236,255,.7);">Egocentric video I</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">DROID-SLAM</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (raw rotation + translation)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">GravityNet</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (Transformer, predicts g ∈ R³ → rotation correction R_g)</span>
+      <span class="arrow">+</span>
+      <span style="color:var(--accent2);">HeadNet</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (optical flow o_t → distance d_t + rotation R_t)</span>
+      <span class="arrow">→</span>
+      <span style="color:#ffc850;">Head pose H ∈ R^{T×D'}</span>
+
+      <div style="margin-top:10px;">
+        <span class="step-label">Stage 2 — Full-Body from Head Pose (Conditional Diffusion)</span>
+        <span style="color:rgba(232,236,255,.7);">Head pose H</span>
+        <span class="arrow">+</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;">noise x_N</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">Transformer denoising network</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (DDPM, conditioned on H)</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">Full-body SMPL X ∈ R^{T×D}</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (22 joints, pos + rot)</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.80);">
+        <b>Training decoupling insight:</b> GravityNet + HeadNet train on egocentric videos without needing 3D body labels. The diffusion body generator trains on AMASS motion capture without needing egocentric video. No paired data required — only the two stages need to share the head pose interface format.
+      </div>
+      <div class="zh" style="color:rgba(232,236,255,.80);">
+        <b>训练解耦思路：</b>GravityNet + HeadNet 在自我中心视频上训练，无需 3D 体态标签。扩散体态生成器在 AMASS 动捕数据上训练，无需自我中心视频。不需要配对数据——两个阶段只需共享头部姿态接口格式。
+      </div>
+    </div>
+  </div>
+
+  <!-- ARES Dataset -->
+  <div class="card">
+    <h2>ARES Benchmark Dataset</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Full name</td><td>AMASS-Replica-Ego-Syn (ARES)</td></tr>
+      <tr><td>Total frames</td><td class="num">1,664,616 frames @ 30 fps (~15 hours)</td></tr>
+      <tr><td>Scenes</td><td>18 indoor scenes (Replica dataset)</td></tr>
+      <tr><td>Train split</td><td class="num">~1.2M frames, 13 scenes</td></tr>
+      <tr><td>Test split</td><td class="num">34,850 frames, 5 unseen scenes</td></tr>
+      <tr><td>Renderer</td><td>AI Habitat (photorealistic egocentric rendering)</td></tr>
+      <tr><td>Body source</td><td>AMASS motion sequences + scene penetration filtering</td></tr>
+      <tr><td>Paired data</td><td>Egocentric video + full-body 3D SMPL motion</td></tr>
+    </table>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 1 — Full-body estimation from egocentric video (MPJPE in mm)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th colspan="2">ARES</th><th colspan="2">Kinpoly-MoCap</th><th colspan="2">GIMO</th></tr>
+      <tr style="font-size:11px;color:var(--muted);"><td></td><td>MPJPE↓</td><td>Accel↓</td><td>MPJPE↓</td><td>Accel↓</td><td>MPJPE↓</td><td>Accel↓</td></tr>
+      <tr><td>PoseReg</td><td class="num">147.7</td><td class="num">127.6</td><td class="num">160.4</td><td class="num">61.8</td><td class="num">189.3</td><td class="num">71.5</td></tr>
+      <tr><td>Kinpoly-OF</td><td class="num">141.6</td><td class="num">7.3</td><td class="num">230.5</td><td class="num">16.4</td><td class="num">404.2</td><td class="num">21.9</td></tr>
+      <tr class="ours best"><td><b>EgoEgo (ours)</b></td><td class="num"><b>121.1</b></td><td class="num"><b>6.2</b></td><td class="num"><b>125.9</b></td><td class="num"><b>8.0</b></td><td class="num"><b>152.1</b></td><td class="num"><b>10.4</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 2 — Head pose estimation (T_head in mm)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>ARES T_head↓</th><th>Kinpoly T_head↓</th><th>GIMO T_head↓</th></tr>
+      <tr><td>DROID-SLAM</td><td class="num">411.3</td><td class="num">1290.8</td><td class="num">865.4</td></tr>
+      <tr class="ours best"><td><b>EgoEgo Stage 1</b></td><td class="num"><b>176.5</b></td><td class="num"><b>487.8</b></td><td class="num"><b>304.7</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 3 — Body from GT head pose (AMASS test)</div>
+    <table>
+      <tr><th>Method</th><th>MPJPE↓</th><th>Accel↓</th><th>FS↓</th></tr>
+      <tr><td>AvatarPoser</td><td class="num">124.7</td><td class="num">16.1</td><td class="num">18.8</td></tr>
+      <tr><td>Kinpoly-Head</td><td class="num">110.9</td><td class="num">11.4</td><td class="num">11.2</td></tr>
+      <tr class="ours best"><td><b>EgoEgo Diffusion</b></td><td class="num"><b>109.0</b></td><td class="num"><b>10.5</b></td><td class="num"><b>4.4</b></td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.45);margin:8px 0 0;">Metrics: MPJPE (mm) · Accel (mm/s²) · FS = foot skating (mm) · O_head = head rotation error · T_head = head translation error (mm)</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Studies</h2>
+
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 4 — Head pose components (T_head mm on ARES / Kinpoly / GIMO)</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:5px;">表 4 — 头部姿态各组件消融（T_head mm）</div>
+    <table style="margin-bottom:12px;">
+      <tr><th>Config</th><th>ARES T_head↓</th><th>Kinpoly T_head↓</th><th>GIMO T_head↓</th></tr>
+      <tr><td><span class="en">SLAM only</span><span class="zh">仅 SLAM</span></td><td class="num">411.3</td><td class="num">1290.8</td><td class="num">865.4</td></tr>
+      <tr><td><span class="en">SLAM + Scale (HeadNet)</span><span class="zh">SLAM + 尺度（HeadNet）</span></td><td class="num">325.9</td><td class="num">643.5</td><td class="num">569.5</td></tr>
+      <tr><td><span class="en">SLAM + Scale + Gravity (GravityNet)</span><span class="zh">SLAM + 尺度 + 重力（GravityNet）</span></td><td class="num">176.5</td><td class="num">487.8</td><td class="num">304.7</td></tr>
+      <tr class="ours best"><td><b><span class="en">Full model (+ HeadNet rotation)</span><span class="zh">完整模型（含 HeadNet 旋转）</span></b></td><td class="num"><b>176.5</b></td><td class="num"><b>487.8</b></td><td class="num"><b>304.7</b></td></tr>
+    </table>
+
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 5 — Effect of head pose quality on full-body estimation</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:5px;">表 5 — 头部姿态质量对全身估计的影响</div>
+    <table>
+      <tr><th>Head Input</th><th>MPJPE↓ (ARES)</th><th>T_head↓</th></tr>
+      <tr><td><span class="en">EgoEgo predicted head</span><span class="zh">EgoEgo 预测头部</span></td><td class="num">121.1</td><td class="num">148.0</td></tr>
+      <tr class="best"><td><span class="en">GT head pose</span><span class="zh">真值头部姿态</span></td><td class="num"><b>105.6</b></td><td class="num"><b>29.1</b></td></tr>
+    </table>
+    <div style="margin-top:8px;font-size:13px;line-height:1.55;">
+      <div class="en" style="color:rgba(232,236,255,.75);">Key takeaway: head pose accuracy directly bottlenecks body quality — improving head estimation from predicted (T_head=148mm) to GT (T_head=29mm) reduces MPJPE from 121mm to 106mm, a 12% gain. This motivates EgoAllo's improved SLAM conditioning.</div>
+      <div class="zh" style="color:rgba(232,236,255,.75);">关键结论：头部姿态精度直接制约体态质量——将头部从预测（T_head=148mm）改善到真值（T_head=29mm）时，MPJPE 从 121mm 降至 106mm（提升 12%）。这为 EgoAllo 改进 SLAM 条件化提供了动机。</div>
+    </div>
+  </div>
+
+  <!-- vs EgoAllo -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">EgoEgo vs. EgoAllo — 演进对比</h2>
+    <table>
+      <tr><th>Dimension</th><th>EgoEgo (CVPR 2023)</th><th>EgoAllo (ECCV 2024)</th></tr>
+      <tr>
+        <td><b><span class="en">Head conditioning</span><span class="zh">头部条件化</span></b></td>
+        <td><span class="en">Optical flow + DROID-SLAM → GravityNet + HeadNet</span><span class="zh">光流 + DROID-SLAM → GravityNet + HeadNet</span></td>
+        <td><span class="en" style="color:var(--accent2);">Direct SLAM 6-DoF with spatially/temporally invariant re-parameterization</span><span class="zh" style="color:var(--accent2);">直接 SLAM 6-DoF，空间/时间不变重参数化</span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Output space</span><span class="zh">输出坐标系</span></b></td>
+        <td><span class="en">Camera space only</span><span class="zh">仅相机坐标系</span></td>
+        <td><span class="en" style="color:var(--accent2);">World / allocentric space</span><span class="zh" style="color:var(--accent2);">世界/异中心坐标系</span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Hand estimation</span><span class="zh">手部估计</span></b></td>
+        <td style="color:var(--muted);">❌ <span class="en">Body only</span><span class="zh">仅体态</span></td>
+        <td style="color:var(--accent2);">✅ <span class="en">SMPL body + MANO hands</span><span class="zh">SMPL 全身 + MANO 手部</span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Body format</span><span class="zh">体态格式</span></b></td>
+        <td>SMPL (22 joints)</td>
+        <td>SMPL (body) + MANO (hands)</td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Unpaired training</span><span class="zh">无配对训练</span></b></td>
+        <td style="color:var(--accent2);">✅ <span class="en">Separate video / MoCap datasets</span><span class="zh">视频/动捕数据集分开训练</span></td>
+        <td style="color:var(--accent2);">✅ <span class="en">Same paradigm</span><span class="zh">相同范式</span></td>
+      </tr>
+      <tr>
+        <td><b>ARES / HOT3D</b></td>
+        <td>ARES, Kinpoly, GIMO</td>
+        <td>HOT3D (world-space eval)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      EgoEgo (CVPR 2023, Stanford) is the <b>direct precursor to EgoAllo</b>. It establishes the core paradigm: <b>head pose as intermediate representation → conditional diffusion for full-body SMPL</b>. The key innovation is decoupled training — Stage 1 (GravityNet + HeadNet on top of DROID-SLAM) uses video only; Stage 2 (DDPM Transformer) uses AMASS MoCap only. Achieves MPJPE 121mm on ARES vs 142mm (Kinpoly-OF). Main gap vs EgoAllo: camera-space only (no world-space), no hand estimation, and head pose errors are the main bottleneck (GT head improves body by 12%).
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

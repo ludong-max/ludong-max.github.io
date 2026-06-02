@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  .highlight{background:rgba(122,162,255,.07);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:13px;color:rgba(232,236,255,.85);line-height:1.65;}
+  .vs-row-new{background:rgba(139,255,207,.05);}
+  .new-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:999px;border:1px solid rgba(139,255,207,.4);color:var(--accent2);background:rgba(139,255,207,.08);margin-left:4px;vertical-align:middle;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · IJCV 2025 · 133:8356–8435 · doi:10.1007/s11263-025-02557-6</div>
+    <h1>Ego-Exo4D: Understanding Skilled Human Activity from First- and Third-Person Perspectives <span style="font-size:14px;opacity:.55;font-weight:400">(v2 / IJCV)</span></h1>
+    <div class="authors">
+      Kristen Grauman, Andrew Westbury, Lorenzo Torresani, Kris Kitani, Jitendra Malik, + 95 collaborators<br>
+      <span style="opacity:.7">UT Austin · Meta FAIR · Northeastern · CMU · UC Berkeley · and 18 more institutions</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Ego + Exo</span>
+      <span class="tag">Skilled Activities</span>
+      <span class="tag">3D Pose</span>
+      <span class="tag tag-blue">IJCV 2025</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we build a large-scale multimodal benchmark that enables AI to understand <em>skilled human activity</em> jointly from first-person (egocentric) and third-person (exocentric) perspectives, with rich language and 3D pose supervision?</div>
+      <div class="zh"><b>一句话问题：</b>如何构建大规模多模态基准，使 AI 能够同时从第一人称（自我中心）和第三人称（外部视角）理解<em>技巧性人类活动</em>，并配备丰富的语言和 3D 姿态监督？</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Largest synchronized ego+exo dataset:</b> 1,286 hours of video from 740 participants across 123 scenes in 13 cities worldwide, covering 8 domains (cooking, health, bike repair, music, basketball, soccer, dance, rock climbing) with 43 activities and 689 unique keysteps.</div>
+        <div class="zh"><b>最大规模同步 ego+exo 数据集：</b>740 名参与者在全球 13 座城市 123 个场景中完成 8 个领域（烹饪、健康、单车维修、音乐、篮球、足球、舞蹈、攀岩）的技巧性活动，共 1,286 小时视频，43 项活动、689 个独特关键步骤。</div>
+      </li>
+      <li>
+        <div class="en"><b>Rich multimodal streams via Project Aria:</b> RGB (1408×1408 @ 30fps), dual mono SLAM cameras, eye-tracking, 7-channel spatial audio, dual IMUs (800/1000 Hz), barometer, magnetometer — all time-synchronized and metric SLAM-localized.</div>
+        <div class="zh"><b>Project Aria 丰富多模态数据流：</b>RGB（1408×1408@30fps）、双单目 SLAM 相机、眼动追踪、7 声道空间音频、双 IMU（800/1000 Hz）、气压计和磁力计，全部时间同步并经 metric SLAM 定位。</div>
+      </li>
+      <li>
+        <div class="en"><b>Three paired language corpora:</b> (1) <em>Expert commentary</em> — 117,812 time-stamped segments from 52 domain experts critiquing skill execution; (2) <em>Narrate-and-act</em> — first-person how-to narrations by participants; (3) <em>Atomic action descriptions</em> — 432K sentences from third-party annotators covering every visible action.</div>
+        <div class="zh"><b>三种配对语言语料：</b>（1）<em>专家评论</em>——52 位领域专家提供 117,812 条时间戳技能评论；（2）<em>叙述与行动</em>——参与者第一人称操作叙述；（3）<em>原子动作描述</em>——第三方标注员提供 432K 条涵盖所有可见动作的句子。</div>
+      </li>
+      <li>
+        <div class="en"><b>Four benchmark families:</b> Ego-exo relation (correspondence + translation), Keystep recognition, Proficiency estimation, and Ego pose (body + hand), with 9.2M body and 4.3M hand 3D pose annotations (automatic) plus manually verified subsets.</div>
+        <div class="zh"><b>四类基准任务：</b>自我-外部关系（对应 + 转换）、关键步骤识别、技能水平估计、自我中心姿态（全身 + 手部），含 920 万体态和 430 万手部 3D 姿态标注（自动），附手工核验子集。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dataset Statistics -->
+  <div class="card">
+    <h2>Dataset Statistics (v2)</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Total video duration</td><td>1,286 hours · 5,035 takes</td></tr>
+      <tr><td>Participants</td><td>740 (age 18–74, 37% female, 60% male, 24+ ethnicities)</td></tr>
+      <tr><td>Locations</td><td>123 scenes · 13 cities across USA, Japan, Colombia, Canada, India, Singapore</td></tr>
+      <tr><td>Activity domains</td><td>Cooking · Health · Bike repair · Music · Basketball · Soccer · Dance · Rock climbing</td></tr>
+      <tr><td>Activities / Keysteps</td><td>43 activities · 689 unique keysteps</td></tr>
+      <tr><td>Egocentric device</td><td>Project Aria glasses (RGB + eye gaze + IMU + spatial audio + SLAM)</td></tr>
+      <tr><td>Exocentric cameras</td><td>4 × GoPro (6DoF localized via Aria SLAM map)</td></tr>
+      <tr><td>Expert commentary</td><td>117,812 segments · 52 domain experts · 6,000+ hours annotation effort</td></tr>
+      <tr><td>Atomic action descriptions</td><td>432K sentences · 2.2M object masks</td></tr>
+      <tr><td>Body pose annotations (auto)</td><td>9.2M 3D · 46.87M 2D</td></tr>
+      <tr><td>Hand pose annotations (auto)</td><td>4.3M 3D · 21M 2D</td></tr>
+      <tr><td>Body pose annotations (manual)</td><td>376K 3D · 2M 2D (1,358 takes)</td></tr>
+      <tr><td>Hand pose annotations (manual)</td><td>68K 3D · 340K 2D (458 takes)</td></tr>
+    </table>
+  </div>
+
+  <!-- Benchmark Tasks -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Benchmark Tasks (v2 Annotation Summary)</h2>
+    <table>
+      <tr><th>Task</th><th>Takes</th><th>Annotations</th></tr>
+      <tr><td><b>Ego-exo relations</b> (correspondence + translation)</td><td>1,335</td><td>5,566 objects · 742K ego masks · 1.1M exo masks</td></tr>
+      <tr><td><b>Keystep recognition</b></td><td>1,088</td><td>664 keysteps · 27.6K ego segs (87h) · 143K ego+exo segs (454h)</td></tr>
+      <tr><td><b>Procedure understanding</b></td><td>628</td><td>186 keysteps · 8.6K segments (30h)</td></tr>
+      <tr><td><b>Proficiency estimation</b></td><td>2,987 (auto) / 912 (manual)</td><td>2,987 scores · 19K "good" segs · 20K "tips" segs</td></tr>
+      <tr><td><b>Ego pose — Body</b></td><td>2,559 (auto) / 1,358 (manual)</td><td>9.2M 3D / 46.87M 2D · 376K 3D / 2M 2D</td></tr>
+      <tr><td><b>Ego pose — Hand</b></td><td>976 (auto) / 458 (manual)</td><td>4.3M 3D / 21M 2D · 68K 3D / 340K 2D</td></tr>
+    </table>
+    <div style="margin-top:12px;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <div class="en">
+        <b>Ego-exo correspondence:</b> Match objects between ego and exo viewpoints using segmentation masks (1.8M masks, 5,566 objects). Best spatio-temporal baseline XView-XMem achieves 34.9 IoU (Ego query) and 27.1 IoU (Exo query).<br><br>
+        <b>Ego-exo translation:</b> Given exo video + object masks, generate the egocentric clip. DiT-pix diffusion baseline outperforms GAN baselines on all image quality metrics (SSIM, PSNR, DISTS, LPIPS, CLIP-sim).<br><br>
+        <b>Proficiency estimation:</b> Predict skill level (1–10) from video. Separate "demonstrator" scores (2,987 takes) and expert commentary with "good"/"tips" segment labels (912 takes).<br><br>
+        <b>Ego pose (body + hand):</b> Recover 3D skeleton from ego video. Provides both automatic pseudo-GT (SLAM-assisted) and manually verified annotations for evaluation.
+      </div>
+      <div class="zh" style="display:none">
+        <b>自我-外部对应：</b>使用分割掩码（180 万掩码，5,566 个物体）匹配 ego 和 exo 视角间的物体。最优时空基线 XView-XMem 在 ego 查询时达到 34.9 IoU，exo 查询时达 27.1 IoU。<br><br>
+        <b>自我-外部转换：</b>给定 exo 视频+物体掩码，生成自我中心视角片段。扩散模型基线 DiT-pix 在所有图像质量指标（SSIM、PSNR、DISTS、LPIPS、CLIP 相似度）上优于 GAN 基线。<br><br>
+        <b>技能水平估计：</b>从视频预测技能水平（1–10 分），含"表演者"评分（2,987 个片段）和专家评论中的"优秀"/"提示"标签（912 个片段）。<br><br>
+        <b>自我中心姿态（全身+手部）：</b>从自我中心视频恢复 3D 骨骼。提供 SLAM 辅助的自动伪真值和手工核验标注两种模式。
+      </div>
+    </div>
+  </div>
+
+  <!-- Note -->
+  <div class="card" style="background:rgba(255,200,80,.04);border-color:rgba(255,200,80,.30);">
+    <h2 style="color:#ffc850;">⚠️ Note</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Ego-Exo4D provides <b>3D joints</b>, not SMPL-X. So it can support 3D pose supervision/evaluation, but an extra <b>SMPL-X fitting step</b> is needed.
+    </p>
+  </div>
+
+  <!-- vs CVPR24 -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <h2 style="color:var(--accent);">Ego-Exo4D v2 (IJCV 2025) vs. Ego-Exo4D CVPR 2024 — 主要提升</h2>
+    <table>
+      <tr><th>Dimension</th><th>CVPR 2024 (v1)</th><th>IJCV 2025 (v2) <span class="new-badge">NEW</span></th></tr>
+      <tr class="vs-row-new">
+        <td><b>Dataset scale</b></td>
+        <td>v1 data (smaller, fewer annotations)</td>
+        <td>v2 data: <b>larger, more extensively annotated</b>; v1 now deprecated for future work</td>
+      </tr>
+      <tr class="vs-row-new">
+        <td><b>New benchmark</b></td>
+        <td>Not present</td>
+        <td><b>Procedure understanding</b> — 628 takes, 186 keysteps, 8.6K segments; tests long-horizon procedural step ordering</td>
+      </tr>
+      <tr class="vs-row-new">
+        <td><b>Pose annotations</b></td>
+        <td>Reported as ~14M total</td>
+        <td><b>9.2M body 3D (auto) + 376K manual; 4.3M hand 3D (auto) + 68K manual</b> — first full breakdown with manual GT</td>
+      </tr>
+      <tr class="vs-row-new">
+        <td><b>Benchmark results</b></td>
+        <td>Preliminary / partial baselines</td>
+        <td><b>Complete baselines across all tasks</b>; newly reported results for proficiency estimation and ego pose not available in CVPR24</td>
+      </tr>
+      <tr class="vs-row-new">
+        <td><b>Exposition quality</b></td>
+        <td>Conference-length paper</td>
+        <td><b>Comprehensive journal coverage</b>: new related work analysis, new figures, explicit discussion of limitations and weaknesses</td>
+      </tr>
+      <tr>
+        <td><b>Core dataset stats</b></td>
+        <td colspan="2">Unchanged: 1,286h · 740 participants · 13 cities · 123 scenes · 43 activities</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:10px 0 0;">
+      Note: All benchmark results in v2 use the v2 data split. The paper explicitly states v1 is obsolete and should not be used for future publications.
+    </p>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      The IJCV 2025 journal version of Ego-Exo4D expands the CVPR 2024 paper with a <b>larger v2 dataset</b>, a new <b>procedure understanding benchmark</b>, full baseline results across all 5 task families, and comprehensive documentation of strengths/weaknesses. The core dataset (1,286h, 740 participants, 13 cities) is unchanged, but pose annotations are now fully documented with separate automatic and manual subsets — <b>9.2M body + 4.3M hand 3D poses (auto)</b>. Use v2 for all future work; v1 is deprecated.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

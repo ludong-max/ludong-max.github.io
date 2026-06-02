@@ -1,0 +1,463 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.8;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · ECCV 2024 · Paper #07241</div>
+    <h1>EgoPoseFormer: A Simple Baseline for Stereo Egocentric 3D Human Pose Estimation</h1>
+    <div class="authors">
+      Chenhongyi Yang<sup>1,2*</sup>, Anastasia Tkach<sup>2</sup>, Shreyas Hampali<sup>2</sup>, Linguang Zhang<sup>2</sup>, Elliot J. Crowley<sup>1</sup>, Cem Keskin<sup>2</sup><br>
+      <span style="opacity:.7"><sup>1</sup> University of Edinburgh &nbsp;·&nbsp; <sup>2</sup> Meta Reality Labs</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Egocentric Pose</span>
+      <span class="tag">Stereo Vision</span>
+      <span class="tag">DETR-style</span>
+      <span class="tag">Two-Stage</span>
+      <span class="tag">VR/AR</span>
+      <span class="tag tag-blue">ECCV 2024</span>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/07241.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;" onmouseover="this.style.borderColor='rgba(139,255,207,.5)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='var(--muted)'">📄 ECCV PDF</a>
+      <a href="https://github.com/ChenhongyiYang/egoposeformer" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);text-decoration:none;" onmouseover="this.style.borderColor='rgba(122,162,255,.7)';this.style.color='#a8c8ff'" onmouseout="this.style.borderColor='rgba(122,162,255,.35)';this.style.color='var(--accent)'">⭐ GitHub — ChenhongyiYang/egoposeformer</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can stereo head-mounted cameras estimate the full 3D body pose when most joints are invisible — either out of the limited FOV or self-occluded by the torso?</div>
+      <div class="zh"><b>一句话问题：</b>当大多数关节因头戴相机视野受限或被躯干自遮挡而不可见时，如何从双目头戴相机估计完整的 3D 人体姿态？</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>EgoPoseFormer — two-stage coarse-to-fine pipeline:</b> A Pose Proposal Network (PPN) first computes a coarse body pose from globally-pooled stereo features via a 2-layer MLP; a DETR-style Pose Refinement Transformer (PRFormer) then refines the proposal using fine-grained multi-view stereo features.</div>
+        <div class="zh"><b>EgoPoseFormer——两阶段粗到精流水线：</b>姿态提议网络（PPN）通过 2 层 MLP 从全局池化的双目特征中计算粗略体姿；DETR 风格的姿态精化 Transformer（PRFormer）再利用细粒度多视角立体特征对提议进行精化。</div>
+      </li>
+      <li>
+        <div class="en"><b>Deformable Stereo Attention:</b> Replaces standard cross-attention in each PRFormer layer — projects each 3D joint proposal onto each view plane using camera parameters, applies deformable attention per view, then fuses all views via concat + linear projection. Enables precise multi-view stereo reasoning in a plug-and-play manner.</div>
+        <div class="zh"><b>可变形立体注意力：</b>替换每个 PRFormer 层中的标准交叉注意力——利用相机参数将每个 3D 关节提议投影到各视平面，对每个视图应用可变形注意力，再通过拼接+线性投影融合所有视图。以即插即用方式实现精确的多视角立体推理。</div>
+      </li>
+      <li>
+        <div class="en"><b>Surprisingly strong PPN baseline:</b> The simple MLP-based first stage alone already outperforms previous state-of-the-art methods on UnrealEgo — because global features capture invisible joint locations by reasoning jointly over visible joints and background context.</div>
+        <div class="zh"><b>出人意料的强 PPN 基线：</b>仅凭简单的基于 MLP 的第一阶段就已在 UnrealEgo 上超越之前的最优方法——因为全局特征通过联合推理可见关节和背景上下文来捕获不可见关节的位置。</div>
+      </li>
+      <li>
+        <div class="en"><b>SOTA on UnrealEgo with extreme efficiency:</b> MPJPE 33.4mm (45% improvement over Ego3DPose at 60.8mm) using only 7.9% of Ego3DPose's parameters (14.1M vs 178.4M) and 13.1% of its FLOPs (7.3G vs 55.6G).</div>
+        <div class="zh"><b>UnrealEgo 最优且极高效：</b>MPJPE 33.4mm（比 Ego3DPose 的 60.8mm 提升 45%），仅使用 Ego3DPose 7.9% 的参数量（14.1M vs 178.4M）和 13.1% 的浮点计算量（7.3G vs 55.6G）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Seamless monocular extension — SOTA on SceneEgo:</b> MPJPE 93.0mm, improving 25.5mm (21%) over SceneEgo's own method (118.5mm) without requiring ground-truth depth or semantic masks, using only 60.7% of params and 32% of FLOPs.</div>
+        <div class="zh"><b>无缝扩展到单目——SceneEgo 最优：</b>MPJPE 93.0mm，比 SceneEgo 方法（118.5mm）提升 25.5mm（21%），无需真实深度或语义掩码，仅需 60.7% 的参数量和 32% 的浮点计算量。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <div style="margin-bottom:10px;">
+        <span style="color:var(--muted);font-size:12px;">Feature Extractor (shared)</span><br>
+        <span style="color:rgba(232,236,255,.7);">Multi-view fisheye images</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">UNet (ResNet-18/50)</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> pretrained on 2D heatmaps · per-view, no cross-view concat in decoder</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">F ∈ ℝ^(V×H×W×C)</span>
+      </div>
+      <div style="margin-bottom:10px;">
+        <span style="color:var(--muted);font-size:12px;">Stage 1 — Pose Proposal Network (PPN)</span><br>
+        <span style="color:rgba(232,236,255,.7);">F</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">GlobalAvgPool per view → Concat</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">2-layer MLP (GELU)</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">coarse pose P⁰ ∈ ℝ^(Nⱼ×3)</span>
+      </div>
+      <div>
+        <span style="color:var(--muted);font-size:12px;">Stage 2 — Pose Refinement Transformer (PRFormer, S=3 layers)</span><br>
+        <span style="color:rgba(232,236,255,.7);">P⁰ + joint index σⱼ</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">JQT Generation MLP</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">Joint Query Tokens Q ∈ ℝ^(Nⱼ×C)</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">PRFormer Layers</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> [Deformable Stereo Attn → Self-Attn → FFN → ΔP^s]</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">final pose P^S = P⁰ + ΔP^S</span>
+      </div>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <b>Deformable Stereo Attention key insight:</b> For each JQT Qⱼ with 3D proposal P⁰ⱼ, the 3D point is projected to 2D reference coordinates on each view plane using known camera parameters. Deformable attention then samples local features around these reference points in each view independently. The per-view results Z_j^k are concatenated and linearly projected back to the original dimension — making the operation an atomic drop-in replacement for standard cross-attention. When a joint is outside the FOV of a view, the result for that view is zeroed out, giving the model an explicit signal of invisibility.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <b>可变形立体注意力关键思路：</b>对于带有 3D 提议 P⁰ⱼ 的每个 JQT Qⱼ，利用已知相机参数将 3D 点投影到各视平面的 2D 参考坐标。可变形注意力随后在每个视图中独立地在参考点周围采样局部特征。各视图的输出 Z_j^k 拼接后线性投影回原始维度——该操作是标准交叉注意力的原子级替换。当某关节超出某视图的视野时，该视图的结果置零，为模型提供明确的不可见信号。
+    </div>
+  </div>
+
+  <!-- Implementation Details -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Implementation Details — 核心实现细节</h2>
+
+    <!-- Feature Extractor -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px;">① Feature Extractor</div>
+      <div style="background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.75;">
+        <div class="en" style="color:rgba(232,236,255,.82);">
+          <b>Backbone:</b> UNet with ResNet-18 (UnrealEgo) or ResNet-50 (SceneEgo). Feature downsampling stride = <b>4</b>.<br>
+          <b>Key difference vs UnrealEgo baseline:</b> Cross-view feature concatenation is <em>removed</em> from the UNet decoder — each view is encoded independently. This alone significantly reduces parameters and FLOPs because the PRFormer handles multi-view fusion downstream.<br>
+          <b>Pre-training:</b> The feature extractor is first pre-trained on <b>2D joint heatmap prediction</b> using a lightweight fully-convolutional head (monocular images → 2D heatmaps). The heatmap head is removed after pre-training. This gives the features spatially-aware joint priors before the 3D pipeline begins.<br>
+          <b>Output:</b> <span style="color:#ffc850;font-family:var(--mono);">F ∈ ℝ^(V × H/4 × W/4 × C)</span> — per-view feature maps at 1/4 resolution.
+        </div>
+        <div class="zh" style="display:none;color:rgba(232,236,255,.82);">
+          <b>主干：</b>UNet + ResNet-18（UnrealEgo）或 ResNet-50（SceneEgo），特征下采样步长 = <b>4</b>。<br>
+          <b>与 UnrealEgo 基线的关键区别：</b>从 UNet 解码器中<em>去除</em>了跨视图特征拼接——每个视图独立编码。这一改动本身就显著减少了参数量和浮点计算量，因为多视图融合交由下游的 PRFormer 处理。<br>
+          <b>预训练：</b>特征提取器首先在 <b>2D 关节热图预测</b> 任务上预训练，使用轻量全卷积头（单目图像 → 2D 热图），预训练后热图头被移除。这赋予特征在 3D 流水线开始前的空间感知关节先验。<br>
+          <b>输出：</b><span style="color:#ffc850;font-family:var(--mono);">F ∈ ℝ^(V × H/4 × W/4 × C)</span>——1/4 分辨率的逐视图特征图。
+        </div>
+      </div>
+    </div>
+
+    <!-- PPN -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px;">② Pose Proposal Network (PPN) — Stage 1</div>
+      <div style="background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.75;">
+        <div class="en" style="color:rgba(232,236,255,.82);">
+          <b>Input:</b> Multi-view feature maps F.<br>
+          <b>Step 1 — Global pooling:</b> Apply GlobalAvgPool to each view's feature map independently → per-view global descriptor.<br>
+          <b>Step 2 — Concat:</b> Concatenate all V per-view descriptors into one unified feature vector.<br>
+          <b>Step 3 — MLP:</b> 2-layer MLP with GELU activation → outputs coarse 3D locations for all <b>Nⱼ</b> joints simultaneously.<br>
+          <b>Formula:</b> <span style="font-family:var(--mono);color:#ffc850;">P⁰ = MLP_ppn( Concat_k( AvgPool(F_k) ) )</span><br>
+          <b>Why it works for invisible joints:</b> Global pooling discards spatial locality — the whole scene context (visible joints, background, silhouettes) is encoded in a single vector. The MLP learns to <em>infer</em> invisible joint positions from this global context and human kinematic priors, similar to heatmap-based auto-encoder methods but simpler and more direct.<br>
+          <b>Surprising finding:</b> This PPN alone (without PRFormer) already outperforms all previous SOTA on UnrealEgo.
+        </div>
+        <div class="zh" style="display:none;color:rgba(232,236,255,.82);">
+          <b>输入：</b>多视图特征图 F。<br>
+          <b>第一步——全局池化：</b>对每个视图的特征图独立做 GlobalAvgPool → 每视图全局描述符。<br>
+          <b>第二步——拼接：</b>将所有 V 个视图的全局描述符拼接为一个统一特征向量。<br>
+          <b>第三步——MLP：</b>2 层 MLP + GELU 激活 → 同时输出所有 <b>Nⱼ</b> 个关节的粗略 3D 位置。<br>
+          <b>公式：</b><span style="font-family:var(--mono);color:#ffc850;">P⁰ = MLP_ppn( Concat_k( AvgPool(F_k) ) )</span><br>
+          <b>为何对不可见关节有效：</b>全局池化丢弃了空间局部性——整个场景上下文（可见关节、背景、轮廓）被编码进单一向量。MLP 从这个全局上下文和人体运动学先验中<em>推断</em>不可见关节的位置，类似热图自编码器方法，但更简洁直接。<br>
+          <b>惊人发现：</b>仅此 PPN（无 PRFormer）已在 UnrealEgo 上超越所有之前的最优方法。
+        </div>
+      </div>
+    </div>
+
+    <!-- JQT + PRFormer -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px;">③ Joint Query Tokens (JQT) + PRFormer — Stage 2</div>
+      <div style="background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.75;">
+        <div class="en" style="color:rgba(232,236,255,.82);">
+          <b>JQT generation:</b> Each joint j gets a unique query token by embedding its index <b>σⱼ</b> (used as a scalar joint identifier, simply set to joint index in practice) and its initial 3D location P⁰ⱼ = (x⁰,y⁰,z⁰) into a shared MLP:<br>
+          <span style="font-family:var(--mono);color:#ffc850;display:block;margin:4px 0 4px 12px;">Qⱼ = MLP_JQT( σⱼ, x⁰ⱼ, y⁰ⱼ, z⁰ⱼ )</span>
+          This encodes both <em>which joint</em> (identity / kinematic role) and <em>where it is</em> (coarse location) into the query — inspired by DETR object queries.<br><br>
+          <b>PRFormer structure:</b> <b>S = 3</b> identical transformer decoder layers. Each layer s:<br>
+          &nbsp;&nbsp;1. <b>Deformable Stereo Attention</b> (cross-attention with multi-view stereo features)<br>
+          &nbsp;&nbsp;2. <b>Self-Attention</b> across all Nⱼ JQTs — encodes human kinematic dependencies (e.g., if elbow is visible, shoulder can be inferred)<br>
+          &nbsp;&nbsp;3. <b>FFN</b> — non-linear transform of each JQT<br>
+          &nbsp;&nbsp;4. <b>Offset head:</b> <span style="font-family:var(--mono);color:#ffc850;">ΔPⱼˢ = MLP_offset( Qⱼˢ )</span><br><br>
+          <b>Final pose:</b> <span style="font-family:var(--mono);color:#ffc850;">Pˢ = ΔPˢ + P⁰</span> — always an offset relative to the PPN proposal, never absolute regression. This prevents drift and keeps gradients well-conditioned.
+        </div>
+        <div class="zh" style="display:none;color:rgba(232,236,255,.82);">
+          <b>JQT 生成：</b>每个关节 j 通过将其索引 <b>σⱼ</b>（实践中直接用关节索引作为标量标识符）和初始 3D 位置 P⁰ⱼ = (x⁰,y⁰,z⁰) 输入共享 MLP 生成唯一查询 token：<br>
+          <span style="font-family:var(--mono);color:#ffc850;display:block;margin:4px 0 4px 12px;">Qⱼ = MLP_JQT( σⱼ, x⁰ⱼ, y⁰ⱼ, z⁰ⱼ )</span>
+          这同时编码了<em>是哪个关节</em>（身份/运动学角色）和<em>在哪里</em>（粗略位置）——受 DETR 目标查询启发。<br><br>
+          <b>PRFormer 结构：</b><b>S = 3</b> 个相同的 Transformer 解码器层，每层 s：<br>
+          &nbsp;&nbsp;1. <b>可变形立体注意力</b>（与多视图立体特征的交叉注意力）<br>
+          &nbsp;&nbsp;2. <b>所有 Nⱼ 个 JQT 之间的自注意力</b>——编码人体运动学依赖（如肘部可见则可推断肩部）<br>
+          &nbsp;&nbsp;3. <b>FFN</b>——每个 JQT 的非线性变换<br>
+          &nbsp;&nbsp;4. <b>偏移头：</b><span style="font-family:var(--mono);color:#ffc850;">ΔPⱼˢ = MLP_offset( Qⱼˢ )</span><br><br>
+          <b>最终姿态：</b><span style="font-family:var(--mono);color:#ffc850;">Pˢ = ΔPˢ + P⁰</span>——始终是相对于 PPN 提议的偏移，而非绝对回归。这防止了漂移并保持梯度的良好条件。
+        </div>
+      </div>
+    </div>
+
+    <!-- Deformable Stereo Attention -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px;">④ Deformable Stereo Attention — 逐步拆解</div>
+      <div style="background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.8;">
+        <div class="en" style="color:rgba(232,236,255,.82);">
+          For joint j with JQT Qⱼ and proposal P⁰ⱼ, across V views:<br><br>
+          <b>Step 1 — 3D→2D projection (geometry-aware reference):</b><br>
+          &nbsp;&nbsp;Project P⁰ⱼ onto view k using known camera intrinsics/extrinsics →
+          <span style="font-family:var(--mono);color:#ffc850;">{P̃ⱼᵏ} = {(x̃ⱼᵏ, ỹⱼᵏ)}</span> (2D pixel coordinates as reference point)<br><br>
+          <b>Step 2 — Per-view deformable attention:</b><br>
+          &nbsp;&nbsp;<span style="font-family:var(--mono);color:#ffc850;">Zⱼᵏ = DeformAttn( Qⱼ, P̃ⱼᵏ, Fₖ )</span><br>
+          &nbsp;&nbsp;Deformable attention learns <em>offsets</em> from the reference point P̃ⱼᵏ to sample nearby feature locations — more expressive than fixed-grid sampling, handles appearance variation around the expected joint location.<br>
+          &nbsp;&nbsp;If joint j is <b>outside the FOV</b> of view k → Zⱼᵏ = <b>0</b> (explicit out-of-FOV signal).<br><br>
+          <b>Step 3 — Multi-view fusion:</b><br>
+          &nbsp;&nbsp;<span style="font-family:var(--mono);color:#ffc850;">Zⱼ = Linear( Concat_k(Zⱼᵏ) )</span><br>
+          &nbsp;&nbsp;Concatenate all V view results → linear projection back to C dimensions. The linear layer learns to weight views by reliability (e.g., suppress out-of-FOV zeros, amplify informative views).<br><br>
+          <b>Why this replaces standard cross-attention:</b> Standard cross-attention attends over the entire feature map globally and has no geometric grounding. Deformable Stereo Attention uses the coarse 3D proposal to focus on geometrically-consistent image regions across views — crucial for accurate 3D localization from multi-view stereo.
+        </div>
+        <div class="zh" style="display:none;color:rgba(232,236,255,.82);">
+          对于关节 j（JQT 为 Qⱼ，提议为 P⁰ⱼ），跨 V 个视图：<br><br>
+          <b>第一步——3D→2D 投影（几何感知参考点）：</b><br>
+          &nbsp;&nbsp;用已知相机内参/外参将 P⁰ⱼ 投影到视图 k →
+          <span style="font-family:var(--mono);color:#ffc850;">{P̃ⱼᵏ} = {(x̃ⱼᵏ, ỹⱼᵏ)}</span>（2D 像素坐标作为参考点）<br><br>
+          <b>第二步——逐视图可变形注意力：</b><br>
+          &nbsp;&nbsp;<span style="font-family:var(--mono);color:#ffc850;">Zⱼᵏ = DeformAttn( Qⱼ, P̃ⱼᵏ, Fₖ )</span><br>
+          &nbsp;&nbsp;可变形注意力从参考点 P̃ⱼᵏ 出发学习<em>偏移量</em>来采样附近特征位置——比固定网格采样更具表达力，能处理关节预期位置附近的外观变化。<br>
+          &nbsp;&nbsp;若关节 j <b>超出视图 k 的视野</b> → Zⱼᵏ = <b>0</b>（显式的 FOV 外信号）。<br><br>
+          <b>第三步——多视图融合：</b><br>
+          &nbsp;&nbsp;<span style="font-family:var(--mono);color:#ffc850;">Zⱼ = Linear( Concat_k(Zⱼᵏ) )</span><br>
+          &nbsp;&nbsp;拼接所有 V 个视图结果 → 线性投影回 C 维。线性层学会按可靠性对视图加权（如抑制 FOV 外的零值，放大信息量大的视图）。<br><br>
+          <b>为何替换标准交叉注意力：</b>标准交叉注意力全局关注整个特征图，无几何锚点。可变形立体注意力利用粗略 3D 提议聚焦于跨视图几何一致的图像区域——对于多视角立体精确 3D 定位至关重要。
+        </div>
+      </div>
+    </div>
+
+    <!-- Loss + Training -->
+    <div style="margin-bottom:4px;">
+      <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px;">⑤ Loss Function &amp; Training Recipe</div>
+      <div style="background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.8;">
+        <div class="en" style="color:rgba(232,236,255,.82);">
+          <b>Loss — per-stage per-joint L2 (auxiliary supervision on all S+1 stages):</b><br>
+          <span style="font-family:var(--mono);color:#ffc850;display:block;margin:4px 0 4px 12px;">ℒ = Σ_{s=0}^{S} Σ_{j=1}^{Nⱼ} ‖Pⱼˢ − P̂ⱼ‖₂</span>
+          s=0 supervises the PPN proposal directly; s=1,2,3 supervise each PRFormer layer output. This deep supervision forces every intermediate prediction to be meaningful, not just the final output — key for training stability and the strong PPN baseline.<br><br>
+          <b>Training recipe:</b>
+          <table style="margin-top:6px;">
+            <tr><th>Setting</th><th>Value</th></tr>
+            <tr><td>Optimizer</td><td>AdamW</td></tr>
+            <tr><td>Initial LR</td><td class="num">0.001</td></tr>
+            <tr><td>Weight decay</td><td class="num">0.005</td></tr>
+            <tr><td>Gradient clip</td><td class="num">5.0</td></tr>
+            <tr><td>Batch size</td><td class="num">16</td></tr>
+            <tr><td>LR schedule</td><td>×0.1 at epoch 8 and epoch 11</td></tr>
+            <tr><td>Backbone (UnrealEgo)</td><td>ResNet-18, stride 4</td></tr>
+            <tr><td>Backbone (SceneEgo)</td><td>ResNet-50, stride 4</td></tr>
+            <tr><td>PRFormer layers</td><td class="num">S = 3</td></tr>
+          </table>
+          <div style="margin-top:8px;font-size:12px;color:rgba(232,236,255,.55);">No careful tuning between datasets — same hyperparameters used for both 2D heatmap pre-training and 3D pose estimation stages.</div>
+        </div>
+        <div class="zh" style="display:none;color:rgba(232,236,255,.82);">
+          <b>损失函数——逐阶段逐关节 L2（对所有 S+1 阶段施加辅助监督）：</b><br>
+          <span style="font-family:var(--mono);color:#ffc850;display:block;margin:4px 0 4px 12px;">ℒ = Σ_{s=0}^{S} Σ_{j=1}^{Nⱼ} ‖Pⱼˢ − P̂ⱼ‖₂</span>
+          s=0 直接监督 PPN 提议；s=1,2,3 监督每个 PRFormer 层的输出。这种深度监督迫使每个中间预测都有实际意义，而不只是最终输出——是训练稳定性和强 PPN 基线的关键。<br><br>
+          <b>训练配置：</b>
+          <table style="margin-top:6px;">
+            <tr><th>配置项</th><th>数值</th></tr>
+            <tr><td>优化器</td><td>AdamW</td></tr>
+            <tr><td>初始学习率</td><td class="num">0.001</td></tr>
+            <tr><td>权重衰减</td><td class="num">0.005</td></tr>
+            <tr><td>梯度裁剪</td><td class="num">5.0</td></tr>
+            <tr><td>批大小</td><td class="num">16</td></tr>
+            <tr><td>学习率调度</td><td>第 8、11 个 epoch ×0.1</td></tr>
+            <tr><td>主干（UnrealEgo）</td><td>ResNet-18，步长 4</td></tr>
+            <tr><td>主干（SceneEgo）</td><td>ResNet-50，步长 4</td></tr>
+            <tr><td>PRFormer 层数</td><td class="num">S = 3</td></tr>
+          </table>
+          <div style="margin-top:8px;font-size:12px;color:rgba(232,236,255,.55);">两个数据集使用相同超参数，2D 热图预训练阶段与 3D 姿态估计阶段均无精细调参。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datasets -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Datasets</h2>
+    <table>
+      <tr><th>Dataset</th><th>Setting</th><th>Size</th><th>Details</th></tr>
+      <tr>
+        <td><b>UnrealEgo</b></td>
+        <td>Stereo (synthetic)</td>
+        <td class="num">451k views</td>
+        <td>30 actions, 2 HMD cameras 1cm apart; 357k train / 48k test / 46k val</td>
+      </tr>
+      <tr>
+        <td><b>SceneEgo</b></td>
+        <td>Monocular (real)</td>
+        <td class="num">28k images</td>
+        <td>2 actors, daily activities; requires GT depth + semantic masks for prior SOTA (ours does not)</td>
+      </tr>
+    </table>
+    <div class="en" style="font-size:12px;color:rgba(232,236,255,.6);line-height:1.6;margin-top:8px;">
+      Both datasets use MPJPE and PA-MPJPE (mm) as evaluation metrics. The model uses ResNet-18 for UnrealEgo and ResNet-50 for SceneEgo; feature downsampling stride 4; 3 PRFormer decoder layers; Adam W optimizer, LR 0.001, decayed ×0.1 at epochs 8 and 11.
+    </div>
+    <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.6);line-height:1.6;margin-top:8px;">
+      两个数据集均使用 MPJPE 和 PA-MPJPE（mm）作为评估指标。模型在 UnrealEgo 上使用 ResNet-18，在 SceneEgo 上使用 ResNet-50；特征下采样步长 4；3 个 PRFormer 解码器层；AdamW 优化器，LR 0.001，在第 8 和 11 个 epoch 乘以 0.1。
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">UnrealEgo — Overall Average MPJPE / PA-MPJPE (mm ↓)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>MPJPE ↓</th><th>PA-MPJPE ↓</th></tr>
+      <tr><td>xR-EgoPose</td><td class="num">106.1</td><td class="num">—</td></tr>
+      <tr><td>EgoGlass</td><td class="num">83.3</td><td class="num">61.6</td></tr>
+      <tr><td>UnrealEgo</td><td class="num">79.1</td><td class="num">59.2</td></tr>
+      <tr><td>Ego3DPose</td><td class="num">60.8</td><td class="num">48.5</td></tr>
+      <tr class="best"><td><b>EgoPoseFormer (Ours)</b></td><td class="num"><b>33.4</b></td><td class="num"><b>32.7</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">SceneEgo — Monocular MPJPE / PA-MPJPE (mm ↓)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>MPJPE ↓</th><th>PA-MPJPE ↓</th></tr>
+      <tr><td>Mo²Cap²</td><td class="num">200.3</td><td class="num">121.2</td></tr>
+      <tr><td>xR-EgoPose</td><td class="num">241.3</td><td class="num">133.9</td></tr>
+      <tr><td>EgoPW</td><td class="num">189.6</td><td class="num">105.3</td></tr>
+      <tr><td>SceneEgo</td><td class="num">118.5</td><td class="num">92.7</td></tr>
+      <tr class="best"><td><b>EgoPoseFormer (Ours)</b></td><td class="num"><b>93.0</b></td><td class="num"><b>74.3</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Model Efficiency Comparison</div>
+    <table>
+      <tr><th>Dataset</th><th>Method</th><th>MPJPE ↓</th><th>PA-MPJPE ↓</th><th>Params</th><th>FLOPs</th></tr>
+      <tr><td rowspan="4">UnrealEgo</td><td>EgoGlass</td><td class="num">83.3</td><td class="num">61.6</td><td class="num">107.3M</td><td class="num">16.1G</td></tr>
+      <tr><td>UnrealEgo</td><td class="num">79.1</td><td class="num">59.2</td><td class="num">106.8M</td><td class="num">27.1G</td></tr>
+      <tr><td>Ego3DPose</td><td class="num">60.8</td><td class="num">48.5</td><td class="num">178.4M</td><td class="num">55.6G</td></tr>
+      <tr class="best"><td><b>Ours</b></td><td class="num"><b>33.4</b></td><td class="num"><b>32.7</b></td><td class="num"><b>14.1M</b></td><td class="num"><b>7.3G</b></td></tr>
+      <tr><td rowspan="2">SceneEgo</td><td>SceneEgo</td><td class="num">118.5</td><td class="num">92.7</td><td class="num">45.9M</td><td class="num">157.3G</td></tr>
+      <tr class="best"><td><b>Ours</b></td><td class="num"><b>93.0</b></td><td class="num"><b>74.3</b></td><td class="num"><b>27.9M</b></td><td class="num"><b>50.4G</b></td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.45);margin:6px 0 0;">On UnrealEgo, Ours achieves 45% lower MPJPE than Ego3DPose using only 7.9% of its parameters and 13.1% of its FLOPs.</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Study</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;margin-bottom:10px;">
+      Ablations on UnrealEgo study the two core components of PRFormer:
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;margin-bottom:10px;">
+      在 UnrealEgo 上的消融实验研究了 PRFormer 的两个核心组件：
+    </div>
+    <ul>
+      <li>
+        <div class="en"><b>PPN alone beats all prior SOTA:</b> The simple 2-layer MLP pose proposal already surpasses all previous methods on UnrealEgo, demonstrating that global feature reasoning is the key missing ingredient in prior heatmap-based approaches.</div>
+        <div class="zh"><b>PPN 单独超越所有先前最优：</b>简单的 2 层 MLP 姿态提议已在 UnrealEgo 上超越所有先前方法，表明全局特征推理是先前基于热图方法中缺少的关键要素。</div>
+      </li>
+      <li>
+        <div class="en"><b>Deformable Stereo Attention vs standard cross-attention:</b> Replacing the proposed Deformable Stereo Attention with standard cross-attention significantly degrades performance — standard cross-attention cannot efficiently process fine-grained multi-view stereo features for accurate 3D joint localization.</div>
+        <div class="zh"><b>可变形立体注意力 vs 标准交叉注意力：</b>将所提出的可变形立体注意力替换为标准交叉注意力会显著降低性能——标准交叉注意力无法高效处理细粒度多视角立体特征以实现精确的 3D 关节定位。</div>
+      </li>
+      <li>
+        <div class="en"><b>Self-attention in PRFormer:</b> Removing the self-attention block (which encodes human kinematic information and joint-to-joint dependencies) also hurts performance, confirming that body structure context is complementary to stereo visual features.</div>
+        <div class="zh"><b>PRFormer 中的自注意力：</b>移除自注意力块（编码人体运动学信息和关节间依赖关系）同样会损害性能，确认身体结构上下文与立体视觉特征是互补的。</div>
+      </li>
+      <li>
+        <div class="en"><b>Feature extractor design:</b> Removing cross-view concatenation from the UNet decoder (compared to UnrealEgo's original design) significantly reduces parameters and FLOPs without hurting accuracy — the PRFormer handles multi-view fusion instead.</div>
+        <div class="zh"><b>特征提取器设计：</b>从 UNet 解码器中去除跨视图拼接（与 UnrealEgo 原始设计相比）在不影响精度的情况下显著减少参数量和浮点计算量——多视图融合改由 PRFormer 处理。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- vs Prior SOTA -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">EgoPoseFormer vs. Ego3DPose / SceneEgo — 对比</h2>
+    <table>
+      <tr><th><span class="en">Dimension</span><span class="zh">维度</span></th><th>Ego3DPose / SceneEgo (prior SOTA)</th><th>EgoPoseFormer (Ours)</th></tr>
+      <tr>
+        <td><b><span class="en">Architecture</span><span class="zh">架构</span></b></td>
+        <td><span class="en">3D convolution on feature voxels (SceneEgo) / limb heatmap modeling (Ego3DPose)</span><span class="zh">3D 体素卷积（SceneEgo）/ 肢体热图建模（Ego3DPose）</span></td>
+        <td><span style="color:var(--accent2);"><span class="en">Two-stage: lightweight MLP (PPN) + DETR-style transformer (PRFormer)</span><span class="zh">两阶段：轻量 MLP（PPN）+ DETR 风格 Transformer（PRFormer）</span></span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Multi-view fusion</span><span class="zh">多视角融合</span></b></td>
+        <td><span class="en">Feature concatenation in encoder/decoder</span><span class="zh">编解码器中特征拼接</span></td>
+        <td><span style="color:var(--accent2);"><span class="en">Deformable Stereo Attention — geometry-aware, view-by-view</span><span class="zh">可变形立体注意力——几何感知，逐视图处理</span></span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Invisible joints</span><span class="zh">不可见关节</span></b></td>
+        <td><span class="en">Inferred via global heatmap reasoning or 3D voxel context</span><span class="zh">通过全局热图推理或 3D 体素上下文推断</span></td>
+        <td><span style="color:var(--accent2);"><span class="en">PPN uses global pooled features; out-of-FOV views zeroed in Deformable Stereo Attention</span><span class="zh">PPN 使用全局池化特征；超出视野的视图在可变形立体注意力中置零</span></span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Extra supervision</span><span class="zh">额外监督</span></b></td>
+        <td><span class="en">SceneEgo requires GT depth + semantic masks</span><span class="zh">SceneEgo 需要真实深度 + 语义掩码</span></td>
+        <td><span style="color:var(--accent2);"><span class="en">None required</span><span class="zh">不需要</span></span></td>
+      </tr>
+      <tr>
+        <td><b>UnrealEgo MPJPE</b></td>
+        <td class="num">60.8 mm (Ego3DPose)</td>
+        <td class="num" style="color:var(--accent2);"><b>33.4 mm ↓45%</b></td>
+      </tr>
+      <tr>
+        <td><b>SceneEgo MPJPE</b></td>
+        <td class="num">118.5 mm (SceneEgo)</td>
+        <td class="num" style="color:var(--accent2);"><b>93.0 mm ↓21%</b></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Params (UnrealEgo)</span><span class="zh">参数量（UnrealEgo）</span></b></td>
+        <td class="num">178.4 M (Ego3DPose)</td>
+        <td class="num" style="color:var(--accent2);"><b>14.1 M (7.9%)</b></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">FLOPs (UnrealEgo)</span><span class="zh">浮点计算量（UnrealEgo）</span></b></td>
+        <td class="num">55.6 G (Ego3DPose)</td>
+        <td class="num" style="color:var(--accent2);"><b>7.3 G (13.1%)</b></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      EgoPoseFormer (ECCV 2024, Edinburgh + Meta) proposes a <b>simple two-stage transformer pipeline</b> for stereo egocentric 3D body pose estimation. Stage 1: a <b>2-layer MLP (PPN)</b> uses globally-pooled stereo features to propose coarse joint locations — already beating all prior SOTA on its own. Stage 2: a <b>DETR-style PRFormer</b> with novel <b>Deformable Stereo Attention</b> refines proposals using fine-grained per-view image features referenced by projected 3D joint locations. On UnrealEgo: <b>MPJPE 33.4mm (↓45%)</b> with only <b>14.1M params / 7.3G FLOPs</b>. Extends to monocular SceneEgo: <b>MPJPE 93.0mm (↓21%)</b> without GT depth or masks. Superseded by EgoPoseFormer v2 (CVPR 2026) which adds temporal modeling, single holistic query, and support for parametric body model output (Meta Momentum model, joint rotations + FK) — not SMPL-X.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:22px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  h3{margin:0 0 6px;font-size:13px;color:var(--accent2);}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.30);color:var(--accent2);background:rgba(139,255,207,.05);margin:2px 3px 2px 0;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-purple{border-color:rgba(200,140,255,.35);color:#d09aff;background:rgba(200,140,255,.05);}
+  .tag-red{border-color:rgba(255,100,100,.35);color:#ff8888;background:rgba(255,100,100,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  /* Group card */
+  .group-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:12px;}
+  .group-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;}
+  .group-card:hover{border-color:rgba(122,162,255,.3);}
+  .group-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;}
+  .group-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;}
+  .group-affil{font-size:11px;color:var(--muted);margin-top:2px;}
+  .group-summary{font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;margin-bottom:8px;}
+  .group-summary-zh{font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;margin-bottom:8px;display:none;}
+  .dataset-list{margin:0;padding:0;list-style:none;}
+  .dataset-list li{font-size:11.5px;color:rgba(232,236,255,.70);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+  .dataset-list li:last-child{border-bottom:none;}
+  .ds-name{color:var(--accent2);font-weight:600;}
+  .ds-venue{color:var(--muted);font-size:10.5px;margin-left:4px;}
+  .link-btn{display:inline-flex;font-size:10.5px;padding:2px 7px;border-radius:6px;border:1px solid var(--border);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;transition:.12s;margin:1px 2px 1px 0;}
+  .link-btn:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);text-decoration:none;}
+  /* Comparison table */
+  table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.06);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.14);}
+  td{color:rgba(232,236,255,.80);vertical-align:top;}
+  .num{font-family:var(--mono);font-size:11.5px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    card.querySelectorAll('.group-summary').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.group-summary-zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:1000px;margin:0 auto;">
+
+  <!-- Header -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Major Group · Egocentric Dataset Landscape</div>
+    <h1>Egocentric Data — Who Else Is Building It?</h1>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.7;color:rgba(232,236,255,.82);">
+      <div class="en">Beyond Meta / Project Aria, several major groups — industry labs, academic consortia, and new tech entrants — are actively building large-scale egocentric datasets. This page gives a quick comparative overview of each group's focus, signature datasets, and trajectory.</div>
+      <div class="zh">除 Meta / Project Aria 之外，多个主要团队——工业实验室、学术联合体和新兴科技公司——正在积极构建大规模自我中心数据集。本页提供各团队重点方向、代表性数据集及研究走向的快速对比概览。</div>
+    </div>
+  </div>
+
+  <!-- Group Cards -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Major Groups at a Glance</h2>
+    <div class="group-grid">
+
+      <!-- Meta / Project Aria -->
+      <div class="group-card" style="border-color:rgba(122,162,255,.3);">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🔵 Meta / Project Aria</div>
+            <div class="group-affil">Meta Reality Labs Research · Menlo Park</div>
+          </div>
+          <span class="tag tag-blue">Already covered</span>
+        </div>
+        <div class="group-summary">World's most comprehensive egocentric dataset suite. Proprietary Aria glasses with SLAM, eye tracking, 7-mic audio. Leads both Ego4D and Ego-Exo4D consortia.</div>
+        <div class="group-summary-zh">全球最全面的自我中心数据集系列。专有 Aria 眼镜含 SLAM、眼动追踪和 7 麦音频。主导 Ego4D 和 Ego-Exo4D 联合体。</div>
+        <ul class="dataset-list">
+          <li><span class="ds-name">Nymeria / NymeriaPlus</span><span class="ds-venue">2024/2026 · 300h body motion</span></li>
+          <li><span class="ds-name">Ego4D + Ego-Exo4D</span><span class="ds-venue">CVPR22/24 · 3,670h + 1,286h</span></li>
+          <li><span class="ds-name">HOT3D / ADT / AEA / ASE / DTC</span><span class="ds-venue">scene · hand-object</span></li>
+        </ul>
+      </div>
+
+      <!-- University of Bristol -->
+      <div class="group-card">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🟢 University of Bristol</div>
+            <div class="group-affil">Dima Damen's group · Bristol / Catania</div>
+          </div>
+          <span class="tag">Academic</span>
+        </div>
+        <div class="group-summary">The original egocentric kitchen dataset group. Built EPIC-Kitchens from scratch (2018→2022) and extended it to 4 derived datasets. Runs the annual EgoVis @ CVPR challenge — the most established egocentric benchmark community.</div>
+        <div class="group-summary-zh">最早的自我中心厨房数据集团队。从零构建 EPIC-Kitchens（2018→2022），并扩展出 4 个衍生数据集。举办年度 EgoVis @ CVPR 挑战赛——最成熟的自我中心基准社区。</div>
+        <ul class="dataset-list">
+          <li><span class="ds-name">EPIC-Kitchens-100</span><span class="ds-venue">IJCV 2022 · 100h · 45 kitchens · 90K actions</span></li>
+          <li><span class="ds-name">VISOR</span><span class="ds-venue">NeurIPS 2022 · hand-object segmentation</span></li>
+          <li><span class="ds-name">EPIC-Sounds</span><span class="ds-venue">TPAMI 2025 · audio-action pairs</span></li>
+          <li><span class="ds-name">EPIC-Fields</span><span class="ds-venue">NeurIPS 2023 · NeRF 3D reconstruction</span></li>
+          <li><span class="ds-name">HD-EPIC</span><span class="ds-venue">CVPR 2025 · 41h · digital twin + VQA</span></li>
+        </ul>
+        <div style="margin-top:8px;">
+          <a class="link-btn" href="https://epic-kitchens.github.io" target="_blank">epic-kitchens.github.io</a>
+        </div>
+      </div>
+
+      <!-- ETH Zurich -->
+      <div class="group-card">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🟡 ETH Zurich</div>
+            <div class="group-affil">Siyu Tang · Marc Pollefeys · Federica Bogo</div>
+          </div>
+          <span class="tag tag-orange">Academic</span>
+        </div>
+        <div class="group-summary">Focus on 3D human body/interaction understanding from egocentric views. Pioneered SMPL-X body estimation from HoloLens2 (EgoBody). EgoGen generates synthetic egocentric training data. Strong overlap with Meta (Bogo moved to Meta RL).</div>
+        <div class="group-summary-zh">专注从自我中心视角理解 3D 人体/交互。率先基于 HoloLens2 实现 SMPL-X 体态估计（EgoBody）。EgoGen 生成合成自我中心训练数据。与 Meta 交叉密切（Bogo 已加入 Meta RL）。</div>
+        <ul class="dataset-list">
+          <li><span class="ds-name">EgoBody</span><span class="ds-venue">ECCV 2022 · HoloLens2 · SMPL-X · 125 seqs · social interaction</span></li>
+          <li><span class="ds-name">EgoGen</span><span class="ds-venue">CVPR 2024 · synthetic egocentric generation pipeline</span></li>
+          <li><span class="ds-name">GIMO</span><span class="ds-venue">ECCV 2022 · gaze-conditioned body motion prediction</span></li>
+        </ul>
+        <div style="margin-top:8px;">
+          <a class="link-btn" href="https://arxiv.org/abs/2112.07642" target="_blank">EgoBody arXiv</a>
+        </div>
+      </div>
+
+      <!-- Microsoft Research -->
+      <div class="group-card">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🔷 Microsoft Research</div>
+            <div class="group-affil">Mixed Reality · AI for Good · Redmond / Cambridge</div>
+          </div>
+          <span class="tag tag-blue">Industry</span>
+        </div>
+        <div class="group-summary">Focuses on HoloLens-based egocentric data for AI assistance and mixed reality. HoloAssist targets real-world task guidance with instructor-performer pairs. Separate line of work using egocentric video for robotic VLA pretraining.</div>
+        <div class="group-summary-zh">专注基于 HoloLens 的自我中心数据，用于 AI 辅助和混合现实。HoloAssist 以真实任务指导为目标，包含指导员-执行员配对。另有一条利用自我中心视频进行机器人 VLA 预训练的研究线。</div>
+        <ul class="dataset-list">
+          <li><span class="ds-name">HoloAssist</span><span class="ds-venue">ICCV 2023 · 166h · 350 pairs · 7 sync streams · task guidance</span></li>
+          <li><span class="ds-name">VLA Pretraining (unnamed)</span><span class="ds-venue">2025 · 1M episodes/26M frames · robot manipulation</span></li>
+        </ul>
+        <div style="margin-top:8px;">
+          <a class="link-btn" href="https://arxiv.org/abs/2309.17024" target="_blank">HoloAssist arXiv</a>
+        </div>
+      </div>
+
+      <!-- Ego4D Consortium (Academic) -->
+      <div class="group-card">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🌐 Ego4D Consortium</div>
+            <div class="group-affil">CMU · Berkeley · NYU · UNC · Bristol · NUS · 13 institutions</div>
+          </div>
+          <span class="tag tag-purple">Consortium</span>
+        </div>
+        <div class="group-summary">Meta-led but community-driven consortium producing the largest egocentric activity dataset. Key academic PIs: Kris Kitani (CMU), Jitendra Malik (Berkeley), Lorenzo Torresani (Dartmouth), David Fouhey (NYU). Extended to Ego-Exo4D for skilled activity understanding.</div>
+        <div class="group-summary-zh">Meta 主导但社区驱动的联合体，产出了最大的自我中心活动数据集。核心学术 PI：Kitani（CMU）、Malik（Berkeley）、Torresani（Dartmouth）、Fouhey（NYU）。扩展为 Ego-Exo4D 用于技巧性活动理解。</div>
+        <ul class="dataset-list">
+          <li><span class="ds-name">Ego4D</span><span class="ds-venue">CVPR 2022 · 3,670h · 931 participants · 74 locations · 9 countries</span></li>
+          <li><span class="ds-name">Ego-Exo4D</span><span class="ds-venue">CVPR 2024 / IJCV 2025 · 1,286h · 740 participants · 13 cities</span></li>
+        </ul>
+        <div style="margin-top:8px;">
+          <a class="link-btn" href="https://ego4d-data.org" target="_blank">ego4d-data.org</a>
+          <a class="link-btn" href="https://arxiv.org/abs/2110.07058" target="_blank">Ego4D arXiv</a>
+        </div>
+      </div>
+
+      <!-- Pico / ByteDance -->
+      <div class="group-card" style="border-color:rgba(139,255,207,.25);">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🟩 Pico / ByteDance</div>
+            <div class="group-affil">Pico AI Team · ByteDance VR subsidiary</div>
+          </div>
+          <span class="tag">Industry (China)</span>
+        </div>
+        <div class="group-summary">VR-native egocentric pose estimation group. Focus: multimodal fusion of HMD stereo imagery + body-worn IMUs for consumer VR (PICO4 headset). The only team building a large synchronized HMD+IMU dataset with SMPL body annotations from real-world hardware. EMHI fills a gap between vision-only methods (UnrealEgo, EgoPoseFormer) and IMU-only methods (HMD-Poser) by providing both modalities together at scale.</div>
+        <div class="group-summary-zh">面向 VR 的自我中心姿态估计团队。专注：消费级 VR（PICO4 头显）中 HMD 双目图像与体穿式 IMU 的多模态融合。唯一构建大规模同步 HMD+IMU 数据集并附有真实硬件 SMPL 体态标注的团队。EMHI 填补了纯视觉方法（UnrealEgo、EgoPoseFormer）和纯 IMU 方法（HMD-Poser）之间的空白，同时在规模上提供两种模态。</div>
+        <ul class="dataset-list">
+          <li>
+            <span class="ds-name">EMHI</span>
+            <span class="ds-venue">AAAI 2025 · 885 seq · 58 subj · 39 actions · 28.5h · 3.07M pairs</span>
+            <div style="margin-top:3px;font-size:11px;color:rgba(232,236,255,.55);">
+              PICO4 stereo (640×480) + 5 IMUs (head/2×hands/2×legs) · SMPL GT (θ∈ℝ⁷⁵, β∈ℝ¹⁰) via Kinect+Optitrack+IK ·
+              MEPoser baseline: MPJPE <b style="color:var(--accent2);">3.7cm</b> (P1) ↓32.7% vs UnrealEgo ↓36.2% vs HMD-Poser
+            </div>
+          </li>
+        </ul>
+        <div style="margin-top:8px;">
+          <a class="link-btn" href="https://arxiv.org/abs/2408.17168" target="_blank">EMHI arXiv</a>
+          <a class="link-btn" href="https://github.com/Pico-AI-Team/EMHI" target="_blank">GitHub</a>
+          <a class="link-btn" href="https://pico-ai-team.github.io/EMHI/" target="_blank">Project Page</a>
+        </div>
+      </div>
+
+      <!-- Alibaba / InternRobotics -->
+      <div class="group-card">
+        <div class="group-header">
+          <div>
+            <div class="group-name">🟠 Alibaba / InternRobotics</div>
+            <div class="group-affil">Shanghai AI Lab · Alibaba DAMO</div>
+          </div>
+          <span class="tag tag-red">Industry (China)</span>
+        </div>
+        <div class="group-summary">New entrant with very large scale. EgoRe-5M (13M clips) targets egocentric spatio-temporal reasoning with chain-of-thought supervision — a video-language-action approach, not traditional MoCap. Part of a broader push toward embodied AI.</div>
+        <div class="group-summary-zh">新兴参与者，规模极大。EgoRe-5M（1300 万片段）以链式推理监督为目标，专注自我中心时空推理——是视频-语言-动作方法，而非传统动捕。属于更广泛的具身 AI 布局的一部分。</div>
+        <ul class="dataset-list">
+          <li><span class="ds-name">EgoRe-5M (EgoThinker)</span><span class="ds-venue">NeurIPS 2025 · 13M clips · CoT supervision · hand-object grounding</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Quick Comparison</h2>
+    <table>
+      <tr>
+        <th style="width:18%"><span class="en">Group</span><span class="zh">团队</span></th>
+        <th style="width:14%"><span class="en">Type</span><span class="zh">类型</span></th>
+        <th style="width:14%"><span class="en">Device</span><span class="zh">设备</span></th>
+        <th style="width:18%"><span class="en">Focus</span><span class="zh">重点</span></th>
+        <th style="width:14%"><span class="en">SMPL-X?</span><span class="zh">SMPL-X？</span></th>
+        <th><span class="en">Flagship Dataset</span><span class="zh">代表数据集</span></th>
+      </tr>
+      <tr>
+        <td><b>Meta / Aria</b></td>
+        <td>Industry</td>
+        <td>Aria glasses</td>
+        <td><span class="en">Full-body, hand-obj, scene</span><span class="zh">全身、手-物、场景</span></td>
+        <td style="color:var(--accent2);">✅ SMPL (via MHR)</td>
+        <td>Nymeria · HOT3D</td>
+      </tr>
+      <tr>
+        <td><b>Bristol</b></td>
+        <td><span class="en">Academic</span><span class="zh">学术</span></td>
+        <td>GoPro</td>
+        <td><span class="en">Kitchen activity, audio</span><span class="zh">厨房活动、音频</span></td>
+        <td style="color:var(--muted);">❌</td>
+        <td>EPIC-Kitchens-100</td>
+      </tr>
+      <tr>
+        <td><b>ETH Zurich</b></td>
+        <td><span class="en">Academic</span><span class="zh">学术</span></td>
+        <td>HoloLens2</td>
+        <td><span class="en">3D body, social interaction</span><span class="zh">3D 体态、社交交互</span></td>
+        <td style="color:var(--accent2);">✅ SMPL-X</td>
+        <td>EgoBody</td>
+      </tr>
+      <tr>
+        <td><b>Microsoft</b></td>
+        <td>Industry</td>
+        <td>HoloLens</td>
+        <td><span class="en">Task guidance, MR assistance</span><span class="zh">任务指导、MR 辅助</span></td>
+        <td style="color:var(--muted);">❌</td>
+        <td>HoloAssist</td>
+      </tr>
+      <tr>
+        <td><b>Ego4D Consortium</b></td>
+        <td><span class="en">Consortium</span><span class="zh">联合体</span></td>
+        <td><span class="en">Various</span><span class="zh">多种</span></td>
+        <td><span class="en">Daily activity, skilled activity</span><span class="zh">日常/技巧性活动</span></td>
+        <td style="color:#ffc850;">⚠️ <span class="en">3D joints only</span><span class="zh">仅 3D 关节</span></td>
+        <td>Ego4D · Ego-Exo4D</td>
+      </tr>
+      <tr>
+        <td><b>Pico / ByteDance</b></td>
+        <td>Industry</td>
+        <td>PICO4 VR + IMUs</td>
+        <td><span class="en">VR pose, HMD+IMU fusion</span><span class="zh">VR 体姿、HMD+IMU 融合</span></td>
+        <td style="color:#ffc850;">⚠️ SMPL <span class="en">(not SMPL-X)</span><span class="zh">（非 SMPL-X）</span></td>
+        <td>EMHI (AAAI 2025)</td>
+      </tr>
+      <tr>
+        <td><b>Alibaba / InternRobotics</b></td>
+        <td>Industry</td>
+        <td><span class="en">Various</span><span class="zh">多种</span></td>
+        <td><span class="en">Video-language reasoning</span><span class="zh">视频-语言推理</span></td>
+        <td style="color:var(--muted);">❌</td>
+        <td>EgoRe-5M</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Landscape Analysis -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Landscape Analysis</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;">
+      <p style="margin:0 0 10px;"><b>Industry giants — two camps:</b></p>
+      <ul style="margin:0 0 12px;">
+        <li><b>Meta</b> is the clear leader in <em>hardware-anchored</em> egocentric data — Aria glasses give them proprietary sensor quality (SLAM, eye tracking, IMU) no one else matches at scale. Their Nymeria/NymeriaPlus datasets are the go-to for full-body SMPL regression training data.</li>
+        <li><b>Microsoft</b> leverages HoloLens for mixed-reality task guidance data (HoloAssist), but at a smaller scale. Their newer direction — using egocentric human video for robotic VLA pretraining — is more impactful in the embodied AI direction.</li>
+        <li><b>Apple</b> (Vision Pro) has not released any public egocentric dataset. Their research group works on AR/3D internally, but nothing comparable to Aria is open.</li>
+        <li><b>Google / DeepMind</b> focus more on robotics (RT-2, OpenX) and video understanding (Gemini), but no dedicated egocentric dataset program.</li>
+        <li><b>NVIDIA</b> is involved via RoboSpatial (3D spatial understanding for robotics using egocentric images) but not running a primary egocentric data program.</li>
+      </ul>
+      <p style="margin:0 0 10px;"><b>Academic leaders:</b></p>
+      <ul style="margin:0 0 12px;">
+        <li><b>Bristol (Damen)</b> built the most sustainable community around EPIC-Kitchens with an annual challenge — best venue for workshop papers and benchmark comparisons.</li>
+        <li><b>ETH Zurich (Tang/Pollefeys)</b> is the top academic group for 3D body understanding from egocentric views, with SMPL-X as the output format — most directly useful for body regression research.</li>
+        <li><b>CMU (Kitani) / Berkeley (Malik)</b> are key academic PIs in the Ego4D/Ego-Exo4D consortium.</li>
+      </ul>
+      <p style="margin:0 0 10px;"><b>New entrants to watch:</b></p>
+      <ul style="margin:0;">
+        <li><b>Pico / ByteDance (EMHI, AAAI 2025)</b> is the most relevant new entrant for VR body pose research. They are the only group producing a real-world, publicly available dataset that synchronizes consumer VR headset video with multi-body-part IMUs and provides SMPL annotations. EMHI's multimodal fusion approach (MPJPE 3.7cm) outperforms both vision-only (EgoPoseFormer, 5.1cm) and IMU-only (HMD-Poser) methods on their benchmark. Key limitation: uses SMPL (not SMPL-X), and the EGO-ITW-70M unlabeled data is Meta-internal for their follow-up work.</li>
+        <li><b>Alibaba/InternRobotics</b> (EgoRe-5M, 13M clips) signals that Chinese AI labs are entering the egocentric space at scale, specifically targeting video-language reasoning rather than MoCap-style annotation.</li>
+      </ul>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;">
+      <p style="margin:0 0 10px;"><b>工业巨头——两大阵营：</b></p>
+      <ul style="margin:0 0 12px;">
+        <li><b>Meta</b> 是<em>硬件驱动</em>自我中心数据领域的绝对领先者——Aria 眼镜提供任何人都无法在规模上匹敌的专有传感器质量（SLAM、眼动追踪、IMU）。Nymeria/NymeriaPlus 是全身 SMPL 回归训练数据的首选。</li>
+        <li><b>Microsoft</b> 利用 HoloLens 构建混合现实任务指导数据（HoloAssist），但规模较小。其更新的方向——用自我中心人类视频进行机器人 VLA 预训练——在具身 AI 方向影响力更大。</li>
+        <li><b>Apple</b>（Vision Pro）尚未发布任何公开自我中心数据集。其研究团队内部开展 AR/3D 研究，但没有任何可与 Aria 媲美的开放项目。</li>
+        <li><b>Google / DeepMind</b> 更专注于机器人学（RT-2、OpenX）和视频理解（Gemini），没有专用的自我中心数据集项目。</li>
+        <li><b>NVIDIA</b> 通过 RoboSpatial（使用自我中心图像的机器人 3D 空间理解）参与其中，但没有主要的自我中心数据项目。</li>
+      </ul>
+      <p style="margin:0 0 10px;"><b>学术领军团队：</b></p>
+      <ul style="margin:0 0 12px;">
+        <li><b>Bristol（Damen）</b>通过年度挑战赛围绕 EPIC-Kitchens 构建了最具持续性的社区——是发表 workshop 论文和基准对比的最佳平台。</li>
+        <li><b>ETH Zurich（Tang/Pollefeys）</b>是从自我中心视角进行 3D 人体理解的顶级学术团队，以 SMPL-X 作为输出格式——对体态回归研究最直接有用。</li>
+        <li><b>CMU（Kitani）/ Berkeley（Malik）</b>是 Ego4D/Ego-Exo4D 联合体的核心学术 PI。</li>
+      </ul>
+      <p style="margin:0 0 10px;"><b>值得关注的新兴力量：</b></p>
+      <ul style="margin:0;">
+        <li><b>Pico / ByteDance（EMHI，AAAI 2025）</b>是 VR 体态研究中最值得关注的新兴参与者。他们是唯一提供真实世界公开数据集的团队，该数据集将消费级 VR 头显视频与多部位 IMU 同步，并提供 SMPL 标注。EMHI 的多模态融合方法（MPJPE 3.7cm）在其基准上优于纯视觉（EgoPoseFormer，5.1cm）和纯 IMU（HMD-Poser）方法。关键局限：使用 SMPL（非 SMPL-X），且用于后续工作的 EGO-ITW-70M 无标注数据是 Meta 内部数据集。</li>
+        <li><b>阿里巴巴/书生机器人</b>（EgoRe-5M，1300 万片段）表明中国 AI 实验室正在大规模进入自我中心领域，专门针对视频-语言推理而非传统动捕式标注。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      <b>Meta dominates</b> egocentric data at scale and quality. <b>Bristol</b> owns the kitchen benchmark community. <b>ETH Zurich</b> leads academic 3D body understanding with SMPL-X. <b>Microsoft</b> covers HoloLens-based task guidance. <b>Apple and Google have no public egocentric datasets.</b> <b>Pico / ByteDance</b> is the key new entrant for VR pose research — EMHI (AAAI 2025) is the only public real-world dataset combining consumer HMD stereo video with 5 body-worn IMUs and SMPL body annotations. <b>Alibaba</b> is the large-scale entrant for video-language reasoning. For SMPL-X body regression, Meta (Nymeria) and ETH (EgoBody) remain the primary sources; for HMD+IMU multimodal fusion, Pico's EMHI is the unique reference.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      <b>Meta 在规模和质量上主导</b>自我中心数据领域。<b>Bristol</b> 拥有厨房基准社区。<b>ETH Zurich</b> 以 SMPL-X 引领学术 3D 人体理解。<b>Microsoft</b> 覆盖基于 HoloLens 的任务指导。<b>Apple 和 Google 没有公开的自我中心数据集。</b><b>Pico / ByteDance</b> 是 VR 体态研究的关键新兴参与者——EMHI（AAAI 2025）是唯一将消费级 HMD 双目视频与 5 个体穿式 IMU 及 SMPL 体态标注结合的公开真实世界数据集。<b>阿里巴巴</b>是视频-语言推理领域的大规模新进入者。对于 SMPL-X 体态回归，Meta（Nymeria）和 ETH（EgoBody）仍是主要数据来源；对于 HMD+IMU 多模态融合，Pico 的 EMHI 是唯一参考。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

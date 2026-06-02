@@ -1,0 +1,246 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .step-label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-gh{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-gh:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2501.02973 · January 2025</div>
+    <h1>HaWoR: World-Space Hand Motion Reconstruction from Egocentric Videos</h1>
+    <div class="authors">
+      Jinglei Zhang, Jiankang Deng, Chao Ma, Rolandos Alexandros Potamias<br>
+      <span style="opacity:.7">Imperial College London &nbsp;·&nbsp; Shanghai Jiao Tong University</span>
+      <span style="opacity:.5;font-size:11px;margin-left:6px;">（WiLoR 同一团队）</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Hand Regression</span>
+      <span class="tag">World-Space</span>
+      <span class="tag">SLAM</span>
+      <span class="tag">Temporal</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag tag-blue">arXiv 2025</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2501.02973" target="_blank">📄 arXiv</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Prior hand regression methods (HaMeR, WiLoR) recover MANO parameters in <em>camera space</em> — how do we reconstruct continuous, globally-consistent hand trajectories in <em>world coordinates</em> from egocentric video, even under severe occlusions?</div>
+      <div class="zh"><b>一句话问题：</b>HaMeR、WiLoR 等方法在<em>相机坐标系</em>下恢复 MANO 参数——如何从自我中心视频中重建<em>世界坐标系</em>下连续、全局一致的手部轨迹，即便在严重遮挡下也能有效处理？</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>World-space decomposition:</b> Separates the problem into (1) camera-frame MANO estimation and (2) camera trajectory recovery via egocentric SLAM — combining the two to produce world-space hand motion without joint optimization.</div>
+        <div class="zh"><b>世界坐标系分解：</b>将问题拆分为（1）相机帧内 MANO 估计和（2）通过自我中心 SLAM 恢复相机轨迹——结合两者得到世界坐标系下的手部运动，无需联合优化。</div>
+      </li>
+      <li>
+        <div class="en"><b>Temporal attention modules (IAM + PAM):</b> Image Attention Module aggregates features across adjacent frames to handle truncated/occluded hands; Pose Attention Module learns hand motion priors directly on MANO pose parameters — together cutting W-MPJPE from 44.6mm to 33.2mm vs no attention.</div>
+        <div class="zh"><b>时序注意力模块（IAM + PAM）：</b>图像注意力模块跨相邻帧聚合特征以处理截断/遮挡手部；姿态注意力模块直接在 MANO 姿态参数上学习手部运动先验——二者合计将 W-MPJPE 从 44.6mm 降至 33.2mm。</div>
+      </li>
+      <li>
+        <div class="en"><b>Adaptive Egocentric SLAM:</b> Dual-masking strategy excludes hand regions from DROID-SLAM's bundle adjustment (masking both input images and confidence maps) to prevent dynamic hand motion from corrupting camera trajectory. AdaSM module integrates Metric3D for scale estimation using only reliable non-hand scene points.</div>
+        <div class="zh"><b>自适应自我中心 SLAM：</b>双掩码策略将手部区域排除在 DROID-SLAM 的 bundle adjustment 之外（同时掩码输入图像和置信度图），防止手部动态运动污染相机轨迹。AdaSM 模块利用 Metric3D，仅使用可靠的非手部场景点进行尺度估计。</div>
+      </li>
+      <li>
+        <div class="en"><b>Motion Infiller Network:</b> Transformer-encoder in canonical space fills in world-space hand motion for occluded frames — reduces FID by 62.5% and W-MPJPE by 11.8% vs linear interpolation on invisible sequences.</div>
+        <div class="zh"><b>动作填充网络：</b>正则坐标空间下的 Transformer 编码器为遮挡帧填充世界坐标系手部运动——相比线性插值，FID 降低 62.5%，W-MPJPE 降低 11.8%。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Architecture</h2>
+    <div class="arch-box">
+      <span class="step-label">Stage 1 — Camera-Space Hand Motion</span>
+      <span style="color:rgba(232,236,255,.7);">Egocentric video frames</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">WiLoR ViT backbone</span>
+      <span class="arrow">+</span>
+      <span style="color:var(--accent2);">IAM</span><span style="color:rgba(232,236,255,.5);font-size:12px;"> (cross-frame image attn)</span>
+      <span class="arrow">+</span>
+      <span style="color:var(--accent2);">PAM</span><span style="color:rgba(232,236,255,.5);font-size:12px;"> (pose sequence attn)</span>
+      <span class="arrow">→</span>
+      <span style="color:#ffc850;">MANO (Θ, β, Φ, Γ) per frame</span>
+
+      <div style="margin-top:10px;">
+        <span class="step-label">Stage 2 — Camera Trajectory (Adaptive SLAM)</span>
+        <span style="color:rgba(232,236,255,.7);">Frames</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">Dual-masked DROID-SLAM</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (hand regions excluded)</span>
+        <span class="arrow">+</span>
+        <span style="color:var(--accent2);">Metric3D + AdaSM</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (metric scale)</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">World camera poses T_t</span>
+      </div>
+
+      <div style="margin-top:10px;">
+        <span class="step-label">Stage 3 — World-Space Fusion + Occlusion Filling</span>
+        <span style="color:rgba(232,236,255,.7);">MANO (camera) + T_t</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">World-space projection</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">Motion Infiller</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (canonical Transformer, fills occluded frames)</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">World-space hand trajectory</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.80);">
+        <b>Training data:</b> 1M frames from HOT3D (573K) + ARCTIC (165K) + DexYCB (169K) + HO3D (66K). Hand estimation trained 250K iterations (4× A800, AdamW lr=1e-5); Infiller trained 1.5M iterations. Runtime: <b>40ms/frame</b> (vs 160ms for HMP-SLAM — 4× faster).
+      </div>
+      <div class="zh" style="color:rgba(232,236,255,.80);">
+        <b>训练数据：</b>来自 HOT3D（573K）+ ARCTIC（165K）+ DexYCB（169K）+ HO3D（66K）的 100 万帧。手部估计训练 25 万次迭代（4× A800，AdamW lr=1e-5）；填充网络训练 150 万次迭代。运行时间：<b>40ms/帧</b>（vs HMP-SLAM 的 160ms——快 4 倍）。
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Camera-Space — DexYCB (all / severe occlusion 75–100%)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>PA-MPJPE All ↓</th><th>AUC All ↑</th><th>MPJPE 75–100% ↓</th></tr>
+      <tr><td>WiLoR</td><td class="num">5.01</td><td class="num">90.0</td><td class="num">5.68</td></tr>
+      <tr><td>Deformer</td><td class="num">5.22</td><td class="num">89.6</td><td class="num">6.34</td></tr>
+      <tr class="best"><td><b>HaWoR</b></td><td class="num"><b>4.76</b></td><td class="num"><b>90.5</b></td><td class="num"><b>5.07</b> <span style="font-size:11px;opacity:.7">(↓11.3% vs WiLoR)</span></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">World-Space Hand Motion — HOT3D (W-MPJPE = global trajectory error)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>PA-MPJPE ↓</th><th>W-MPJPE ↓</th><th>WA-MPJPE ↓</th><th>RTE ↓</th><th>Accel ↓</th></tr>
+      <tr><td>HaMeR-SLAM</td><td class="num">9.39</td><td class="num">156.03</td><td class="num">43.37</td><td class="num">4.77</td><td class="num">19.25</td></tr>
+      <tr><td>HMP-SLAM</td><td class="num">10.51</td><td class="num">119.41</td><td class="num">39.46</td><td class="num">2.79</td><td class="num">5.50</td></tr>
+      <tr class="best"><td><b>HaWoR</b></td><td class="num"><b>4.79</b></td><td class="num"><b>33.20</b> <span style="font-size:11px;opacity:.7">↓78.7%</span></td><td class="num"><b>11.27</b></td><td class="num"><b>0.78</b> <span style="font-size:11px;opacity:.7">↓84%</span></td><td class="num"><b>5.41</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Camera Trajectory — HOT3D ATE-S (metric scale, mm)</div>
+    <table>
+      <tr><th>Method</th><th>ATE ↓</th><th>Short &lt;5m ↓</th><th>Medium ↓</th><th>Long &gt;5m ↓</th></tr>
+      <tr><td>DROID + Metric3DV2</td><td class="num">3.80</td><td class="num">14.28</td><td class="num">21.56</td><td class="num">29.10</td></tr>
+      <tr class="best"><td><b>HaWoR (full)</b></td><td class="num"><b>3.36</b></td><td class="num"><b>9.31</b></td><td class="num"><b>15.86</b></td><td class="num"><b>19.26</b></td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.45);margin:8px 0 0;">W-MPJPE = world-frame error without trajectory alignment; WA-MPJPE = after full trajectory alignment; RTE = root translation error (%).</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Study</h2>
+
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:5px;">Hand motion estimation components (HOT3D)</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:5px;">手部运动估计组件消融（HOT3D）</div>
+    <table style="margin-bottom:14px;">
+      <tr><th><span class="en">Config</span><span class="zh">配置</span></th><th>PA-MPJPE ↓</th><th>W-MPJPE ↓</th><th>Accel ↓</th></tr>
+      <tr><td><span class="en">w/o Pretrained ViT</span><span class="zh">无预训练 ViT</span></td><td class="num">7.59</td><td class="num">86.80</td><td class="num">9.09</td></tr>
+      <tr><td><span class="en">w/o IAM &amp; PAM</span><span class="zh">无 IAM 和 PAM</span></td><td class="num">5.07</td><td class="num">44.60</td><td class="num">8.42</td></tr>
+      <tr><td><span class="en">w/o PAM only</span><span class="zh">仅无 PAM</span></td><td class="num">4.80</td><td class="num">36.32</td><td class="num">6.03</td></tr>
+      <tr class="best"><td><b>HaWoR (full)</b></td><td class="num"><b>4.79</b></td><td class="num"><b>33.20</b></td><td class="num"><b>5.41</b></td></tr>
+    </table>
+
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:5px;">Motion Infiller for occluded sequences</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:5px;">遮挡序列动作填充消融</div>
+    <table>
+      <tr><th><span class="en">Method</span><span class="zh">方法</span></th><th>FID ↓</th><th>W-MPJPE ↓</th><th>Accel ↓</th></tr>
+      <tr><td><span class="en">Last Pose Replication</span><span class="zh">最后帧复制</span></td><td class="num">1.52</td><td class="num">116.79</td><td class="num">13.04</td></tr>
+      <tr><td><span class="en">Linear Interpolation (LERP)</span><span class="zh">线性插值</span></td><td class="num">1.42</td><td class="num">75.01</td><td class="num">9.39</td></tr>
+      <tr class="best"><td><b><span class="en">HaWoR Infiller</span><span class="zh">HaWoR 填充网络</span></b></td><td class="num"><b>0.57</b></td><td class="num"><b>66.25</b></td><td class="num"><b>7.41</b></td></tr>
+    </table>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Tracking identity failures:</b> Relies on off-the-shelf hand detector; left/right hand confusion propagates errors throughout the trajectory.</div>
+        <div class="zh"><b>追踪身份失败：</b>依赖现成手部检测器，左右手混淆会在整条轨迹中传播错误。</div>
+      </li>
+      <li>
+        <div class="en"><b>No inter-hand constraints:</b> Each hand modeled independently — self-penetrations occur during hand-to-hand interaction sequences.</div>
+        <div class="zh"><b>无手间约束：</b>每只手独立建模——双手交互序列中会出现自穿透现象。</div>
+      </li>
+      <li>
+        <div class="en"><b>Not real-time:</b> 40ms/frame is still too slow for live AR/VR deployment despite being 4× faster than HMP-SLAM.</div>
+        <div class="zh"><b>非实时：</b>尽管比 HMP-SLAM 快 4 倍，40ms/帧对实时 AR/VR 部署仍然太慢。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      HaWoR (same group as WiLoR, arXiv Jan 2025) lifts hand regression from <b>camera space to world space</b> for egocentric video. It decomposes the problem: WiLoR-backbone + <b>IAM/PAM temporal attention</b> for camera-frame MANO, then <b>adaptive dual-masked SLAM + Metric3D</b> for camera trajectory, combined via a <b>canonical-space Motion Infiller</b> for occluded frames. Achieves <b>W-MPJPE 33.2mm vs 156mm for HaMeR-SLAM</b> (78.7% ↓) and <b>RTE 0.78% vs 4.77%</b> (84% ↓) on HOT3D, at 40ms/frame.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

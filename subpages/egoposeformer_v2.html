@@ -1,0 +1,315 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .step-label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-meta{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-meta:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.two-col{grid-template-columns:1fr;}}
+  .sub-box{background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px;}
+  .sub-box h3{margin:0 0 8px;font-size:13px;color:var(--accent2);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2603.04090 · CVPR 2026</div>
+    <h1>EgoPoseFormer v2: Accurate Egocentric Human Motion Estimation for AR/VR</h1>
+    <div class="authors">
+      Zhenyu Li, Sai Kumar Dwivedi, Filip Maric, Carlos Chacón, Nadine Bertsch, Filippo Arcadu, Tomas Hodan, Michael Ramamonjisoa, Peter Wonka, Amy Zhao, Robin Kips, Cem Keskin, Anastasia Tkach, Chenhongyi Yang<br>
+      <span style="opacity:.7">¹Meta &nbsp;·&nbsp; ²KAUST &nbsp;·&nbsp; ³Max Planck Institute for Intelligent Systems</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Keypoint XYZ / Body Model</span>
+      <span class="tag">Momentum Body Model</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Transformer</span>
+      <span class="tag">Semi-Supervised</span>
+      <span class="tag">Real-time AR/VR</span>
+      <span class="tag tag-blue">CVPR 2026</span>
+      <span class="tag tag-orange">Meta</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2603.04090" target="_blank">📄 arXiv</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we build a fully end-to-end, temporally-consistent egocentric body pose estimator for AR/VR that supports both 3D keypoint (XYZ) and parametric body model (Momentum, joint rotations + FK) outputs, and also scales to millions of unlabeled frames via semi-supervised auto-labeling — all under a constant 0.8ms GPU latency budget?</div>
+      <div class="zh"><b>一句话问题：</b>如何构建一个完全端到端、时序一致的自我中心体态估计器，同时支持 3D 关键点（XYZ）和参数化体态模型（Momentum，关节旋转 + FK）两种输出，并通过半监督自动标注扩展到数百万帧无标注数据——且 GPU 延迟保持恒定 0.8ms？</div>
+    </div>
+  </div>
+
+  <!-- Two Key Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Two Key Contributions</h2>
+    <div class="two-col">
+      <div class="sub-box">
+        <h3>① End-to-End Transformer Architecture</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">Single holistic pose query + two stacked transformer decoders with <b>conditioned multi-view cross-attention</b> (projection-based, hardware-friendly) + <b>causal temporal attention</b> (RoPE + KV-Cache). Fully differentiable, constant compute regardless of body representation type.</div>
+        <div class="zh" style="display:none;font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">单一整体姿态查询 + 两个堆叠 Transformer 解码器，含<b>条件化多视角交叉注意力</b>（基于投影，硬件友好）+ <b>因果时序注意力</b>（RoPE + KV-Cache）。完全可微，计算量不随体态表示类型变化。</div>
+      </div>
+      <div class="sub-box">
+        <h3>② Auto-Labeling System (ALS)</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">Teacher (larger ViT-B/DINOv3) → pseudo-labels for 70M unlabeled frames. Student trained with labeled + pseudo-labeled + <b>uncertainty distillation loss</b>. Improves wrist MPJPE by <b>13.1%</b>; scales to lightweight models (MobileNetV4-S benefits more than ResNet-18).</div>
+        <div class="zh" style="display:none;font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">教师模型（ViT-B/DINOv3）为 7000 万帧无标注数据生成伪标签。学生模型在有标注 + 伪标注 + <b>不确定性蒸馏损失</b>上训练。腕部 MPJPE 提升 <b>13.1%</b>；可扩展到轻量模型（MobileNetV4-S 受益更多）。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span class="step-label">Input → Pose Query Initialization</span>
+      <span style="color:rgba(232,236,255,.7);">Multi-view images {I^v} + headset H_t</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Per-view encoder</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (ResNet-18 / ResNet-50 / ViT-B)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Single holistic query q_t</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> = MLP(H_t) — identity + headset rotation conditioned</span>
+
+      <div style="margin-top:8px;">
+        <span class="step-label">Decoder Block 1 — Coarse Pose Proposal</span>
+        <span style="color:var(--accent2);">Conditioned MV Cross-Attention</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (view identity σᵛ)</span>
+        <span class="arrow">+</span>
+        <span style="color:var(--accent2);">Causal Temporal Attention</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (RoPE, window w, KV-Cache)</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">Coarse 3D keypoints P̄</span>
+      </div>
+
+      <div style="margin-top:8px;">
+        <span class="step-label">Decoder Block 2 — Pose Refinement</span>
+        <span style="color:var(--accent2);">Conditioned MV Cross-Attention</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (σᵛ + projected 2D keypoints o^v)</span>
+        <span class="arrow">+</span>
+        <span style="color:var(--accent2);">Causal Temporal Attention</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">Refined pose P_r + uncertainty Σ</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (per-keypoint 6D covariance)</span>
+      </div>
+    </div>
+
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <p style="margin:0 0 8px;"><b>Key innovation vs EPFv1:</b> EPFv1 used one separate Joint Query Token (JQT) per keypoint — computation scaled with J joints, no end-to-end gradient flow to the proposal stage, and deformable attention made edge deployment hard. EPFv2 uses a <b>single holistic query</b> conditioned on headset pose/identity, making computation constant, fully E2E trainable, and hardware-friendly (standard MHA instead of deformable attention).</p>
+      <p style="margin:0;"><b>Projection-conditioned cross-attention:</b> Coarse 3D keypoints are projected onto each camera plane → 2D coordinates → Condition Positional Encoding (CPE) appended to query. This gives geometric spatial anchoring without expensive deformable modules.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <p style="margin:0 0 8px;"><b>vs EPFv1 关键改进：</b>EPFv1 每个关键点用一个独立的 Joint Query Token，计算随关节数线性增长，Proposal 阶段无端到端梯度流，可形变注意力难以边缘部署。EPFv2 使用<b>单一整体查询</b>（由头显姿态/身份条件化），计算恒定，完全端到端，且用标准 MHA 替代可形变注意力，硬件友好。</p>
+      <p style="margin:0;"><b>投影条件化交叉注意力：</b>粗略 3D 关键点投影到各相机平面 → 2D 坐标 → 作为条件位置编码（CPE）附加到查询。无需昂贵的可形变模块即可实现几何空间锚点。</p>
+    </div>
+  </div>
+
+  <!-- Datasets -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Training Data — 重点分析</h2>
+
+    <table style="margin-bottom:14px;">
+      <tr><th>Dataset</th><th>类型</th><th>规模</th><th>用途</th><th>标注方式</th></tr>
+      <tr>
+        <td><b>EgoBody3M</b></td>
+        <td>有标注 · 真实</td>
+        <td class="num">3.4M 帧<br><span style="font-size:11px;color:var(--muted);">训练 2.4M / 测试 426k</span></td>
+        <td>有监督训练 + 基准测试</td>
+        <td>4 路同步单色全局快门相机（Meta Quest VR 头显）· MoCap GT keypoints → <b>IK via Momentum</b> → 关节旋转 + body scales</td>
+      </tr>
+      <tr>
+        <td><b>EGO-ITW-70M</b></td>
+        <td>无标注 · 野外</td>
+        <td class="num">70M 帧</td>
+        <td>ALS 教师→学生半监督</td>
+        <td>无 GT，与 EgoBody3M 相同硬件 · Meta <b>私有</b>数据集</td>
+      </tr>
+      <tr>
+        <td><b>XR-MBT</b></td>
+        <td>多模态 · 野外</td>
+        <td class="num">—</td>
+        <td>仅定性泛化评估</td>
+        <td>跨设备（Aria / HoloLens 等），不参与训练</td>
+      </tr>
+    </table>
+
+    <div class="two-col" style="margin-bottom:10px;">
+      <div class="sub-box">
+        <h3>EgoBody3M 标注细节</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
+          Raw GT = <b>3D keypoints</b> only (from outside-in MoCap). Body model parameters (joint rotations + body scales) are <b>not directly captured</b> — they are computed post-hoc by running <b>Inverse Kinematics (IK)</b> on the GT keypoints using Meta's <b>Momentum</b> body tool (<code>facebookresearch.github.io/momentum</code>). This means the parametric supervision signal is <em>derived</em>, not directly observed.
+        </div>
+        <div class="zh" style="display:none;font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
+          原始 GT = 仅有 <b>3D 关键点</b>（来自外部 MoCap）。Body model 参数（关节旋转 + body scales）<b>并非直接采集</b>——而是通过对 GT 关键点跑 <b>IK（逆运动学）</b> 经由 Meta 的 <b>Momentum</b> 工具（<code>facebookresearch.github.io/momentum</code>）事后计算得到。也就是说参数化监督信号是<em>推导出的</em>，而非直接观测的。
+        </div>
+      </div>
+      <div class="sub-box">
+        <h3>EGO-ITW-70M 与 ALS</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
+          <b>Meta-private</b>, no public release. Collected with the same 4-camera VR headset hardware as EgoBody3M. No ground-truth labels at all. Used exclusively as unlabeled corpus for the Auto-Labeling System (ALS): teacher (ViT-B / DINOv3) → pseudo-labels → uncertainty distillation → student. Fig. 6 shows ALS benefit saturates around 50–100% of 70M frames; <b>MobileNetV4-S benefits proportionally more</b> than ResNet-18.
+        </div>
+        <div class="zh" style="display:none;font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
+          <b>Meta 私有</b>，不公开。与 EgoBody3M 使用相同的 4 相机 VR 头显硬件采集。完全无 GT 标注。仅用于 ALS 的无标注语料：教师模型（ViT-B / DINOv3）→ 伪标签 → 不确定性蒸馏 → 学生模型。Fig. 6 显示 ALS 收益在 50–100% 的 70M 帧附近趋于饱和；<b>MobileNetV4-S 受益比例更大</b>。
+        </div>
+      </div>
+    </div>
+
+    <div class="en" style="font-size:12px;color:rgba(232,236,255,.55);line-height:1.6;padding:8px 12px;background:rgba(255,180,80,.05);border:1px solid rgba(255,180,80,.2);border-radius:8px;">
+      <b>⚠️ Reproducibility caveat:</b> EGO-ITW-70M is a Meta-internal dataset — external researchers cannot replicate the full ALS pipeline. Only the EgoBody3M-based results (w/o ALS, MPJPE 4.17cm) are fully reproducible from public data.
+    </div>
+    <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.55);line-height:1.6;padding:8px 12px;background:rgba(255,180,80,.05);border:1px solid rgba(255,180,80,.2);border-radius:8px;margin-top:8px;">
+      <b>⚠️ 可复现性说明：</b>EGO-ITW-70M 是 Meta 内部数据集——外部研究者无法复现完整的 ALS 流程。仅基于 EgoBody3M 的结果（w/o ALS，MPJPE 4.17cm）可用公开数据完全复现。
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results — EgoBody3M Benchmark</h2>
+    <table style="margin-bottom:6px;">
+      <tr>
+        <th>Method</th><th>Venue</th>
+        <th>Overall MPJPE↓</th><th>MPJVE↓</th>
+        <th>Wrist↓</th><th>Shoulder↓</th><th>Legs↓</th><th>Feet↓</th>
+      </tr>
+      <tr><td>UnrealEgo</td><td style="font-size:11px;">ECCV 2022</td>
+        <td class="num">7.41</td><td class="num">1.27</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>EgoBody3M</td><td style="font-size:11px;">ECCV 2024</td>
+        <td class="num">5.18</td><td class="num">0.54</td>
+        <td class="num">6.14</td><td class="num">2.80</td><td class="num">8.40</td><td class="num">10.25</td></tr>
+      <tr><td>EgoPoseFormer v1</td><td style="font-size:11px;">ECCV 2024</td>
+        <td class="num">4.75</td><td class="num">0.87</td>
+        <td class="num">6.01</td><td class="num">2.72</td><td class="num">7.95</td><td class="num">10.16</td></tr>
+      <tr class="ours"><td><b>EPFv2 w/o ALS</b></td><td style="font-size:11px;">CVPR 2026</td>
+        <td class="num"><b>4.17</b></td><td class="num"><b>0.42</b></td>
+        <td class="num">5.74</td><td class="num">2.38</td><td class="num">6.91</td><td class="num">9.11</td></tr>
+      <tr class="ours best"><td><b>EPFv2 + ALS ★</b></td><td style="font-size:11px;">CVPR 2026</td>
+        <td class="num"><b>4.02</b></td><td class="num"><b>0.42</b></td>
+        <td class="num"><b>4.99</b></td><td class="num"><b>2.33</b></td><td class="num"><b>6.66</b></td><td class="num"><b>8.69</b></td></tr>
+    </table>
+    <div style="font-size:12px;color:rgba(232,236,255,.55);margin-top:4px;">
+      MPJPE: mean per-joint position error (cm) &nbsp;·&nbsp; MPJVE: mean per-joint velocity error (cm/frame) &nbsp;·&nbsp; GPU latency: <b>0.8 ms</b> (full model)
+    </div>
+    <div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      <div style="background:rgba(0,0,0,.20);border:1px solid rgba(139,255,207,.15);border-radius:8px;padding:8px;text-align:center;">
+        <div style="font-family:var(--mono);font-size:16px;color:var(--accent2);">↓22.4%</div>
+        <div style="font-size:11px;color:var(--muted);">MPJPE vs EgoBody3M</div>
+      </div>
+      <div style="background:rgba(0,0,0,.20);border:1px solid rgba(139,255,207,.15);border-radius:8px;padding:8px;text-align:center;">
+        <div style="font-family:var(--mono);font-size:16px;color:var(--accent2);">↓51.7%</div>
+        <div style="font-size:11px;color:var(--muted);">MPJVE vs EPFv1</div>
+      </div>
+      <div style="background:rgba(0,0,0,.20);border:1px solid rgba(139,255,207,.15);border-radius:8px;padding:8px;text-align:center;">
+        <div style="font-family:var(--mono);font-size:16px;color:var(--accent2);">↓13.1%</div>
+        <div style="font-size:11px;color:var(--muted);">Wrist MPJPE from ALS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Study (EgoBody3M)</h2>
+    <table>
+      <tr><th>#</th><th><span class="en">Variant</span><span class="zh">配置</span></th><th>Overall MPJPE↓</th><th>Wrists↓</th><th>Legs↓</th></tr>
+      <tr><td>①</td><td><span class="en">Use kpt head (direct keypoint regression, no FK)</span><span class="zh">用关键点头（直接回归，无 FK）</span></td><td class="num">4.35</td><td class="num">6.02</td><td class="num">7.17</td></tr>
+      <tr><td>②</td><td><span class="en">w/o temporal attention</span><span class="zh">无时序注意力</span></td><td class="num">4.35</td><td class="num">6.04</td><td class="num">7.21</td></tr>
+      <tr><td>③</td><td><span class="en">w/o projection condition (CPE)</span><span class="zh">无投影条件（CPE）</span></td><td class="num">4.30</td><td class="num">5.96</td><td class="num">7.15</td></tr>
+      <tr><td>④</td><td><span class="en">w/o auxiliary information (learnable token instead)</span><span class="zh">无辅助信息（改用可学习 token）</span></td><td class="num">4.39</td><td class="num">5.98</td><td class="num">7.34</td></tr>
+      <tr><td>⑤</td><td><span class="en">w/o uncertainty head</span><span class="zh">无不确定性头</span></td><td class="num">4.25</td><td class="num">5.83</td><td class="num">7.00</td></tr>
+      <tr style="border-top:1px solid rgba(255,255,255,.12)"><td>⑥</td><td><b>EPFv2 w/o ALS</b></td><td class="num">4.17</td><td class="num">5.74</td><td class="num">6.91</td></tr>
+      <tr><td>⑦</td><td><span class="en">+ ALS (w/o L_uncertainty distillation)</span><span class="zh">+ ALS（无不确定性蒸馏）</span></td><td class="num">4.08</td><td class="num">5.07</td><td class="num">6.74</td></tr>
+      <tr class="ours best"><td>★</td><td><b><span class="en">EPFv2 + ALS + L_uncertainty</span><span class="zh">EPFv2 + ALS + 不确定性蒸馏</span></b></td><td class="num"><b>4.02</b></td><td class="num"><b>4.99</b></td><td class="num"><b>6.66</b></td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.6;">
+      <div class="en" style="color:rgba(232,236,255,.78);">Key findings: ② temporal attention removal = same damage as ① removing FK (both +0.33 MPJPE) — temporal modeling is as important as structured body representation. ④ auxiliary information (headset pose/identity) is the most critical single component (+0.37 MPJPE if removed). ALS uncertainty distillation (⑦→★) gives an additional 0.06 MPJPE on overall but 0.08 on wrists — especially effective for occluded joints.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);">关键发现：② 去除时序注意力 = 与 ① 去除 FK 相同损伤（均 +0.33 MPJPE）——时序建模与结构化体态表示同等重要。④ 辅助信息（头显姿态/身份）是最关键的单一组件（去除后 +0.37 MPJPE）。ALS 不确定性蒸馏（⑦→★）整体额外提升 0.06 MPJPE，腕部提升 0.08——对遮挡关节特别有效。</div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Multi-camera dependency:</b> Requires 4 synchronized cameras — single-camera setup not evaluated. Limits deployment to purpose-built VR headsets like Meta Quest.</div>
+        <div class="zh"><b>多相机依赖：</b>需要 4 个同步相机——未评估单相机配置。限制了部署范围，仅适用于 Meta Quest 等专用 VR 头显。</div>
+      </li>
+      <li>
+        <div class="en"><b>EgoBody3M-centric evaluation:</b> All benchmarks on EgoBody3M (Meta's proprietary dataset). Generalization to other devices (Aria, HoloLens) shown only qualitatively on XR-MBT.</div>
+        <div class="zh"><b>以 EgoBody3M 为中心的评估：</b>所有基准测试均在 EgoBody3M（Meta 专有数据集）上进行。跨设备泛化（Aria、HoloLens）仅在 XR-MBT 上进行定性展示。</div>
+      </li>
+      <li>
+        <div class="en"><b>No world-space output:</b> Outputs in headset/camera space — not allocentric world coordinates (unlike EgoAllo). Feet/legs still have highest error (~8.7cm).</div>
+        <div class="zh"><b>无世界坐标系输出：</b>输出在头显/相机坐标系下——非异中心世界坐标（与 EgoAllo 不同）。脚部/腿部误差仍最高（~8.7cm）。</div>
+      </li>
+      <li>
+        <div class="en"><b>ALS requires large unlabeled corpus:</b> 70M frames needed for meaningful improvement; collecting hardware-matched unlabeled data at scale may not be feasible for all research groups.</div>
+        <div class="zh"><b>ALS 需要大量无标注数据：</b>需要 7000 万帧才能获得显著提升；并非所有研究团队都能大规模采集硬件匹配的无标注数据。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      EgoPoseFormer v2 (Meta + KAUST, CVPR 2026) advances egocentric body pose estimation for AR/VR with two innovations: (1) a <b>single holistic query transformer</b> with projection-conditioned multi-view cross-attention + causal temporal attention (RoPE + KV-Cache), fully E2E at constant 0.8ms; (2) an <b>uncertainty-aware auto-labeling system</b> scaling to 70M unlabeled frames via teacher-student distillation. <b>Output representation:</b> supports both direct 3D keypoint XYZ regression AND parametric pose (joint rotations + body scales via Meta's <b>Momentum body model</b> → FK) — NOT SMPL-X. On EgoBody3M: MPJPE <b>4.02cm</b> (↓22.4% vs EgoBody3M, ↓15.4% vs EPFv1) and temporal jitter ↓51.7%. ALS alone improves wrist MPJPE by 13.1%.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:22px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  h3{margin:0 0 6px;font-size:13px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.30);color:var(--accent2);background:rgba(139,255,207,.05);margin:2px 3px 2px 0;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  /* Gap table */
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.06);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.14);}
+  td{color:rgba(232,236,255,.82);vertical-align:middle;}
+  .gap-no{color:#ff7070;}
+  .gap-partial{color:var(--warn);}
+  .gap-yes{color:var(--accent2);}
+  /* Architecture diagram */
+  .arch{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 18px;font-size:13px;line-height:2.0;}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .box{display:inline-block;padding:2px 10px;border-radius:6px;border:1px solid;font-size:12px;}
+  .box-blue{border-color:rgba(122,162,255,.5);color:var(--accent);background:rgba(122,162,255,.08);}
+  .box-green{border-color:rgba(139,255,207,.45);color:var(--accent2);background:rgba(139,255,207,.07);}
+  .box-orange{border-color:rgba(255,200,80,.4);color:var(--warn);background:rgba(255,200,80,.06);}
+  .box-purple{border-color:rgba(192,132,252,.4);color:var(--purple);background:rgba(192,132,252,.06);}
+  /* Section pills */
+  .section-badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:999px;font-weight:600;margin-bottom:10px;}
+  .badge-gap{background:rgba(255,112,112,.12);border:1px solid rgba(255,112,112,.35);color:#ff7070;}
+  .badge-method{background:rgba(122,162,255,.10);border:1px solid rgba(122,162,255,.35);color:var(--accent);}
+  .badge-dataset{background:rgba(139,255,207,.08);border:1px solid rgba(139,255,207,.3);color:var(--accent2);}
+  .badge-challenge{background:rgba(255,200,80,.08);border:1px solid rgba(255,200,80,.3);color:var(--warn);}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.82);line-height:1.7;}
+  li{margin-bottom:6px;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.two-col{grid-template-columns:1fr;}}
+  .sub-card{background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 14px;}
+  .cite{font-size:11px;color:var(--muted);font-family:var(--mono);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:980px;margin:0 auto;">
+
+  <!-- Header -->
+  <div class="card" style="border-color:rgba(192,132,252,.35);background:rgba(192,132,252,.03);">
+    <div class="label">Research Direction · Future Work · Lu Dong @ MaxInsights</div>
+    <h1 style="color:var(--purple);">EgoSMPL-X: Egocentric-Guided World-Space Full-Body SMPL-X Estimation</h1>
+    <div style="margin-top:8px;font-size:13px;color:rgba(232,236,255,.6);">
+      Research idea synthesized from: EgoEgo · EgoAllo · EgoPoseFormer v2 · HaWoR · WiLoR · Nymeria · NymeriaPlus · EgoForce · OmniEgoCap
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag tag-purple">Research Proposal</span>
+      <span class="tag">SMPL-X</span>
+      <span class="tag">Egocentric Guidance</span>
+      <span class="tag">World-Space</span>
+      <span class="tag">Full-Body + Hands + Face</span>
+      <span class="tag tag-warn">Future Work</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.7;color:rgba(232,236,255,.85);">
+      <div class="en"><b>Core question:</b> Can we recover a complete <em>world-space SMPL-X avatar</em> (body + hands + face expression) from a single head-mounted egocentric camera, using egocentric observations as structural guidance — enabling persistent, photorealistic AR/VR avatars without external cameras?</div>
+      <div class="zh"><b>核心问题：</b>能否仅用单个头戴自我中心相机，以自我中心观测为结构引导，恢复完整的<em>世界坐标系 SMPL-X 虚拟形象</em>（体态 + 手部 + 面部表情）——在没有外部相机的情况下实现持久、逼真的 AR/VR 化身？</div>
+    </div>
+  </div>
+
+  <!-- Gap Analysis -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="section-badge badge-gap">Gap Analysis</div>
+    <h2>What Existing Methods Can / Cannot Do</h2>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Body (SMPL)</th>
+        <th>Hands (MANO)</th>
+        <th>Face (FLAME)</th>
+        <th>World-Space</th>
+        <th>Single Cam</th>
+        <th>Real-time</th>
+      </tr>
+      <tr>
+        <td>EgoEgo <span class="cite">CVPR23</span></td>
+        <td class="gap-yes">✅ SMPL</td>
+        <td class="gap-no">❌</td><td class="gap-no">❌</td>
+        <td class="gap-no">❌ cam-space</td>
+        <td class="gap-yes">✅</td><td class="gap-no">❌</td>
+      </tr>
+      <tr>
+        <td>EgoAllo <span class="cite">ECCV24</span></td>
+        <td class="gap-yes">✅ SMPL</td>
+        <td class="gap-yes">✅ MANO</td><td class="gap-no">❌</td>
+        <td class="gap-yes">✅ world</td>
+        <td class="gap-yes">✅</td><td class="gap-no">❌ ~25ms</td>
+      </tr>
+      <tr>
+        <td>EPFv2 <span class="cite">CVPR26</span></td>
+        <td class="gap-yes">✅ keypoints</td>
+        <td class="gap-partial">⚠️ wrist only</td><td class="gap-no">❌</td>
+        <td class="gap-partial">⚠️ headset-space</td>
+        <td class="gap-no">❌ 4 cams</td><td class="gap-yes">✅ 0.8ms</td>
+      </tr>
+      <tr>
+        <td>HaWoR <span class="cite">arXiv25</span></td>
+        <td class="gap-no">❌</td>
+        <td class="gap-yes">✅ MANO world</td><td class="gap-no">❌</td>
+        <td class="gap-yes">✅ world</td>
+        <td class="gap-yes">✅</td><td class="gap-no">❌ 40ms</td>
+      </tr>
+      <tr>
+        <td>EgoForce <span class="cite">arXiv26</span></td>
+        <td class="gap-yes">✅ SMPL</td>
+        <td class="gap-partial">⚠️ wrists</td><td class="gap-no">❌</td>
+        <td class="gap-partial">⚠️ cam-space</td>
+        <td class="gap-yes">✅</td><td class="gap-yes">✅ online</td>
+      </tr>
+      <tr style="border-top:2px solid rgba(192,132,252,.3);background:rgba(192,132,252,.04);">
+        <td><b>EgoSMPL-X (ours)</b></td>
+        <td class="gap-yes"><b>✅ SMPL-X body</b></td>
+        <td class="gap-yes"><b>✅ SMPL-X hands</b></td>
+        <td class="gap-yes"><b>✅ FLAME face</b></td>
+        <td class="gap-yes"><b>✅ world</b></td>
+        <td class="gap-yes"><b>✅</b></td>
+        <td class="gap-partial">⚠️ target</td>
+      </tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.78);"><b>The gap:</b> No existing method recovers unified <b>SMPL-X</b> (body + hands + face) from a single egocentric camera in world coordinates. EgoAllo is the closest but lacks face and uses SMPL+MANO separately. The face is the hardest component — it faces away from the egocentric camera and must be inferred indirectly.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);"><b>研究空白：</b>目前没有任何方法能从单个自我中心相机以世界坐标系恢复统一的 <b>SMPL-X</b>（体态 + 手部 + 面部）。EgoAllo 最接近，但缺少面部，且 SMPL+MANO 分离估计。面部是最难的组件——它背对自我中心相机，只能间接推断。</div>
+    </div>
+  </div>
+
+  <!-- Method Proposal -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="section-badge badge-method">Method Proposal</div>
+    <h2>Proposed Architecture: Three-Branch Conditional Diffusion</h2>
+    <div class="arch" style="margin-bottom:14px;">
+      <div style="margin-bottom:8px;">
+        <span class="box box-blue">Egocentric video</span>
+        <span class="arrow">+</span>
+        <span class="box box-blue">SLAM 6-DoF head traj</span>
+        <span class="arrow">+</span>
+        <span class="box box-blue">Spatial audio (opt.)</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--muted);font-size:12px;">shared encoder</span>
+      </div>
+      <div style="margin-bottom:8px;">
+        <span class="arrow" style="margin-left:20px;">↓ branch 1 (body)</span>&nbsp;&nbsp;
+        <span class="arrow">↓ branch 2 (hands)</span>&nbsp;&nbsp;
+        <span class="arrow">↓ branch 3 (face)</span>
+      </div>
+      <div style="margin-bottom:6px;">
+        <span class="box box-green">EgoAllo-style body diffusion</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;margin-left:6px;">inv. head cond. → SMPL θ, β, world-T</span>
+      </div>
+      <div style="margin-bottom:6px;">
+        <span class="box box-green">HaWoR-style hand diffusion</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;margin-left:6px;">WiLoR ViT + IAM/PAM → MANO world-space</span>
+      </div>
+      <div style="margin-bottom:8px;">
+        <span class="box box-orange">Face prior + audio/context</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;margin-left:6px;">FLAME ψ: head motion → expression prior + audio-driven refinement</span>
+      </div>
+      <div>
+        <span class="box box-purple">SMPL-X Joint Fusion Layer</span>
+        <span class="arrow">→</span>
+        <span class="box box-purple">World-space SMPL-X (β, θ_body, θ_hands, ψ_face)</span>
+      </div>
+    </div>
+
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <p style="margin:0 0 10px;"><b>Key design choices and reasoning:</b></p>
+      <ul style="margin:0 0 10px;">
+        <li><b>Body branch:</b> Build on EgoAllo's invariant SLAM conditioning — proven the most reliable signal for world-space body estimation. Replace SMPL with SMPL-X body parameters; share kinematic chain with hand branch at wrist joints.</li>
+        <li><b>Hand branch:</b> Build on HaWoR (world-space MANO from ego SLAM). Kinematic constraint: wrist world-positions from body branch anchor hand estimation, reducing HaWoR's RTE by an additional ~15% (following HaMeR's finding that kinematic priors cut hand error 40%).</li>
+        <li><b>Face branch:</b> Face is never visible from egocentric front-facing camera. Two indirect signals: (1) <em>head motion dynamics</em> — fast head shakes, nodding, speech-correlated head movement encode expression states; (2) <em>audio features</em> (NymeriaPlus provides 7-mic spatial audio) — lip sync + emotional prosody drive FLAME expression parameters ψ ∈ ℝ⁵⁰. Use EmoTalk/FaceFormer-style audio-to-expression prior, constrained by body pose context.</li>
+        <li><b>Joint fusion:</b> A cross-attention fusion layer aligns the three branches at shared anatomical joints (wrists, neck) using kinematic consistency loss. Prevents body-hand penetration and head-body misalignment in world space.</li>
+      </ul>
+      <p style="margin:0;"><b>Diffusion formulation:</b> Single unified denoising transformer operating on concatenated SMPL-X parameter vector [θ_body | θ_hands | ψ_face | β], conditioned on multi-modal ego observations. Enables diverse sampling and uncertainty quantification — useful for occluded scenarios.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <p style="margin:0 0 10px;"><b>关键设计选择及理由：</b></p>
+      <ul style="margin:0 0 10px;">
+        <li><b>体态分支：</b>基于 EgoAllo 的不变 SLAM 条件化——证明是最可靠的世界坐标系体态估计信号。将 SMPL 替换为 SMPL-X 体态参数；与手部分支在腕关节处共享运动链。</li>
+        <li><b>手部分支：</b>基于 HaWoR（世界坐标系 MANO）。运动学约束：体态分支提供腕部世界坐标锚点，预计可额外降低 HaWoR 的 RTE 约 15%（参考 HaMeR 发现运动学先验使手部误差降低 40%）。</li>
+        <li><b>面部分支：</b>面部在自我中心前置相机中从不可见。两种间接信号：（1）<em>头部运动动态</em>——快速摇头、点头、言语相关头部运动编码表情状态；（2）<em>音频特征</em>（NymeriaPlus 提供 7 麦空间音频）——唇同步 + 情感韵律驱动 FLAME 表情参数 ψ ∈ ℝ⁵⁰，用 EmoTalk/FaceFormer 式音频-表情先验，受体态上下文约束。</li>
+        <li><b>联合融合：</b>跨注意力融合层通过运动学一致性损失在共享解剖关节（腕部、颈部）对齐三个分支，防止世界坐标系中的体手穿透和头体不对齐。</li>
+      </ul>
+      <p style="margin:0;"><b>扩散公式：</b>单一统一去噪 Transformer 对拼接的 SMPL-X 参数向量 [θ_body | θ_hands | ψ_face | β] 操作，以多模态自我中心观测为条件。支持多样采样和不确定性量化——适用于遮挡场景。</p>
+    </div>
+  </div>
+
+  <!-- Datasets -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="section-badge badge-dataset">Datasets</div>
+    <h2>Training Data Strategy</h2>
+    <div class="two-col">
+      <div class="sub-card">
+        <h3>Body Motion (SMPL-X format)</h3>
+        <ul style="font-size:12.5px;">
+          <li><b>NymeriaPlus</b> — 300h egocentric, SMPL conversion, world-space MoCap; wrist error ↓64% vs original <span class="cite">[Meta 2026]</span></li>
+          <li><b>AMASS</b> — 45h diverse SMPL-X motions for diffusion prior <span class="cite">[ICCV 2019]</span></li>
+          <li><b>EgoBody</b> — 125 seqs, SMPL-X from HoloLens2 <span class="cite">[ETH, ECCV 2022]</span></li>
+          <li><b>HOT3D</b> — 800min Aria+Quest3, hand-object <span class="cite">[Meta 2024]</span></li>
+        </ul>
+      </div>
+      <div class="sub-card">
+        <h3>Face / Audio</h3>
+        <ul style="font-size:12.5px;">
+          <li><b>NymeriaPlus audio</b> — 600h spatial audio from Aria glasses <span class="cite">[Meta 2026]</span></li>
+          <li><b>MEAD / HDTF</b> — audio-expression paired data for FLAME prior</li>
+          <li><b>EMOCA / SPECTRE</b> — pretrained FLAME encoders as face supervision <span class="cite">[CVPR 2022]</span></li>
+          <li><b>Ego-Exo4D</b> — expert commentary audio + exo face observations for weak supervision <span class="cite">[CVPR 2024]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.78);">
+        <b>Unpaired training paradigm</b> (extending EgoEgo): body branch trained on Nymeria ego-video + AMASS; hand branch on HOT3D; face branch on MEAD/audio separately. Fusion layer trained on combined sequences where all three components have GT (NymeriaPlus + Ego-Exo4D). No single dataset covers all three — the decomposed training is a necessity, not a choice.
+      </div>
+      <div class="zh" style="display:none;color:rgba(232,236,255,.78);">
+        <b>无配对训练范式</b>（扩展自 EgoEgo）：体态分支在 Nymeria 自我中心视频 + AMASS 上训练；手部分支在 HOT3D 上训练；面部分支在 MEAD/音频上分别训练。融合层在三个组件均有真值的联合序列上训练（NymeriaPlus + Ego-Exo4D）。没有单一数据集覆盖全部三个组件——分解训练是必然选择，而非偏好。
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Challenges -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="section-badge badge-challenge">Key Challenges</div>
+    <h2>Technical Challenges to Solve</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Face estimation without direct visibility</b> — the hardest open problem. Proposed approach: train a "head-motion-to-expression" module on NymeriaPlus audio + Ego-Exo4D exo face observations as weak supervision. Evaluate with held-out exo camera face GT.</div>
+        <div class="zh"><b>无直接可见性的面部估计</b>——最难的开放问题。提议方案：在 NymeriaPlus 音频 + Ego-Exo4D 外部面部观测（弱监督）上训练"头部运动→表情"模块；用保留的外部相机面部真值评估。</div>
+      </li>
+      <li>
+        <div class="en"><b>SMPL-X joint consistency</b> — body and hand branches must share wrist joint positions and orientations exactly. Use hard kinematic constraints: hand global orientation = body wrist orientation + relative hand orientation. Enforce in loss and diffusion conditioning.</div>
+        <div class="zh"><b>SMPL-X 关节一致性</b>——体态和手部分支必须精确共享腕关节位置和朝向。使用硬运动学约束：手部全局朝向 = 体态腕部朝向 + 相对手部朝向。在损失函数和扩散条件化中强制执行。</div>
+      </li>
+      <li>
+        <div class="en"><b>World-space scale disambiguation</b> — metric scale for SMPL-X body shape β requires person-specific height estimate. Use NymeriaPlus MHR bone-length θᴵ as supervision; at inference, estimate from first few seconds using Metric3D depth (following HaWoR's AdaSM).</div>
+        <div class="zh"><b>世界坐标系尺度消歧</b>——SMPL-X 体型参数 β 的公制尺度需要个人身高估计。用 NymeriaPlus MHR 骨长参数 θᴵ 作为监督；推理时用前几秒的 Metric3D 深度估计（参考 HaWoR 的 AdaSM）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Occlusion handling for hands</b> — hands are in contact 86.7% of time (HaMeR HInt dataset). Use HaWoR's Motion Infiller architecture for hand occlusion; body wrist trajectory provides occlusion-robust anchor even when hands not visible.</div>
+        <div class="zh"><b>手部遮挡处理</b>——手部 86.7% 时间处于接触状态（HaMeR HInt 数据集）。用 HaWoR 的动作填充网络处理手部遮挡；体态腕部轨迹提供鲁棒锚点，即使手部不可见时也有效。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Novelty & Claims -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="section-badge badge-method">Expected Contributions</div>
+    <h2>Expected Contributions &amp; Claims</h2>
+    <div class="two-col">
+      <div class="sub-card">
+        <h3 style="color:var(--accent2);">Technical Novelty</h3>
+        <ul style="font-size:12.5px;">
+          <li>First unified SMPL-X (body + hands + face) from single egocentric camera in world coordinates</li>
+          <li>Head-motion-to-expression module: first method to infer FLAME expression from egocentric head dynamics + audio</li>
+          <li>Kinematically-consistent three-branch diffusion with shared SMPL-X skeleton</li>
+          <li>SMPL-X compatible evaluation on NymeriaPlus + EgoBody benchmark</li>
+        </ul>
+      </div>
+      <div class="sub-card">
+        <h3 style="color:var(--accent2);">Expected Metrics</h3>
+        <ul style="font-size:12.5px;">
+          <li>Body: MPJPE ~110mm on NymeriaPlus (EgoAllo-level)</li>
+          <li>Hand: W-MPJPE ~30mm (HaWoR-level, better with body anchor)</li>
+          <li>Face: FLAME expression error on Ego-Exo4D exo GT (new metric)</li>
+          <li>Joint consistency: wrist position error body↔hand &lt; 5mm</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.78);">
+        <b>Positioning:</b> This is an <em>application-driven</em> paper targeting AR/VR avatar creation. The strongest venue is <b>CVPR 2027</b> or <b>SIGGRAPH Asia 2026</b> (avatar/rendering community would value SMPL-X completeness). The face estimation from audio is independently publishable as a NeurIPS/ICLR short paper if results are strong.
+      </div>
+      <div class="zh" style="display:none;color:rgba(232,236,255,.78);">
+        <b>定位：</b>这是一篇面向 AR/VR 虚拟形象创建的<em>应用驱动</em>论文。最佳投稿目标是 <b>CVPR 2027</b> 或 <b>SIGGRAPH Asia 2026</b>（avatar/渲染社区重视 SMPL-X 完整性）。如果音频驱动面部估计结果强劲，可独立作为 NeurIPS/ICLR 短文发表。
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Work Connection -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>How This Builds on Each Prior Work</h2>
+    <table>
+      <tr><th>Paper</th><th><span class="en">What We Reuse</span><span class="zh">复用内容</span></th><th><span class="en">What We Improve</span><span class="zh">改进内容</span></th></tr>
+      <tr>
+        <td>EgoAllo</td>
+        <td><span class="en">Invariant SLAM head conditioning; allocentric diffusion</span><span class="zh">不变 SLAM 头部条件化；异中心扩散</span></td>
+        <td><span class="en">Extend to SMPL-X; add face branch; joint fusion</span><span class="zh">扩展到 SMPL-X；增加面部分支；联合融合</span></td>
+      </tr>
+      <tr>
+        <td>HaWoR</td>
+        <td><span class="en">Dual-masked SLAM + Metric3D scale; Motion Infiller</span><span class="zh">双掩码 SLAM + Metric3D 尺度；动作填充</span></td>
+        <td><span class="en">Replace free-floating wrists with SMPL-X wrist anchors</span><span class="zh">用 SMPL-X 腕部锚点替代自由浮动腕部</span></td>
+      </tr>
+      <tr>
+        <td>NymeriaPlus</td>
+        <td><span class="en">SMPL body format; 600h audio; world-space MoCap GT</span><span class="zh">SMPL 体态格式；600小时音频；世界坐标系动捕真值</span></td>
+        <td><span class="en">Primary training + evaluation dataset; audio for face</span><span class="zh">主要训练 + 评估数据集；音频用于面部</span></td>
+      </tr>
+      <tr>
+        <td>EgoEgo</td>
+        <td><span class="en">Unpaired training paradigm; head→body decomposition</span><span class="zh">无配对训练范式；头部→体态分解</span></td>
+        <td><span class="en">Generalize to face branch; 3-component unified diffusion</span><span class="zh">推广到面部分支；3 组件统一扩散</span></td>
+      </tr>
+      <tr>
+        <td>WiLoR / HaMeR</td>
+        <td><span class="en">ViT-based hand features; MANO regression pipeline</span><span class="zh">基于 ViT 的手部特征；MANO 回归流水线</span></td>
+        <td><span class="en">Replace free-floating MANO with SMPL-X unified hands</span><span class="zh">用 SMPL-X 统一手部替代自由 MANO</span></td>
+      </tr>
+      <tr>
+        <td>EgoPoseFormer v2</td>
+        <td><span class="en">Projection-conditioned MV attention; ALS semi-supervised</span><span class="zh">投影条件化多视角注意力；ALS 半监督</span></td>
+        <td><span class="en">Apply ALS to NymeriaPlus unlabeled; adopt CPE for hand refinement</span><span class="zh">对 NymeriaPlus 无标注数据应用 ALS；采用 CPE 用于手部精化</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(192,132,252,.04);border-color:rgba(192,132,252,.30);">
+    <h2 style="color:var(--purple);">Research Proposal Summary</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.87);line-height:1.75;margin:0;">
+      <b>EgoSMPL-X</b> proposes a <b>three-branch conditional diffusion</b> framework that recovers unified SMPL-X (body + hands + face) in world coordinates from a single head-mounted egocentric camera + SLAM + audio.<br><br>
+      <b>Body:</b> EgoAllo-style invariant SLAM conditioning → SMPL-X body <br>
+      <b>Hands:</b> HaWoR-style world-space diffusion with SMPL-X wrist kinematic anchors (expected ↓15% vs HaWoR alone)<br>
+      <b>Face:</b> First-ever head-motion-dynamics + 7-mic audio → FLAME expression (ψ ∈ ℝ⁵⁰) — the defining novelty<br><br>
+      Training: unpaired, on <b>NymeriaPlus</b> (SMPL body + audio) + <b>HOT3D</b> (hands) + <b>MEAD/HDTF</b> (face audio). Target venues: <b>CVPR 2027</b> / <b>SIGGRAPH Asia 2026</b>.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

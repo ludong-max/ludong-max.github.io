@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .highlight{background:rgba(122,162,255,.07);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:13px;color:rgba(232,236,255,.85);line-height:1.65;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.7;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 6px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2312.05251 · CVPR 2024</div>
+    <h1>HaMeR: Reconstructing Hands in 3D with Transformers</h1>
+    <div class="authors">
+      Georgios Pavlakos, Dandan Shan, Ilija Radosavovic, Angjoo Kanazawa, David Fouhey, Jitendra Malik<br>
+      <span style="opacity:.7">UC Berkeley · University of Michigan</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Hand Regression</span>
+      <span class="tag">MANO</span>
+      <span class="tag">ViT</span>
+      <span class="tag">In-the-Wild</span>
+      <span class="tag tag-blue">CVPR 2024</span>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://arxiv.org/abs/2312.05251" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;" onmouseover="this.style.borderColor='rgba(139,255,207,.5)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='var(--muted)'">📄 arXiv</a>
+      <a href="https://github.com/geopavlakos/hamer" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);text-decoration:none;" onmouseover="this.style.borderColor='rgba(122,162,255,.7)';this.style.color='#a8c8ff'" onmouseout="this.style.borderColor='rgba(122,162,255,.35)';this.style.color='var(--accent)'">⭐ GitHub — geopavlakos/hamer</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can a fully transformer-based architecture, trained on a large and diverse dataset mix, significantly outperform CNN-based hand mesh recovery methods — especially on challenging in-the-wild occlusion scenarios?</div>
+      <div class="zh"><b>一句话问题：</b>完全基于 Transformer 的架构，在大规模多样化数据混合训练下，能否显著超越基于 CNN 的手部网格恢复方法——尤其是在具有挑战性的野外遮挡场景中？</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Fully transformer-based pipeline (ViT-H + transformer decoder):</b> First hand mesh recovery system to replace CNN backbone with a large ViT-H, feeding patch tokens into a transformer decoder that regresses MANO parameters (θ ∈ ℝ⁴⁸, β ∈ ℝ¹⁰, translation t ∈ ℝ³).</div>
+        <div class="zh"><b>完全 Transformer 架构（ViT-H + Transformer 解码器）：</b>首个将 CNN 主干替换为大型 ViT-H 的手部网格恢复系统，将图像块 token 送入 Transformer 解码器，回归 MANO 参数（θ ∈ ℝ⁴⁸，β ∈ ℝ¹⁰，位移 t ∈ ℝ³）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Large-scale diverse training (2.7M samples from 10 datasets):</b> Consolidates 7 datasets with 3D ground truth (FreiHAND, HO3D, MTC, RHD, InterHand2.6M, H2O3D, DexYCB) and 3 datasets with 2D keypoints (COCO WholeBody, Halpe, MPII NZSL), with adversarial loss to handle 2D-only supervision.</div>
+        <div class="zh"><b>大规模多样化训练（来自 10 个数据集的 270 万样本）：</b>整合 7 个含 3D 真值的数据集和 3 个含 2D 关键点的数据集，通过对抗损失处理仅有 2D 监督的情况。</div>
+      </li>
+      <li>
+        <div class="en"><b>HInt — new in-the-wild evaluation benchmark:</b> 40.4K hand annotations from Ego4D (23.2K), New Days/YouTube (12.0K), and EPIC-KITCHENS VISOR (5.3K), with <em>first-ever occlusion labels</em> per keypoint. 86.7% of hands in contact with objects or other hands.</div>
+        <div class="zh"><b>HInt——新的野外评估基准：</b>来自 Ego4D（23.2K）、YouTube（12.0K）和 EPIC-KITCHENS VISOR（5.3K）的 40,400 个手部标注，是<em>首个提供每关键点遮挡标签</em>的数据集。86.7% 的手处于与物体或其他手的接触状态。</div>
+      </li>
+      <li>
+        <div class="en"><b>2–3× improvement on in-the-wild benchmarks:</b> On all three HInt splits, HaMeR surpasses prior SOTA (FrankMocap, HandOccNet) by 2–3× in PCK@0.05, with particularly large gains on occluded joints.</div>
+        <div class="zh"><b>野外基准 2–3 倍提升：</b>在 HInt 三个子集上，HaMeR 的 PCK@0.05 比先前最优方法高 2–3 倍，在遮挡关节上提升尤为显著。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:var(--muted);">RGB image (cropped hand)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">ViT-H backbone</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (patch tokens)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Transformer decoder</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (1 output token, cross-attention)</span>
+      <span class="arrow">→</span>
+      <span style="color:#ffc850;">MANO params</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (θ, β, t)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">778 vertices · 21 joints</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <p style="margin:0 0 8px;"><b>Training losses (three objectives):</b></p>
+      <ul style="margin:0 0 10px;">
+        <li><b>3D supervision loss:</b> ‖θ−θ*‖₂² + ‖β−β*‖₂² + ‖X−X*‖₁ — applied when 3D ground truth is available.</li>
+        <li><b>2D reprojection loss:</b> ‖x−x*‖₁ — for samples with only 2D keypoint annotations, projects predicted joints to image plane.</li>
+        <li><b>Adversarial loss:</b> Σₖ(Dₖ(Θ)−1)² — discriminators on shape, pose, and per-joint angles enforce natural hand configurations under weak 2D supervision.</li>
+      </ul>
+      <p style="margin:0;"><b>Training data composition:</b> 2.7M total samples (4× more than FrankMocap). Only ~5% from in-the-wild sources; the HInt benchmark specifically tests generalization beyond lab data.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <p style="margin:0 0 8px;"><b>训练损失（三个目标）：</b></p>
+      <ul style="margin:0 0 10px;">
+        <li><b>3D 监督损失：</b>有 3D 真值时优化 MANO 参数和关节位置的 L2/L1 损失。</li>
+        <li><b>2D 重投影损失：</b>仅有 2D 关键点标注时，将预测关节投影到图像平面计算 L1 损失。</li>
+        <li><b>对抗损失：</b>对形状、姿态和逐关节角度分别训练判别器，在 2D 弱监督下强制自然手部构型。</li>
+      </ul>
+      <p style="margin:0;"><b>训练数据组成：</b>共 270 万样本（FrankMocap 的 4 倍），其中仅约 5% 来自野外场景。HInt 基准专门测试对实验室数据之外的泛化能力。</p>
+    </div>
+  </div>
+
+  <!-- HInt Dataset -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>HInt — New In-the-Wild Benchmark Dataset</h2>
+    <table>
+      <tr><th>Split</th><th>Source</th><th>Hands</th><th>Setting</th></tr>
+      <tr><td>New Days</td><td>YouTube daily activities</td><td class="num">12,000</td><td>General daily life</td></tr>
+      <tr><td>VISOR</td><td>EPIC-KITCHENS VISOR</td><td class="num">5,300</td><td>Cooking, kitchen actions</td></tr>
+      <tr><td>Ego4D</td><td>Ego4D egocentric video</td><td class="num">23,200</td><td>Egocentric daily activities</td></tr>
+      <tr style="border-top:1px solid rgba(255,255,255,.15)"><td><b>Total</b></td><td>—</td><td class="num"><b>40,400</b></td><td>—</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;color:rgba(232,236,255,.80);line-height:1.6;">
+      <div class="en">
+        <b>Unique feature:</b> First dataset with per-keypoint <em>occlusion labels</em> (annotator agreement: 90.5% occlusion, 100% existence). <b>86.7%</b> of hands are in contact with objects or other hands — making it far more challenging than controlled benchmarks.
+      </div>
+      <div class="zh">
+        <b>独特特性：</b>首个提供每关键点<em>遮挡标签</em>的数据集（标注一致性：遮挡 90.5%，存在 100%）。<b>86.7%</b> 的手处于与物体或其他手的接触状态——比受控基准更具挑战性。
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Table 1 · FreiHAND (controlled, 3D GT)</div>
+    <table style="margin-bottom:16px;">
+      <tr><th>Method</th><th>PA-MPJPE ↓</th><th>PA-MPVPE ↓</th><th>F@5mm ↑</th><th>F@15mm ↑</th></tr>
+      <tr><td>MobRecon</td><td class="num">5.7</td><td class="num">5.8</td><td class="num">0.784</td><td class="num">0.989</td></tr>
+      <tr><td>AMVUR</td><td class="num">6.2</td><td class="num">6.1</td><td class="num">0.778</td><td class="num">0.987</td></tr>
+      <tr class="best"><td><b>HaMeR</b></td><td class="num"><b>6.0</b></td><td class="num"><b>5.7</b></td><td class="num"><b>0.785</b></td><td class="num"><b>0.990</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Table 2 · HO3Dv2 (hand-object interaction, 3D GT)</div>
+    <table style="margin-bottom:16px;">
+      <tr><th>Method</th><th>AUC_J ↑</th><th>PA-MPJPE ↓</th><th>F@5mm ↑</th></tr>
+      <tr><td>AMVUR</td><td class="num">0.835</td><td class="num">8.3</td><td class="num">0.608</td></tr>
+      <tr class="best"><td><b>HaMeR</b></td><td class="num"><b>0.846</b></td><td class="num"><b>7.7</b></td><td class="num"><b>0.635</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Table 3 · HInt (in-the-wild, 2D PCK@0.05) — visible / occluded</div>
+    <table>
+      <tr><th>Method</th><th>New Days</th><th>VISOR</th><th>Ego4D</th></tr>
+      <tr><td>HandOccNet</td><td class="num">9.1 / 7.2</td><td class="num">8.1 / 7.4</td><td class="num">7.7 / 8.0</td></tr>
+      <tr><td>FrankMocap</td><td class="num">16.1 / 9.2</td><td class="num">16.8 / 11.0</td><td class="num">13.1 / 8.4</td></tr>
+      <tr class="best"><td><b>HaMeR</b></td><td class="num"><b>48.0</b> / <b>27.2</b></td><td class="num"><b>43.0</b> / <b>25.9</b></td><td class="num"><b>38.9</b> / <b>23.0</b></td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:8px 0 0;">All numbers in mm (lower is better) for MPJPE/MPVPE; % (higher is better) for F-score and PCK.</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Study (New Days @PCK 0.05)</h2>
+    <table>
+      <tr><th>Config</th><th>All joints</th><th>Occluded</th><th>vs FrankMocap</th></tr>
+      <tr><td>FrankMocap (baseline)</td><td class="num">16.1%</td><td class="num">9.2%</td><td>—</td></tr>
+      <tr><td>Base (ResNet50 + 25% data)</td><td class="num">16.9%</td><td class="num">9.4%</td><td>+0.8%</td></tr>
+      <tr><td>+ Large data (ResNet50 + 100%)</td><td class="num">31.3%</td><td class="num">19.0%</td><td>+15.2%</td></tr>
+      <tr><td>+ Large model (ViT-H + 25%)</td><td class="num">25.9%</td><td class="num">14.7%</td><td>+9.8%</td></tr>
+      <tr class="best"><td><b>HaMeR (ViT-H + 100%)</b></td><td class="num"><b>48.0%</b></td><td class="num"><b>27.2%</b></td><td><b>+31.9%</b></td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.80);">
+        <b>Key finding:</b> Data scaling and model capacity are both necessary — their combination yields <b>multiplicative</b> (not additive) gains. Neither alone closes the gap: large data with ResNet50 reaches 31.3%, large model with 25% data reaches 25.9%, but only the combination achieves 48.0%.
+      </div>
+      <div class="zh" style="display:none;color:rgba(232,236,255,.80);">
+        <b>关键发现：</b>数据规模扩展和模型容量都是必要的——两者结合带来<b>乘法</b>而非加法增益。仅扩展数据（ResNet50）达到 31.3%，仅增大模型（25% 数据）达到 25.9%，只有两者结合才能达到 48.0%。
+      </div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Single-frame processing:</b> Each frame is processed independently — no temporal modeling; produces smooth video results empirically but not by design.</div>
+        <div class="zh"><b>单帧处理：</b>每帧独立处理，无时序建模；实验上产生平滑视频结果，但并非设计所致。</div>
+      </li>
+      <li>
+        <div class="en"><b>No 3D in-the-wild evaluation:</b> HInt only provides 2D labels; true 3D accuracy on unconstrained real-world data cannot be directly measured.</div>
+        <div class="zh"><b>无野外 3D 评估：</b>HInt 仅提供 2D 标签，无法直接衡量真实场景下的 3D 精度。</div>
+      </li>
+      <li>
+        <div class="en"><b>Training data imbalance:</b> ~95% controlled / ~5% in-the-wild — despite strong generalization, the model may still struggle with extreme domain shifts not covered by training data.</div>
+        <div class="zh"><b>训练数据失衡：</b>约 95% 受控 / 5% 野外场景——尽管泛化能力强，模型仍可能在训练未覆盖的极端领域偏移下挣扎。</div>
+      </li>
+      <li>
+        <div class="en"><b>MANO model constraint:</b> Output is constrained to MANO topology — cannot represent non-standard hand morphologies or interacting two-hand configurations directly.</div>
+        <div class="zh"><b>MANO 模型约束：</b>输出受限于 MANO 拓扑，无法直接表示非标准手型或双手交互构型。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      HaMeR is a <b>ViT-H + transformer decoder</b> pipeline for single-image 3D hand mesh recovery (MANO). Trained on <b>2.7M samples from 10 datasets</b> with mixed 2D/3D supervision, it achieves SOTA on FreiHAND (PA-MPJPE 6.0mm) and HO3Dv2 (AUC 0.846), and delivers a <b>2–3× PCK improvement</b> over prior methods on the new HInt in-the-wild benchmark (Ego4D + EPIC-KITCHENS + YouTube). The key insight is that data scale and model capacity both matter — combining ViT-H with full training data produces multiplicative gains, not additive ones.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

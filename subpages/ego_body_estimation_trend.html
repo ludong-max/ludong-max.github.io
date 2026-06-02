@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.30);color:var(--accent2);background:rgba(139,255,207,.05);margin:2px 3px 2px 0;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:#c084fc;background:rgba(192,132,252,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  /* Paper rows */
+  .paper-row{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start;}
+  .paper-row:last-child{border-bottom:none;}
+  .venue-badge{font-size:10px;font-family:var(--mono);padding:2px 7px;border-radius:6px;border:1px solid;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+  .v-cvpr{border-color:rgba(122,162,255,.5);color:var(--accent);}
+  .v-neurips{border-color:rgba(255,180,80,.4);color:#ffb450;}
+  .v-eccv{border-color:rgba(139,255,207,.4);color:var(--accent2);}
+  .v-iccv{border-color:rgba(139,255,207,.35);color:var(--accent2);}
+  .v-arxiv{border-color:rgba(255,255,255,.15);color:var(--muted);}
+  .paper-content{flex:1;min-width:0;}
+  .paper-title{font-size:13px;color:var(--text);font-weight:600;line-height:1.4;margin-bottom:3px;}
+  .paper-sub{font-size:12px;color:rgba(232,236,255,.6);margin-bottom:4px;}
+  .paper-desc{font-size:12px;color:var(--muted);line-height:1.55;}
+  .paper-desc-zh{font-size:12px;color:var(--muted);line-height:1.55;display:none;}
+  .link-btn{display:inline-flex;font-size:10.5px;padding:2px 7px;border-radius:6px;border:1px solid var(--border);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;transition:.12s;margin:3px 3px 0 0;}
+  .link-btn:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);text-decoration:none;}
+  /* Comparison table */
+  table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.06);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.14);}
+  td{color:rgba(232,236,255,.82);vertical-align:top;}
+  tr.highlight td{background:rgba(139,255,207,.04);}
+  tr.baseline td{background:rgba(122,162,255,.04);}
+  .num{font-family:var(--mono);font-size:11.5px;}
+  .better{color:var(--accent2);}
+  /* Stats chips */
+  .stats-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+  .stat-chip{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:7px 12px;text-align:center;}
+  .stat-num{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-label{font-size:11px;color:var(--muted);display:block;margin-top:1px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    card.querySelectorAll('.paper-desc').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.paper-desc-zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:980px;margin:0 auto;">
+
+  <!-- Header -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">CVPR Trend · Egocentric Full-Body Estimation Survey · Post-EgoAllo</div>
+    <h1>After EgoAllo: Estimating Full-Body from Ego View</h1>
+    <div style="margin-top:8px;font-size:13px;color:rgba(232,236,255,.6);">
+      Anchor: <a href="https://arxiv.org/abs/2410.03665" target="_blank">EgoAllo (ECCV 2024)</a> — Brent Yi et al., UC Berkeley
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Egocentric Body Estimation</span>
+      <span class="tag">SMPL / Whole-Body</span>
+      <span class="tag">Diffusion</span>
+      <span class="tag">Online / Causal</span>
+      <span class="tag tag-blue">CVPR 2026</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en">EgoAllo (ECCV 2024) established conditional diffusion from egocentric SLAM as the baseline for <em>allocentric</em> full-body + hand estimation. Since then, at least <b>5 follow-up works</b> have appeared targeting CVPR 2026 and NeurIPS 2025, pushing toward online/causal inference, camera-agnostic setups, and large-scale semi-supervised training.</div>
+      <div class="zh">EgoAllo（ECCV 2024）将自我中心 SLAM 驱动的条件扩散确立为<em>异中心</em>全身+手部估计的基线。此后，至少 <b>5 篇后续工作</b>出现，针对 CVPR 2026 和 NeurIPS 2025，推动在线/因果推理、设备无关配置和大规模半监督训练。</div>
+    </div>
+  </div>
+
+  <!-- Anchor: EgoAllo -->
+  <div class="card" style="border-color:rgba(122,162,255,.30);background:rgba(122,162,255,.03);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">📌 Anchor — EgoAllo (ECCV 2024)</h2>
+    <div style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <div class="en">
+        <b>Estimating Body and Hand Motion in an Ego-sensed World</b><br>
+        Brent Yi, Vickie Ye, Maya Zheng, Yunqi Li, Lea Müller, Georgios Pavlakos, Yi Ma, Jitendra Malik, Angjoo Kanazawa · UC Berkeley / ETH<br><br>
+        Key idea: condition a diffusion model on <b>SLAM 6-DoF head trajectory + RGB images</b> with spatially/temporally invariant head-motion parameterization → allocentric SMPL body + MANO hands.<br>
+        Results: ↓18% body MPJPE over naive conditioning; ↓40% hand error via kinematic wrist anchoring.
+      </div>
+      <div class="zh">
+        <b>在自我感知世界中估计身体和手部运动</b><br>
+        Brent Yi 等 · UC Berkeley / ETH<br><br>
+        核心思路：以空间/时间不变的头部运动参数化条件化扩散模型，输入 <b>SLAM 6-DoF 头部轨迹 + RGB 图像</b>，输出异中心 SMPL 全身 + MANO 手部。<br>
+        结果：相比朴素条件化，体态 MPJPE ↓18%；运动学腕部锚点使手部误差 ↓40%。
+      </div>
+    </div>
+    <div style="margin-top:8px;">
+      <a class="link-btn" href="https://arxiv.org/abs/2410.03665" target="_blank">📄 arXiv</a>
+      <a class="link-btn" href="https://egoallo.github.io" target="_blank">🌐 Project</a>
+    </div>
+  </div>
+
+  <!-- CVPR 2026 Papers -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>CVPR 2026 Works</h2>
+
+    <div class="paper-row">
+      <span class="venue-badge v-cvpr">CVPR 2026</span>
+      <div class="paper-content">
+        <div class="paper-title">EgoPoseFormer v2: Accurate Egocentric Human Motion Estimation for AR/VR</div>
+        <div class="paper-sub">Zhenyu Li et al. · arXiv 2603.04090</div>
+        <div class="paper-desc">Transformer with <b>identity-conditioned queries</b> + multi-view spatial refinement + causal temporal attention. Auto-labeling via teacher-student + uncertainty distillation on 70M unlabeled frames (EGO-ITW-70M). Benchmarked on new <b>EgoBody3M</b> (3.4M real frames, 4 sync cameras). Overall MPJPE <b>4.02 cm</b>; outperforms EgoPoseFormer by 15.4% MPJPE and 51.7% temporal jitter. Auto-labeling adds further 13.1% wrist improvement. GPU latency: 0.8ms.</div>
+        <div class="paper-desc-zh">带<b>身份条件化查询</b>的 Transformer + 多视角空间精化 + 因果时序注意力。通过师生 + 不确定性蒸馏对 7000 万帧未标注数据（EGO-ITW-70M）进行自动标注。在新基准 <b>EgoBody3M</b>（340 万真实帧，4 同步相机）上测试。整体 MPJPE <b>4.02 cm</b>；比 EgoPoseFormer 提升 15.4% MPJPE、51.7% 时序抖动。自动标注额外提升腕部 13.1%。GPU 延迟：0.8ms。</div>
+        <a class="link-btn" href="https://arxiv.org/abs/2603.04090" target="_blank">📄 arXiv</a>
+      </div>
+    </div>
+
+    <div class="paper-row">
+      <span class="venue-badge v-cvpr">CVPR Findings 2026</span>
+      <div class="paper-content">
+        <div class="paper-title">EggHand: A Multimodal Foundation Model for Egocentric Hand Pose Forecasting</div>
+        <div class="paper-sub">Jaeyoung Choi et al. · arXiv 2605.07642</div>
+        <div class="paper-desc">VLA action decoder + ego video-text encoder for <b>future hand pose prediction</b> without requiring body pose or external tracking. SOTA on Ego-Exo4D hand forecast; robust under severe ego-motion. Language-conditioned for task-driven control.</div>
+        <div class="paper-desc-zh">VLA 动作解码器 + 自我中心视频-文本编码器，用于<b>未来手部姿态预测</b>，无需体态或外部追踪。在 Ego-Exo4D 手部预测上达到最优；在严重自我运动下保持鲁棒。支持语言条件化任务驱动控制。</div>
+        <a class="link-btn" href="https://arxiv.org/abs/2605.07642" target="_blank">📄 arXiv</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 2025 Works -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Other Recent Works (2025)</h2>
+
+    <div class="paper-row">
+      <span class="venue-badge v-arxiv">arXiv 2026</span>
+      <div class="paper-content">
+        <div class="paper-title">EgoForce: Robust Online Egocentric Motion Reconstruction via Diffusion Forcing</div>
+        <div class="paper-sub">Inwoo Hwang, Donggeun Lim, Hojun Jang, Young Min Kim · arXiv 2605.13041</div>
+        <div class="paper-desc">Diffusion Forcing with <b>per-frame asymmetric noise schedule</b> + causal observation injection (past fully observed, current partially, future unobserved). Enables <b>online streaming</b> inference without fixed windows. On EE4D-Motion: MPJPE <b>0.073m</b> vs EgoAllo 0.168m (↓56%) and vs HMD2 0.127m (↓43%). FID 0.016 vs EgoAllo 0.045.</div>
+        <div class="paper-desc-zh">扩散 Forcing 采用<b>逐帧非对称噪声调度</b> + 因果观测注入（过去帧完全可观测，当前部分可观测，未来不可观测）。支持无需固定窗口的<b>在线流式</b>推理。在 EE4D-Motion 上：MPJPE <b>0.073m</b> vs EgoAllo 0.168m（↓56%），vs HMD2 0.127m（↓43%）。FID 0.016 vs EgoAllo 0.045。</div>
+        <a class="link-btn" href="https://arxiv.org/abs/2605.13041" target="_blank">📄 arXiv</a>
+        <a class="link-btn" href="https://inwoohwang.me/EgoForce" target="_blank">🌐 Project</a>
+      </div>
+    </div>
+
+    <div class="paper-row">
+      <span class="venue-badge v-arxiv">arXiv 2025</span>
+      <div class="paper-content">
+        <div class="paper-title">OmniEgoCap: Camera-Agnostic Sequence-Level Egocentric Motion Reconstruction</div>
+        <div class="paper-sub">Kyungwon Cho, Hanbyul Joo · arXiv 2512.19283</div>
+        <div class="paper-desc"><b>Unified diffusion</b> across diverse camera setups (fisheye, pinhole, multiple FOVs). Sequence-level inference (vs windowed) jointly recovers temporally coherent motion + consistent body shape. Geometry-aware <b>visibility augmentation</b> treats hand appearances as geometric constraints. Claims new SOTA on public benchmarks across hardware types.</div>
+        <div class="paper-desc-zh"><b>统一扩散</b>跨多种相机配置（鱼眼、针孔、多视场角）。序列级推理（vs 窗口化）同时恢复时序一致运动和一致体型。几何感知的<b>可见性增强</b>将手部外观视为几何约束。在公开基准的多种硬件类型上声称达到新 SOTA。</div>
+        <a class="link-btn" href="https://arxiv.org/abs/2512.19283" target="_blank">📄 arXiv</a>
+      </div>
+    </div>
+
+    <div class="paper-row">
+      <span class="venue-badge v-neurips">NeurIPS 2024</span>
+      <div class="paper-content">
+        <div class="paper-title">Estimating Ego-Body Pose from Doubly Sparse Egocentric Video Data</div>
+        <div class="paper-sub">Seunggeun Chi et al. · arXiv 2411.03561</div>
+        <div class="paper-desc">Two-stage: (1) masked autoencoder imputes <b>sparse hand trajectories</b> from head pose + intermittent hand observations with uncertainty; (2) conditional diffusion generates full-body motion. Evaluated on AMASS + <b>Ego-Exo4D</b>. Specifically targets "doubly sparse" settings where both temporal and spatial observations are incomplete.</div>
+        <div class="paper-desc-zh">两阶段：（1）掩码自编码器以头部姿态 + 间歇手部观测（含不确定性）补全<b>稀疏手部轨迹</b>；（2）条件扩散生成全身运动。在 AMASS + <b>Ego-Exo4D</b> 上评估。专门针对时间和空间观测均不完整的"双稀疏"场景。</div>
+        <a class="link-btn" href="https://arxiv.org/abs/2411.03561" target="_blank">📄 arXiv</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Comparison Table (EE4D-Motion benchmark)</h2>
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:6px;">EE4D-Motion = Ego-Exo4D Motion subset. Lower MPJPE/FID/AUJ is better; higher Semantic is better.</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:6px;">EE4D-Motion = Ego-Exo4D 动作子集。MPJPE/FID/AUJ 越低越好；Semantic 越高越好。</div>
+    <table>
+      <tr><th>Method</th><th>Venue</th><th>MPJPE ↓</th><th>Wrist PE ↓</th><th>FID ↓</th><th>Semantic ↑</th><th>Online?</th></tr>
+      <tr class="baseline">
+        <td><b>EgoAllo</b></td><td>ECCV 2024</td>
+        <td class="num">0.168</td><td class="num">0.079</td><td class="num">0.045</td><td class="num">0.869</td>
+        <td>❌ offline</td>
+      </tr>
+      <tr><td>RPM</td><td>—</td><td class="num">0.115</td><td class="num">0.108</td><td class="num">0.042</td><td class="num">0.907</td><td>—</td></tr>
+      <tr><td>HMD2</td><td>—</td><td class="num">0.127</td><td class="num">0.131</td><td class="num">0.032</td><td class="num">0.913</td><td>—</td></tr>
+      <tr><td>UniEgoMotion</td><td>—</td><td class="num">0.091</td><td class="num">0.089</td><td class="num">0.024</td><td class="num">0.917</td><td>—</td></tr>
+      <tr class="highlight">
+        <td><b>EgoForce</b></td><td>arXiv 2026</td>
+        <td class="num better"><b>0.073</b></td><td class="num better"><b>0.076</b></td>
+        <td class="num better"><b>0.016</b></td><td class="num better"><b>0.987</b></td>
+        <td style="color:var(--accent2);">✅ online</td>
+      </tr>
+    </table>
+    <p style="font-size:11.5px;color:rgba(232,236,255,.45);margin:8px 0 0;">
+      <span class="en">EgoPoseFormer v2 uses a different benchmark (EgoBody3M, 4.02cm MPJPE) — not directly comparable. OmniEgoCap results reported on different public benchmarks.</span>
+      <span class="zh">EgoPoseFormer v2 使用不同基准（EgoBody3M，4.02cm MPJPE）——不可直接比较。OmniEgoCap 结果在不同公开基准上报告。</span>
+    </p>
+  </div>
+
+  <!-- Design Space -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Design Space Overview</h2>
+    <table>
+      <tr><th>Method</th><th><span class="en">Input</span><span class="zh">输入</span></th><th><span class="en">Output</span><span class="zh">输出</span></th><th><span class="en">Key Innovation</span><span class="zh">核心创新</span></th><th><span class="en">Online?</span><span class="zh">在线？</span></th></tr>
+      <tr class="baseline">
+        <td>EgoAllo</td>
+        <td><span class="en">SLAM head traj + RGB</span><span class="zh">SLAM 头轨迹 + RGB</span></td>
+        <td><span class="en">Allocentric SMPL + MANO</span><span class="zh">异中心 SMPL + MANO</span></td>
+        <td><span class="en">Invariant head conditioning</span><span class="zh">不变头部条件化</span></td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>EgoPoseFormer v2</td>
+        <td><span class="en">Multi-cam HMD + unlabeled 70M</span><span class="zh">多相机 HMD + 7000万无标注</span></td>
+        <td><span class="en">SMPL keypoints</span><span class="zh">SMPL 关键点</span></td>
+        <td><span class="en">Identity queries + auto-label</span><span class="zh">身份查询 + 自动标注</span></td>
+        <td>✅ causal</td>
+      </tr>
+      <tr class="highlight">
+        <td>EgoForce</td>
+        <td><span class="en">Head traj + sparse wrists</span><span class="zh">头轨迹 + 稀疏腕部</span></td>
+        <td><span class="en">Full-body SMPL</span><span class="zh">全身 SMPL</span></td>
+        <td><span class="en">Diffusion Forcing (per-frame noise)</span><span class="zh">扩散 Forcing（逐帧噪声）</span></td>
+        <td>✅ online</td>
+      </tr>
+      <tr>
+        <td>OmniEgoCap</td>
+        <td><span class="en">Any camera (agnostic)</span><span class="zh">任意相机（无关配置）</span></td>
+        <td><span class="en">Full-body + shape</span><span class="zh">全身 + 体型</span></td>
+        <td><span class="en">Camera-agnostic seq-level diffusion</span><span class="zh">设备无关序列级扩散</span></td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Doubly Sparse</td>
+        <td><span class="en">Sparse video (temporal + spatial)</span><span class="zh">时空稀疏视频</span></td>
+        <td><span class="en">Full-body</span><span class="zh">全身</span></td>
+        <td><span class="en">MAE imputation → diffusion</span><span class="zh">MAE 补全 → 扩散</span></td>
+        <td>❌</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent2);">TL;DR — Research Trends</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      Post-EgoAllo, the field is splitting into <b>three directions</b>:<br><br>
+      <b>① Online / causal inference</b> (EgoForce, EgoPoseFormer v2) — AR/VR needs real-time streaming; Diffusion Forcing and causal attention are the emerging tools. EgoForce achieves 56% MPJPE reduction over EgoAllo while staying online.<br><br>
+      <b>② Camera-agnostic / large-scale</b> (OmniEgoCap, EgoPoseFormer v2) — generalizing beyond Aria to any HMD. EgoPoseFormer v2's auto-labeling on 70M frames shows semi-supervised learning is key.<br><br>
+      <b>③ Sparse observation</b> (Doubly Sparse, EgoForce) — real HMD data is often incomplete; handling intermittent hand/body observations robustly.<br><br>
+      Common gap vs EgoAllo: <b>none of these explicitly evaluate on HOT3D or Nymeria</b> — EgoAllo's SMPL + world-space trajectory output remains unique in that evaluation setting.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      EgoAllo 之后，该领域分化为<b>三个方向</b>：<br><br>
+      <b>① 在线/因果推理</b>（EgoForce、EgoPoseFormer v2）——AR/VR 需要实时流式；扩散 Forcing 和因果注意力是新兴工具。EgoForce 在保持在线推理的同时，MPJPE 比 EgoAllo 降低 56%。<br><br>
+      <b>② 设备无关/大规模</b>（OmniEgoCap、EgoPoseFormer v2）——从 Aria 推广到任意 HMD。EgoPoseFormer v2 在 7000 万帧上的自动标注表明半监督学习是关键。<br><br>
+      <b>③ 稀疏观测</b>（Doubly Sparse、EgoForce）——真实 HMD 数据通常不完整；鲁棒处理间歇性手部/身体观测。<br><br>
+      与 EgoAllo 共同的空白：<b>这些工作均未在 HOT3D 或 Nymeria 上评估</b>——EgoAllo 在世界坐标系轨迹输出的评估设定下仍具独特性。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

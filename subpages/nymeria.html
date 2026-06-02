@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:8px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:6px;margin-top:4px;}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    card.querySelectorAll('.en').forEach(el=>el.style.display='block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display='none');
+    const isEn=btn.dataset.state==='en';
+    if(isEn){
+      card.querySelectorAll('.en').forEach(el=>el.style.display='none');
+      card.querySelectorAll('.zh').forEach(el=>el.style.display='block');
+      btn.dataset.state='zh';
+    } else {
+      btn.dataset.state='en';
+    }
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title card -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2406.09905 · ECCV 2024</div>
+    <h1>Nymeria: A Massive Collection of Multimodal Egocentric Daily Motion in the Wild</h1>
+    <div class="authors">
+      Lingni Ma, Yuting Ye, Fangzhou Hong, Vladimir Guzov, Yifeng Jiang, Rowan Postyeni, …, Richard Newcombe<br>
+      <span style="opacity:.75">Meta Reality Labs · Stanford · NTU</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Full-Body Motion</span>
+      <span class="tag">Multimodal</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en">
+        <b>One-sentence problem:</b> How do we collect a large-scale, <em>in-the-wild</em> human motion dataset that simultaneously captures egocentric sensor streams, accurate full-body ground truth, and rich language descriptions?
+      </div>
+      <div class="zh">
+        <b>一句话问题：</b>如何在真实户外场景中，同时采集大规模自我中心传感器数据、精确全身动作真值与丰富语言描述的人体运动数据集？
+      </div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Largest wild-collected motion dataset:</b> 300 hours of daily activities from 264 participants across 50 real-world locations, captured with Project Aria glasses.</div>
+        <div class="zh"><b>最大规模户外动作数据集：</b>264 名参与者在 50 个真实地点完成日常活动，共 300 小时，使用 Project Aria 眼镜采集。</div>
+      </li>
+      <li>
+        <div class="en"><b>Synchronized multimodal egocentric streams:</b> First dataset pairing full-body MoCap ground truth with multiple egocentric sensors — RGB, eye-tracking, IMUs, and spatial audio — from the same device.</div>
+        <div class="zh"><b>同步多模态自我中心数据流：</b>首个将全身动捕真值与同一设备上的 RGB、眼动追踪、IMU 和空间音频完整配对的数据集。</div>
+      </li>
+      <li>
+        <div class="en"><b>Largest motion-language dataset:</b> 301.5K sentences / 8.64M words of hierarchical motion descriptions from fine-grained narrations to high-level activity summaries.</div>
+        <div class="zh"><b>最大动作-语言数据集：</b>301,500 条句子 / 864 万词，覆盖从细粒度叙述到高层活动摘要的分层动作描述。</div>
+      </li>
+      <li>
+        <div class="en"><b>Comprehensive benchmarks:</b> Evaluated SOTA algorithms on egocentric body tracking, motion synthesis, and action recognition, establishing new baselines.</div>
+        <div class="zh"><b>全面基准测试：</b>在自我中心体态追踪、动作合成和动作识别上评估了当前最优算法，建立新基线。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dataset Statistics -->
+  <div class="card">
+    <h2>Dataset Statistics</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Total duration</td><td>300 hours</td></tr>
+      <tr><td>Participants</td><td>264 (diverse age, gender, body shape)</td></tr>
+      <tr><td>Locations</td><td>50 real-world outdoor &amp; indoor sites</td></tr>
+      <tr><td>Capture device</td><td>Project Aria (RGB + eye-tracking + IMU + audio)</td></tr>
+      <tr><td>Ground-truth body</td><td>Full-body MoCap (SMPL-X compatible)</td></tr>
+      <tr><td>Language annotations</td><td>301.5K sentences · 8.64M words</td></tr>
+      <tr><td>Annotation levels</td><td>Narration · Paragraph · Summary</td></tr>
+    </table>
+  </div>
+
+  <!-- Method / Data Pipeline -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Data Collection Pipeline</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.80);line-height:1.7;">
+      <p style="margin:0 0 8px;"><b>1. Capture:</b> Participants wear Project Aria glasses while performing daily activities in the wild. A wearable MoCap suit records synchronized full-body pose at 120 fps.</p>
+      <p style="margin:0 0 8px;"><b>2. Localization:</b> Multi-device SLAM produces scene-scale 6-DoF trajectories for both the egocentric device and body skeleton, enabling allocentric registration.</p>
+      <p style="margin:0 0 8px;"><b>3. Annotation:</b> Trained annotators provide three-level language labels — frame-level narrations, paragraph descriptions, and global activity summaries — using a custom annotation tool.</p>
+      <p style="margin:0;"><b>4. Quality:</b> Automated filtering removes frames with tracking loss; manual QA ensures MoCap accuracy and language coherence across all recordings.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.80);line-height:1.7;">
+      <p style="margin:0 0 8px;"><b>1. 采集：</b>参与者穿戴 Project Aria 眼镜在户外自然行动，同时穿着全身动捕服，以 120 fps 同步记录姿态。</p>
+      <p style="margin:0 0 8px;"><b>2. 定位：</b>多设备 SLAM 为自我中心设备和全身骨骼提供场景尺度的 6-DoF 轨迹，支持异中心（allocentric）配准。</p>
+      <p style="margin:0 0 8px;"><b>3. 标注：</b>专业标注员使用自定义工具，提供三层语言标签——帧级叙述、段落描述和全局活动摘要。</p>
+      <p style="margin:0;"><b>4. 质量：</b>自动过滤跟踪丢失帧；人工 QA 确保所有录像中动捕精度和语言一致性。</p>
+    </div>
+  </div>
+
+  <!-- Benchmarks -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Benchmark Tasks &amp; Key Results</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Egocentric body tracking:</b> Tracks full-body pose from head-mounted IMU + RGB; Nymeria's scale significantly improves generalization over smaller lab datasets.</div>
+        <div class="zh"><b>自我中心体态追踪：</b>从头戴 IMU + RGB 追踪全身姿态；Nymeria 的规模相比小型实验室数据集显著提升了泛化能力。</div>
+      </li>
+      <li>
+        <div class="en"><b>Motion synthesis:</b> Generates future body motion conditioned on past motion and egocentric observations; large-scale training reduces distribution mismatch in in-the-wild settings.</div>
+        <div class="zh"><b>动作合成：</b>以过去动作和自我中心观测为条件预测未来姿态；大规模训练减少了户外分布偏移。</div>
+      </li>
+      <li>
+        <div class="en"><b>Action recognition:</b> Hierarchical label structure enables both fine-grained (narration) and coarse (summary) recognition; multi-modal fusion (RGB + IMU) yields best accuracy.</div>
+        <div class="zh"><b>动作识别：</b>层次标签结构支持细粒度（叙述）和粗粒度（摘要）识别；RGB + IMU 多模态融合效果最佳。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Nymeria is the <b>largest and most diverse egocentric motion dataset</b> to date, covering 300 h of in-the-wild daily activities with synchronized MoCap, multimodal sensor streams, and 300K+ language annotations from 264 participants at 50 locations. It sets new baselines for body tracking, motion synthesis, and action recognition in unconstrained environments.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

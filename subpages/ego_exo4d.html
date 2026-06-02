@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:8px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:6px;margin-top:4px;}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    card.querySelectorAll('.en').forEach(el=>el.style.display='block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display='none');
+    const isEn=btn.dataset.state==='en';
+    if(isEn){
+      card.querySelectorAll('.en').forEach(el=>el.style.display='none');
+      card.querySelectorAll('.zh').forEach(el=>el.style.display='block');
+      btn.dataset.state='zh';
+    } else {
+      btn.dataset.state='en';
+    }
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title card -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2311.18259 · CVPR 2024</div>
+    <h1>Ego-Exo4D: Understanding Skilled Human Activity from First- and Third-Person Perspectives</h1>
+    <div class="authors">
+      Kristen Grauman, Andrew Westbury, Lorenzo Torresani, Kris Kitani, Jitendra Malik, + 96 collaborators<br>
+      <span style="opacity:.75">Meta AI · CMU · Dartmouth · UC Berkeley · and many more</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Ego + Exo</span>
+      <span class="tag">Skilled Activities</span>
+      <span class="tag">Multimodal</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en">
+        <b>One-sentence problem:</b> How can we build a large-scale benchmark that enables AI systems to understand skilled human activities by jointly leveraging <em>both</em> egocentric (first-person) and exocentric (third-person) video perspectives?
+      </div>
+      <div class="zh">
+        <b>一句话问题：</b>如何构建一个大规模基准，使 AI 系统能够同时利用第一人称（自我中心）和第三人称（外部视角）视频来理解技巧性人类活动？
+      </div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Largest ego+exo synchronized dataset:</b> 1,286 hours of video from 740 participants across 13 cities worldwide, with simultaneous egocentric and multiple exocentric camera recordings of skilled activities (sports, music, cooking, dance, etc.).</div>
+        <div class="zh"><b>最大规模 ego+exo 同步数据集：</b>740 名参与者在全球 13 座城市完成技巧性活动（体育、音乐、烹饪、舞蹈等），共 1,286 小时同步自我中心与多视角外部视频。</div>
+      </li>
+      <li>
+        <div class="en"><b>Rich multimodal annotations:</b> Includes multichannel audio, IMU data, eye gaze, 3D point clouds, narrations, and novel <em>expert-novice commentary</em> describing skill proficiency and coaching cues.</div>
+        <div class="zh"><b>丰富多模态标注：</b>包含多声道音频、IMU、眼动追踪、3D 点云、文字叙述，以及新颖的<em>专家-新手评论</em>，描述技能水平和指导提示。</div>
+      </li>
+      <li>
+        <div class="en"><b>Diverse benchmark suite:</b> Seven benchmark tasks spanning keystep recognition, proficiency estimation, relation detection, ego-exo cross-view translation, pose estimation, and 3D reconstruction.</div>
+        <div class="zh"><b>多样化基准任务：</b>七项基准任务，涵盖关键步骤识别、技能水平估计、关系检测、自我-外部跨视角转换、姿态估计和 3D 重建。</div>
+      </li>
+      <li>
+        <div class="en"><b>Open infrastructure:</b> Fully released dataset, annotation tools, and baseline models to enable community-wide research in first-person video understanding.</div>
+        <div class="zh"><b>开源基础设施：</b>完整发布数据集、标注工具和基线模型，推动第一人称视频理解的社区研究。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dataset Statistics -->
+  <div class="card">
+    <h2>Dataset Statistics</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Total video duration</td><td>1,286 hours</td></tr>
+      <tr><td>Participants</td><td>740 (diverse global demographics)</td></tr>
+      <tr><td>Cities</td><td>13 worldwide</td></tr>
+      <tr><td>Activity scenarios</td><td>Sports, music, cooking, dance, bike repair, basketball, soccer, …</td></tr>
+      <tr><td>Egocentric cameras</td><td>1 × head-mounted (Aria)</td></tr>
+      <tr><td>Exocentric cameras</td><td>4–6 × static rigs per scene</td></tr>
+      <tr><td>Additional sensors</td><td>Multichannel audio · IMU · eye gaze · 3D point cloud</td></tr>
+      <tr><td>Language annotations</td><td>Narrations · expert commentary · keystep labels</td></tr>
+      <tr><td>Benchmark tasks</td><td>7 (recognition, proficiency, translation, pose, …)</td></tr>
+    </table>
+  </div>
+
+  <!-- Benchmark Tasks -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Benchmark Tasks</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Keystep recognition:</b> Recognize fine-grained procedural steps from egocentric video (e.g., "add salt", "strum chord").</div>
+        <div class="zh"><b>关键步骤识别：</b>从自我中心视频识别细粒度操作步骤（如"加盐"、"拨弦"）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Proficiency estimation:</b> Predict skill level (novice→expert) from video, using expert coaching annotations as supervision signal.</div>
+        <div class="zh"><b>技能水平估计：</b>利用专家评论标注预测视频中表演者的技能水平（新手→专家）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Ego-to-Exo / Exo-to-Ego translation:</b> Synthesize or retrieve the complementary perspective given one viewpoint.</div>
+        <div class="zh"><b>自我-外部视角转换：</b>给定一种视角，合成或检索互补视角。</div>
+      </li>
+      <li>
+        <div class="en"><b>3D pose estimation:</b> Estimate full-body pose from synchronized ego+exo streams using shared 3D point cloud scaffolding.</div>
+        <div class="zh"><b>3D 姿态估计：</b>利用同步 ego+exo 流和共享 3D 点云骨架估计全身姿态。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Note -->
+  <div class="card" style="background:rgba(255,200,80,.04);border-color:rgba(255,200,80,.30);">
+    <h2 style="color:#ffc850;margin-bottom:8px;">⚠️ Note</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Ego-Exo4D provides <b>3D joints</b>, not SMPL-X. So it can support 3D pose supervision/evaluation, but an extra <b>SMPL-X fitting step</b> is needed.
+    </p>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Ego-Exo4D is a <b>1,286-hour multimodal dataset</b> capturing skilled human activities from synchronized egocentric and exocentric cameras across 13 cities and 740 participants. Its unique <b>expert-novice commentary</b> annotations and seven diverse benchmarks make it the de-facto standard for studying first-person activity understanding and ego-exo video correspondence.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

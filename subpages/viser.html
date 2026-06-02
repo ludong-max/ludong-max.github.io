@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:8px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.06);margin-right:6px;margin-top:4px;}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  .highlight{background:rgba(122,162,255,.08);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:13px;color:rgba(232,236,255,.85);line-height:1.6;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+  .primitive-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;font-size:12px;color:rgba(232,236,255,.75);line-height:1.6;}
+  .primitive-box b{color:var(--accent2);display:block;margin-bottom:4px;font-size:12px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    card.querySelectorAll('.en').forEach(el=>el.style.display='block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display='none');
+    const isEn=btn.dataset.state==='en';
+    if(isEn){
+      card.querySelectorAll('.en').forEach(el=>el.style.display='none');
+      card.querySelectorAll('.zh').forEach(el=>el.style.display='block');
+      btn.dataset.state='zh';
+    } else {
+      btn.dataset.state='en';
+    }
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title card -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2507.22885 · Technical Report 2025 · v1.0.29</div>
+    <h1>Viser: Imperative, Web-based 3D Visualization in Python</h1>
+    <div class="authors">
+      Brent Yi, Chung Min Kim, Justin Kerr, Gina Wu, Rebecca Feng, Anthony Zhang, Jonas Kulhanek, Hongsuk Choi, Yi Ma, Matthew Tancik, Angjoo Kanazawa<br>
+      <span style="opacity:.75">UC Berkeley · nerfstudio-project</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Visualization</span>
+      <span class="tag">Python Tooling</span>
+      <span class="tag">Web-based</span>
+      <span class="tag">Computer Vision</span>
+      <span class="tag">Robotics</span>
+      <span class="tag">Gaussian Splats</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en">
+        <b>One-sentence problem:</b> Existing 3D visualization tools for computer vision and robotics are either too rigid (desktop-only, hard to script), too heavy (full game engines), or too narrow (single primitive type) — how do we give researchers an <em>easy, composable, SSH-accessible</em> 3D viewer that works from any Python script or Jupyter notebook?
+      </div>
+      <div class="zh">
+        <b>一句话问题：</b>现有计算机视觉和机器人领域的 3D 可视化工具要么过于死板（仅限桌面、难以脚本化），要么过于庞大（完整游戏引擎），要么过于单一（仅支持单种图元）——如何为研究者提供一个<em>简单、可组合、支持 SSH 访问</em>的 3D 查看器，且能在任意 Python 脚本或 Jupyter Notebook 中直接使用？
+      </div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Design Decisions & Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Imperative Python API:</b> State is set by direct assignment (<code>server.scene.add_point_cloud(...)</code>), not by declaring a scene graph. Fits naturally into existing research scripts — no boilerplate render loop required.</div>
+        <div class="zh"><b>命令式 Python API：</b>通过直接赋值设置状态（<code>server.scene.add_point_cloud(...)</code>），而非声明场景图。自然融入已有研究脚本，无需样板渲染循环。</div>
+      </li>
+      <li>
+        <div class="en"><b>Web-based viewer architecture:</b> The Python server streams scene updates over WebSockets; the client runs in any browser. Works over SSH tunnels out of the box — no GPU forwarding or X11 needed on remote machines.</div>
+        <div class="zh"><b>基于 Web 的查看器架构：</b>Python 服务端通过 WebSocket 推送场景更新，客户端在任意浏览器中运行。开箱即用支持 SSH 隧道访问，远程服务器无需 GPU 转发或 X11。</div>
+      </li>
+      <li>
+        <div class="en"><b>Rich 3D + GUI primitive set:</b> A comprehensive, composable library of 3D scene primitives and 2D GUI components that covers the vast majority of CV/robotics visualization needs without custom frontend code.</div>
+        <div class="zh"><b>丰富的 3D + GUI 图元集：</b>覆盖绝大多数 CV/机器人可视化需求的全面可组合图元库，无需编写自定义前端代码。</div>
+      </li>
+      <li>
+        <div class="en"><b>Gaussian Splat support:</b> First-class rendering of 3D Gaussian Splatting scenes directly in the browser — critical for the NeRF/3DGS research community (nerfstudio, gsplat).</div>
+        <div class="zh"><b>高斯泼溅支持：</b>在浏览器中原生渲染 3D 高斯泼溅场景，对 NeRF/3DGS 研究社区（nerfstudio、gsplat）至关重要。</div>
+      </li>
+      <li>
+        <div class="en"><b>Multi-client &amp; Jupyter integration:</b> Multiple browser tabs can connect to the same server simultaneously. Full Jupyter notebook integration enables interactive visualization inline with analysis code.</div>
+        <div class="zh"><b>多客户端 &amp; Jupyter 集成：</b>多个浏览器标签页可同时连接同一服务端。完整 Jupyter Notebook 集成支持与分析代码内联的交互式可视化。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Architecture -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Architecture Overview</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.80);line-height:1.7;">
+      <div class="highlight">
+        Python server (asyncio + WebSocket) ↔ Browser client (React + react-three-fiber / three.js + Mantine UI)
+      </div>
+      <p style="margin:10px 0 8px;"><b>Server side (Python):</b> An <code>asyncio</code>-based server manages scene state as a flat key-value store. Each <code>add_*()</code> call serializes a typed message (protobuf-style) and broadcasts it to all connected clients. Handles client-to-server events (clicks, GUI changes) via callbacks.</p>
+      <p style="margin:0 0 8px;"><b>Client side (TypeScript):</b> React SPA built with <em>react-three-fiber</em> for WebGL rendering, <em>Mantine</em> for UI components, and <em>vanilla-extract</em> for styling. Maintains a local scene graph synced from the server. Gaussian splat rendering uses a custom WebGL shader path.</p>
+      <p style="margin:0 0 8px;"><b>Coordinate system:</b> Uses right-handed, Y-up world coordinates with a consistent camera convention across all primitives, resolving a common pain point in CV tooling.</p>
+      <p style="margin:0;"><b>Transport:</b> A binary WebSocket protocol with delta updates keeps bandwidth low even for large scenes. Reconnection and state replay are handled automatically.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.80);line-height:1.7;">
+      <div class="highlight">
+        Python 服务端（asyncio + WebSocket）↔ 浏览器客户端（React + react-three-fiber / three.js + Mantine UI）
+      </div>
+      <p style="margin:10px 0 8px;"><b>服务端（Python）：</b>基于 <code>asyncio</code> 的服务端将场景状态维护为平坦键值存储。每次 <code>add_*()</code> 调用将类型化消息序列化并广播给所有已连接客户端，通过回调处理客户端到服务端的事件（点击、GUI 变更）。</p>
+      <p style="margin:0 0 8px;"><b>客户端（TypeScript）：</b>使用 <em>react-three-fiber</em> 进行 WebGL 渲染、<em>Mantine</em> 构建 UI 组件、<em>vanilla-extract</em> 处理样式的 React 单页应用。维护与服务端同步的本地场景图，高斯泼溅渲染采用自定义 WebGL 着色器路径。</p>
+      <p style="margin:0 0 8px;"><b>坐标系：</b>采用右手系、Y 轴朝上的世界坐标，所有图元使用统一相机约定，解决了 CV 工具链中常见的坐标系混乱问题。</p>
+      <p style="margin:0;"><b>传输：</b>基于增量更新的二进制 WebSocket 协议，即使场景较大也能保持低带宽占用。断线重连和状态重放均自动处理。</p>
+    </div>
+  </div>
+
+  <!-- Primitives -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Primitive Library</h2>
+    <div class="grid2">
+      <div class="primitive-box">
+        <b>3D Scene Primitives</b>
+        Point clouds · Meshes (file / programmatic) · Line segments &amp; splines · Coordinate frames · Arrows · Gaussian splats · Batched mesh instances · Images as textures · Depth compositing · Lighting &amp; shadows
+      </div>
+      <div class="primitive-box">
+        <b>2D GUI Primitives</b>
+        Buttons · Checkboxes · Sliders · Text inputs · Dropdowns · Folders / tabs · Markdown text · Modal dialogs · Notifications · Plotly / uPlot charts · Command palette · Transform gizmos · Click / hover callbacks
+      </div>
+    </div>
+    <div class="en" style="margin-top:10px;font-size:13px;color:rgba(232,236,255,.70);line-height:1.6;">
+      All primitives support hierarchical scene-graph parenting via <code>wxyz</code> / <code>position</code> arguments. GUI components support layout nesting (folders within folders) and theming.
+    </div>
+    <div class="zh" style="display:none;margin-top:10px;font-size:13px;color:rgba(232,236,255,.70);line-height:1.6;">
+      所有图元均通过 <code>wxyz</code> / <code>position</code> 参数支持层级场景图父子关系。GUI 组件支持布局嵌套（文件夹套文件夹）和主题定制。
+    </div>
+  </div>
+
+  <!-- Comparison -->
+  <div class="card">
+    <h2>Comparison with Alternatives</h2>
+    <table>
+      <tr><th>Tool</th><th>Web-based</th><th>SSH-friendly</th><th>Imperative API</th><th>Gaussian Splats</th><th>GUI Widgets</th></tr>
+      <tr><td>Viser</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Rich</td></tr>
+      <tr><td>Open3D</td><td style="color:#ff8b8b;">No</td><td style="color:#ff8b8b;">No</td><td style="color:#8bffcf;">Yes</td><td style="color:#ff8b8b;">No</td><td style="color:rgba(232,236,255,.5);">Basic</td></tr>
+      <tr><td>Rerun</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#ff8b8b;">No</td><td style="color:rgba(232,236,255,.5);">Limited</td></tr>
+      <tr><td>meshcat-python</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#ff8b8b;">No</td><td style="color:#ff8b8b;">None</td></tr>
+      <tr><td>Three.js (raw)</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:#8bffcf;">Yes</td><td style="color:rgba(232,236,255,.5);">Manual</td><td style="color:rgba(232,236,255,.5);">Manual</td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:8px 0 0;">Inspired by: Pangolin, Dear ImGui, rviz, meshcat, Gradio.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="card">
+    <h2>Adoption & Stats</h2>
+    <table>
+      <tr><th>Metric</th><th>Value</th></tr>
+      <tr><td>GitHub Stars</td><td>2,600+</td></tr>
+      <tr><td>Latest Release</td><td>v1.0.29 (May 2026)</td></tr>
+      <tr><td>Install</td><td><code style="font-family:var(--mono);font-size:12px;">pip install viser</code></td></tr>
+      <tr><td>Frontend Stack</td><td>React · react-three-fiber · three.js · Mantine · vanilla-extract</td></tr>
+      <tr><td>Backend Stack</td><td>Python · asyncio · WebSocket</td></tr>
+      <tr><td>Used by</td><td>nerfstudio, gsplat, and 100+ downstream CV/robotics projects</td></tr>
+    </table>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <h2 style="color:var(--accent);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Viser is a <b>Python 3D visualization library</b> built around two design bets: an <b>imperative API</b> (just call <code>add_*()</code>, no scene-graph boilerplate) and a <b>web-based viewer</b> (runs in any browser, including over SSH). It ships a comprehensive set of 3D scene primitives (point clouds, meshes, Gaussian splats, coordinate frames…) plus rich 2D GUI widgets, making it the go-to tool for interactive visualization in NeRF/3DGS, SLAM, and egocentric CV research. 2.6k GitHub stars and actively maintained as of 2026.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

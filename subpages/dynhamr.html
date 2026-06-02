@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.9;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .step{background:rgba(122,162,255,.08);border:1px solid rgba(122,162,255,.25);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:12.5px;}
+  .step-title{color:var(--accent);font-weight:600;font-size:12px;margin-bottom:4px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-p{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-p:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .highlight-stat{display:inline-block;font-family:var(--mono);font-size:14px;color:var(--accent2);background:rgba(139,255,207,.08);border:1px solid rgba(139,255,207,.2);border-radius:6px;padding:2px 8px;margin:0 2px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2412.12861 · May 2025</div>
+    <h1>Dyn-HaMR: Recovering 4D Interacting Hand Motion from a Dynamic Camera</h1>
+    <div class="authors">
+      Zhengdi Yu, Stefanos Zafeiriou, Tolga Birdal<br>
+      <span style="opacity:.7">Imperial College London</span>
+      <span style="opacity:.45;font-size:11px;margin-left:6px;">（WiLoR / HaMeR 同一实验室 Zafeiriou 组）</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Hand Regression</span>
+      <span class="tag">4D Global Motion</span>
+      <span class="tag">Bimanual</span>
+      <span class="tag">SLAM</span>
+      <span class="tag">Optimization</span>
+      <span class="tag">Dynamic Camera</span>
+      <span class="tag tag-blue">arXiv 2025</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2412.12861" target="_blank">📄 arXiv</a>
+      <a class="link-btn link-p" href="https://dyn-hamr.github.io/" target="_blank">🌐 Project Page</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Existing hand reconstruction methods assume a static/weak-perspective camera and thus fail to recover <em>global 4D trajectories</em> when captured by a moving camera (e.g., egocentric) — can we disentangle hand motion from camera motion for two <em>interacting</em> hands simultaneously?</div>
+      <div class="zh"><b>一句话问题：</b>现有手部重建方法假设静态/弱透视相机，当相机移动（如自我中心场景）时无法恢复<em>全局 4D 轨迹</em>——能否同时为两只<em>交互</em>手部从相机运动中解耦手部运动？</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>First 4D global hand motion from dynamic camera:</b> Introduces a three-stage optimization pipeline that jointly estimates world-space MANO trajectories for both hands and the camera extrinsics, disentangling the two motion sources.</div>
+        <div class="zh"><b>首个动态相机下的 4D 全局手部运动：</b>提出三阶段优化流水线，联合估计双手世界坐标系 MANO 轨迹和相机外参，解耦两种运动来源。</div>
+      </li>
+      <li>
+        <div class="en"><b>SLAM-based camera motion estimation:</b> Uses DPVO SLAM to estimate relative camera transforms {R_t, τ^c_t}, then a learnable world scale factor ω disambiguates camera displacement magnitude vs. hand displacement in global space.</div>
+        <div class="zh"><b>基于 SLAM 的相机运动估计：</b>使用 DPVO SLAM 估计相对相机变换 {R_t, τ^c_t}，然后通过可学习的世界尺度因子 ω 消除相机位移和手部位移大小的歧义。</div>
+      </li>
+      <li>
+        <div class="en"><b>Interacting-hand motion prior + biomechanical constraints:</b> Stage III constrains the bi-manual interaction using HMP generative prior (NeMF-based) + joint angle bounds (L_ja) + bone length (L_bl) + palm geometry (L_palm) + penetration loss (L_pen), producing plausible interaction trajectories even under heavy occlusion.</div>
+        <div class="zh"><b>交互手部运动先验 + 生物力学约束：</b>第三阶段使用 HMP 生成先验（基于 NeMF）+ 关节角度约束（L_ja）+ 骨长约束（L_bl）+ 掌部几何约束（L_palm）+ 穿透损失（L_pen），在严重遮挡下仍产生合理的交互轨迹。</div>
+      </li>
+      <li>
+        <div class="en"><b>Generative infilling for missed detections:</b> In Stage I, missed/occluded frames are filled using HMP: optimize latent code z^h via slerp canonical interpolation, then decode full trajectories — avoids gaps and ensures temporal coherence before global optimization.</div>
+        <div class="zh"><b>缺失检测的生成式填充：</b>第一阶段通过 HMP 填充缺失/遮挡帧：用球面线性插值优化隐变量 z^h，然后解码完整轨迹——在全局优化前避免间断并确保时序一致性。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Three-Stage Pipeline</h2>
+    <div style="margin-bottom:10px;">
+      <div class="step">
+        <div class="step-title">Stage I — Initialization &amp; Generative Infilling</div>
+        <div class="en" style="color:rgba(232,236,255,.80);">ViTPose → 2D keypoints → HaMeR/ACR/IntagHand → per-frame MANO in camera space. <b>Missed frames:</b> HMP latent code z^h optimized via slerp in pose space → decoded trajectory fills gaps. Output: ^cQ^h (camera-space hand trajectory).</div>
+        <div class="zh" style="color:rgba(232,236,255,.80);">ViTPose → 2D 关键点 → HaMeR/ACR/IntagHand → 相机坐标系逐帧 MANO。<b>缺失帧：</b>通过姿态空间 slerp 优化 HMP 隐变量 z^h → 解码轨迹填补空缺。输出：^cQ^h（相机坐标系手部轨迹）。</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Stage II — Global Optimization (Camera Motion Disentanglement)</div>
+        <div class="en" style="color:rgba(232,236,255,.80);">DPVO SLAM → camera transforms C_t = {R_t, τ^c_t}. Compose: ^wq^h_t = C_t ⊙ ^cq^h_t. Optimize jointly: world trajectory ^wQ^h, world scale ω, camera extrinsics C_t, local hand pose/shape to match 2D reprojections. Loss: L_{2d} (Geman-McClure robust) + L_{smooth} + L_{cam} + L_J + L_β.</div>
+        <div class="zh" style="color:rgba(232,236,255,.80);">DPVO SLAM → 相机变换 C_t。组合：^wq^h_t = C_t ⊙ ^cq^h_t。联合优化：世界轨迹 ^wQ^h、世界尺度 ω、相机外参 C_t、手部局部姿态/形状以匹配 2D 重投影。损失：Geman-McClure 鲁棒 2D 重投影 + 平滑 + 相机 + 关节 + 形状。</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Stage III — Interaction Prior Optimization</div>
+        <div class="en" style="color:rgba(232,236,255,.80);">Re-optimize latent code z^h with full interaction constraints. Loss adds: L_prior (NLL under HMP) + L_pen (interpenetration) + L_bio (joint angles + bone lengths + palm). Only optimizes root orientation φ^h and translation τ^h in first 20 steps, then adds z^h for 200 steps.</div>
+        <div class="zh" style="color:rgba(232,236,255,.80);">以完整交互约束重新优化隐变量 z^h。新增损失：L_prior（HMP 下负对数似然）+ L_pen（穿透）+ L_bio（关节角度 + 骨长 + 掌部）。前 20 步仅优化根朝向 φ^h 和位移 τ^h，然后加入 z^h 优化 200 步。</div>
+      </div>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.75);line-height:1.6;">
+      <b>MANO parameterization:</b> q^h_t = {θ^h_t ∈ R^{3×15}, β^h ∈ R^10, φ^h_t ∈ R^3, τ^h_t ∈ R^3}. Shape β fixed across sequence. 778 vertices, 21 joints. World-to-camera: C_t = {R_t, τ^c_t}.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.75);line-height:1.6;">
+      <b>MANO 参数化：</b>q^h_t = {θ^h_t ∈ R^{3×15}，β^h ∈ R^10，φ^h_t ∈ R^3，τ^h_t ∈ R^3}。形状 β 在整个序列中固定。778 个顶点，21 个关节。
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 1 · InterHand2.6M (static camera — local pose)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>MPJPE↓</th><th>MPVPE↓</th><th>Acc Err↓</th></tr>
+      <tr><td>ACR</td><td class="num">8.75</td><td class="num">9.01</td><td class="num">3.99</td></tr>
+      <tr><td>IntagHand</td><td class="num">9.26</td><td class="num">9.71</td><td class="num">4.41</td></tr>
+      <tr><td>HaMeR</td><td class="num">9.84</td><td class="num">10.13</td><td class="num">5.13</td></tr>
+      <tr><td>Dyn-HaMR w/o Stage III</td><td class="num">8.98</td><td class="num">9.25</td><td class="num">4.72</td></tr>
+      <tr class="ours best"><td><b>Dyn-HaMR</b></td><td class="num"><b>7.94</b></td><td class="num"><b>8.15</b></td><td class="num"><b>2.76</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 2 · H2O (dynamic egocentric — 4D global) &nbsp; Table 3 · HOI4D</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>H2O G-MPJPE↓</th><th>H2O Acc Err↓</th><th>HOI4D G-MPJPE↓</th><th>HOI4D Acc Err↓</th></tr>
+      <tr><td>HaMeR</td><td class="num">96.9</td><td class="num">9.21</td><td class="num">201.6</td><td class="num">11.6</td></tr>
+      <tr class="ours best"><td><b>Dyn-HaMR</b></td><td class="num"><b>45.6</b> <span style="font-size:11px;opacity:.7">↓53%</span></td><td class="num"><b>4.2</b></td><td class="num"><b>58.5</b> <span style="font-size:11px;opacity:.7">↓71%</span></td><td class="num"><b>4.1</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Table 4 · Ego-Exo4D &nbsp; Table 5 · HOT3D (egocentric with GT 3D)</div>
+    <table>
+      <tr><th>Method</th><th>Ego-Exo4D Jerk↓</th><th>Ego-Exo4D G-MPJPE↓</th><th>HOT3D Jerk↓</th><th>HOT3D G-MPJPE↓</th><th>HOT3D Acc Err↓</th></tr>
+      <tr><td>HaMeR</td><td class="num">195.45</td><td class="num">267.75</td><td class="num">10.43</td><td class="num">155.98</td><td class="num">13.78</td></tr>
+      <tr><td>HaMeR + DPVO</td><td class="num">200.45</td><td class="num">213.75</td><td class="num">10.43</td><td class="num">129.45</td><td class="num">12.78</td></tr>
+      <tr class="ours best"><td><b>Dyn-HaMR</b></td>
+        <td class="num"><b>5.26</b> <span style="font-size:10px;opacity:.7">↓37×</span></td>
+        <td class="num"><b>53.89</b> <span style="font-size:10px;opacity:.7">↓80%</span></td>
+        <td class="num"><b>4.18</b></td>
+        <td class="num"><b>42.36</b> <span style="font-size:10px;opacity:.7">↓67%</span></td>
+        <td class="num"><b>4.95</b></td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.45);margin:8px 0 0;">G-MPJPE = global MPJPE (128-frame window, align first 2 frames) in mm. Jerk measures trajectory smoothness. ↓37× Jerk on Ego-Exo4D is the headline number.</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Study (H2O Dataset)</h2>
+    <table>
+      <tr><th><span class="en">Config</span><span class="zh">配置</span></th><th>G-MPJPE↓</th><th>GA-MPJPE↓</th><th>MPJPE↓</th><th>Acc Err↓</th></tr>
+      <tr><td><span class="en">Stage I only</span><span class="zh">仅第一阶段</span></td><td class="num">84.5</td><td class="num">72.5</td><td class="num">25.6</td><td class="num">8.8</td></tr>
+      <tr><td><span class="en">Stage I + II</span><span class="zh">一+二阶段</span></td><td class="num">51.9</td><td class="num">41.2</td><td class="num">24.9</td><td class="num">9.5</td></tr>
+      <tr><td><span class="en">w/o biomechanical constraints</span><span class="zh">无生物力学约束</span></td><td class="num">49.6</td><td class="num">43.1</td><td class="num">24.5</td><td class="num">4.3</td></tr>
+      <tr><td><span class="en">w/o penetration loss</span><span class="zh">无穿透损失</span></td><td class="num">46.3</td><td class="num">34.7</td><td class="num">23.6</td><td class="num"><b>4.1</b></td></tr>
+      <tr><td><span class="en">w/o generative infilling</span><span class="zh">无生成式填充</span></td><td class="num">48.9</td><td class="num">37.8</td><td class="num">24.1</td><td class="num">5.6</td></tr>
+      <tr class="ours best"><td><b>Dyn-HaMR (full)</b></td><td class="num"><b>45.6</b></td><td class="num"><b>34.2</b></td><td class="num"><b>22.5</b></td><td class="num">4.2</td></tr>
+    </table>
+    <div style="margin-top:8px;font-size:13px;line-height:1.6;">
+      <div class="en" style="color:rgba(232,236,255,.78);">Stage II (SLAM) gives the largest single gain: G-MPJPE 84.5 → 51.9mm (↓39%). Stage III interaction prior further brings it to 45.6mm. Generative infilling (vs simple interpolation) contributes +3.3mm Acc Err improvement — critical for smooth trajectories.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);">第二阶段（SLAM）带来最大单次提升：G-MPJPE 84.5 → 51.9mm（↓39%）。第三阶段交互先验进一步降至 45.6mm。生成式填充（vs 简单插值）贡献 +3.3mm Acc Err 改善——对平滑轨迹至关重要。</div>
+    </div>
+  </div>
+
+  <!-- vs HaWoR -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Dyn-HaMR vs. HaWoR — 同一目标，不同路径</h2>
+    <table>
+      <tr><th>Dimension</th><th>HaWoR (arXiv Jan 2025)</th><th>Dyn-HaMR (arXiv Dec 2024)</th></tr>
+      <tr><td><b><span class="en">Approach</span><span class="zh">方法</span></b></td>
+        <td><span class="en">Learning-based (conditional diffusion)</span><span class="zh">学习型（条件扩散）</span></td>
+        <td><span class="en">Optimization-based (multi-stage test-time opt)</span><span class="zh">优化型（多阶段测试时优化）</span></td>
+      </tr>
+      <tr><td><b><span class="en">Speed</span><span class="zh">速度</span></b></td>
+        <td style="color:var(--accent2);">40ms/frame</td>
+        <td style="color:var(--muted);">Slow (L-BFGS per sequence)</td>
+      </tr>
+      <tr><td><b><span class="en">Bimanual interaction</span><span class="zh">双手交互</span></b></td>
+        <td style="color:var(--muted);">❌ <span class="en">Each hand independent</span><span class="zh">每手独立</span></td>
+        <td style="color:var(--accent2);">✅ <span class="en">Joint interaction prior + penetration loss</span><span class="zh">联合交互先验 + 穿透损失</span></td>
+      </tr>
+      <tr><td><b><span class="en">Body kinematic anchor</span><span class="zh">体态运动学锚点</span></b></td>
+        <td style="color:var(--accent2);">✅ <span class="en">SMPL-X wrist from body branch</span><span class="zh">体态分支 SMPL-X 腕部</span></td>
+        <td style="color:var(--muted);">❌ <span class="en">Hand-only (no body)</span><span class="zh">仅手部（无体态）</span></td>
+      </tr>
+      <tr><td><b><span class="en">Scale estimation</span><span class="zh">尺度估计</span></b></td>
+        <td><span class="en">Metric3D + AdaSM</span><span class="zh">Metric3D + AdaSM</span></td>
+        <td><span class="en">Learnable ω optimized jointly</span><span class="zh">可学习 ω 联合优化</span></td>
+      </tr>
+      <tr><td><b>G-MPJPE (HOT3D)</b></td>
+        <td class="num">33.20mm</td>
+        <td class="num">42.36mm</td>
+      </tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.78);">Both are from the <b>Zafeiriou group at Imperial College London</b>. They are complementary: HaWoR is faster and benefits from body kinematic priors; Dyn-HaMR handles bimanual interaction and occlusion better. An ideal system would combine HaWoR's learning backbone with Dyn-HaMR's interaction prior.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);">两篇均来自<b>帝国理工大学 Zafeiriou 组</b>。互为补充：HaWoR 更快且受益于体态运动学先验；Dyn-HaMR 更好处理双手交互和遮挡。理想系统应结合 HaWoR 的学习主干和 Dyn-HaMR 的交互先验。</div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Limited time horizon:</b> Optimization works for short sequences; extrapolating to long sequences requires regression-based approach (stated as future work).</div>
+        <div class="zh"><b>时序长度限制：</b>优化适用于短序列；推广到长序列需要基于回归的方法（论文指出为未来工作）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Slow inference:</b> L-BFGS optimization is not real-time — not suitable for live AR/VR applications, unlike HaWoR (40ms/frame).</div>
+        <div class="zh"><b>推理速度慢：</b>L-BFGS 优化非实时——不适合实时 AR/VR 应用，不如 HaWoR（40ms/帧）。</div>
+      </li>
+      <li>
+        <div class="en"><b>No body context:</b> Hands are estimated independently of body pose — no kinematic anchoring at wrists. This is the key gap vs. HaWoR.</div>
+        <div class="zh"><b>无体态上下文：</b>手部独立于体态估计——腕部无运动学锚点。这是相对 HaWoR 的主要差距。</div>
+      </li>
+      <li>
+        <div class="en"><b>No object interaction modeling:</b> Future work explicitly mentions "incorporate object interactions" as next step.</div>
+        <div class="zh"><b>无物体交互建模：</b>论文明确指出"整合物体交互"为下一步工作。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Dyn-HaMR (Imperial College, arXiv Dec 2024) is the <b>first optimization-based method for 4D global bimanual hand motion from a dynamic (moving) camera</b>. Three-stage pipeline: (1) hierarchical MANO init + generative infilling for occluded frames; (2) DPVO SLAM disentangles camera from hand motion + world scale ω; (3) HMP interaction prior + biomechanical + penetration losses refine interactions. On Ego-Exo4D: Jerk <span class="highlight-stat">5.26</span> vs HaMeR <span class="highlight-stat">195.45</span> (37× smoother), G-MPJPE <span class="highlight-stat">53.89mm</span> vs 267.75mm (↓80%). From the same Zafeiriou lab as WiLoR; complementary to HaWoR (faster but no bimanual interaction prior).
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

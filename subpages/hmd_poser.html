@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .config-chip{display:inline-block;font-size:11px;padding:3px 9px;border-radius:8px;border:1px solid rgba(139,255,207,.25);color:rgba(139,255,207,.8);background:rgba(139,255,207,.04);margin:2px 4px 2px 0;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2403.03561 · CVPR 2024</div>
+    <h1>HMD-Poser: On-Device Real-time Human Motion Tracking from Scalable Sparse Observations</h1>
+    <div class="authors">
+      Peng Dai, Yang Zhang, Tao Liu, Zhen Fan, Tianyuan Du, Zhuo Su, Xiaozheng Zheng, Zeming Li<br>
+      <span style="opacity:.7">ByteDance Pico Inc.</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">SMPL-X Body Regression</span>
+      <span class="tag">Sparse Sensor</span>
+      <span class="tag">HMD + IMU</span>
+      <span class="tag">Real-time</span>
+      <span class="tag">On-Device</span>
+      <span class="tag tag-blue">CVPR 2024</span>
+      <span class="tag tag-orange">ByteDance Pico</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2403.03561" target="_blank">📄 arXiv</a>
+      <a class="link-btn link-g" href="https://github.com/Pico-AI-Team/HMD-Poser" target="_blank">⭐ GitHub</a>
+      <a class="link-btn link-a" href="https://pico-ai-team.github.io/hmd-poser" target="_blank">🌐 Project</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we recover full-body SMPL motion from a VR headset in real-time on-device, using only head + hand tracking (and optionally 2–3 leg IMUs), with a single unified model that handles all sensor configurations?</div>
+      <div class="zh"><b>一句话问题：</b>如何仅使用头部 + 手部追踪（可选 2–3 个腿部 IMU），在 VR 头显上以单一统一模型实时恢复全身 SMPL 运动？</div>
+    </div>
+  </div>
+
+  <!-- Key Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Scalable sparse input:</b> Single model handles 3 configurations via zero-padding — HMD-only (head + 2 hands), HMD+2IMUs (+ left/right leg), HMD+3IMUs (+ pelvis). No separate models needed.</div>
+        <div class="zh"><b>可扩展稀疏输入：</b>单一模型通过零填充处理 3 种配置——仅 HMD（头部 + 双手）、HMD+2IMU（+ 左右腿）、HMD+3IMU（+ 骨盆）。无需独立模型。</div>
+      </li>
+      <li>
+        <div class="en"><b>Lightweight TSFL network:</b> Temporal-Spatial Feature Learning = LSTM (per-component temporal modeling) + Transformer encoder (spatial correlations across M=8 components). 5× faster than pure Transformer baselines by reducing sequence dimension from M=40-45 to M=8.</div>
+        <div class="zh"><b>轻量 TSFL 网络：</b>时序-空间特征学习 = LSTM（每组件时序建模）+ Transformer 编码器（M=8 组件间空间相关性）。将序列维度从 M=40-45 降至 M=8，比纯 Transformer 基线快 5 倍。</div>
+      </li>
+      <li>
+        <div class="en"><b>Online body shape estimation:</b> Dedicated shape head regresses SMPL β online — eliminates "default body shape" assumption. Alone reduces MPJPE by <b>37.2%</b> and H-PE by <b>61.2%</b> compared to fixed-shape baselines.</div>
+        <div class="zh"><b>在线体型估计：</b>专用形状头在线回归 SMPL β——消除"默认体型"假设。单独使 MPJPE 降低 <b>37.2%</b>，H-PE 降低 <b>61.2%</b>。</div>
+      </li>
+      <li>
+        <div class="en"><b>90 FPS on PICO 4 HMD:</b> Deployed commercially on standalone VR device; drives avatar in real-time for VR experiences. Includes new free-dancing evaluation dataset.</div>
+        <div class="zh"><b>PICO 4 头显上 90 FPS：</b>在独立 VR 设备上商业部署；实时驱动 VR 体验中的虚拟形象。包含新的自由舞蹈评估数据集。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Raw sensor data</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Feature Embedding</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (135-dim input → higher-dim)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">TSFL ×2</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (LSTM temporal + Transformer spatial, M=8)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Dual MLP heads</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (pose θ + shape β)</span>
+      <span class="arrow">→</span>
+      <span style="color:#ffc850;">SMPL FK</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> → joint positions</span>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px;"><span class="en">Input configurations (zero-pad to 135-dim):</span><span class="zh">输入配置（零填充至 135 维）：</span></div>
+      <span class="config-chip">HMD-only: head + 2 hands · 54-dim</span>
+      <span class="config-chip">HMD+2IMUs: + left/right leg · 84-dim</span>
+      <span class="config-chip">HMD+3IMUs: + pelvis · 99-dim</span>
+    </div>
+
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <b>Input features per component:</b> HMD/hands → position, linear velocity, 6D rotation, angular velocity; IMUs → 6D rotation, angular velocity, acceleration. Also adds relative hand-to-head representation (x^{l/h}_{h/t}, x^{r/h}_{h/t}) — critical for hand-joint accuracy (+30% H-PE improvement).<br><br>
+      <b>TSFL design insight:</b> Pure Transformer on 40-45 frame sequences is expensive (O(M²d)). HMD-Poser uses LSTM to capture temporal dynamics per component first → hidden states become M=8 spatial tokens → Transformer encoder handles only spatial cross-component attention. Result: 205 FPS on GPU vs 2 FPS for AvatarJLM.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <b>每组件输入特征：</b>HMD/手部 → 位置、线速度、6D 旋转、角速度；IMU → 6D 旋转、角速度、加速度。还增加手部相对头部的表示——对手关节精度至关重要（+30% H-PE 提升）。<br><br>
+      <b>TSFL 设计洞察：</b>对 40-45 帧序列的纯 Transformer 计算昂贵（O(M²d)）。HMD-Poser 先用 LSTM 捕获每组件时序动态 → 隐状态成为 M=8 个空间 token → Transformer 编码器仅处理空间跨组件注意力。结果：GPU 上 205 FPS vs AvatarJLM 的 2 FPS。
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results — AMASS Protocol 1</h2>
+    <table style="margin-bottom:8px;">
+      <tr><th>Method</th><th>Input</th><th>MPJPE↓</th><th>MPJRE↓</th><th>H-PE↓</th><th>L-PE↓</th><th>Jitter↓</th></tr>
+      <tr><td>AvatarPoser</td><td style="font-size:11px;">HMD</td><td class="num">5.84</td><td class="num">2.94</td><td class="num">4.58</td><td class="num">9.59</td><td class="num">13.97</td></tr>
+      <tr><td>AGRoL (diffusion)</td><td style="font-size:11px;">HMD</td><td class="num">5.73</td><td class="num">2.70</td><td class="num">4.29</td><td class="num">9.44</td><td class="num">7.65</td></tr>
+      <tr><td>AvatarJLM</td><td style="font-size:11px;">HMD</td><td class="num">5.03</td><td class="num">2.81</td><td class="num">2.01</td><td class="num">7.96</td><td class="num">6.94</td></tr>
+      <tr class="ours best"><td><b>HMD-Poser</b></td><td style="font-size:11px;">HMD</td><td class="num"><b>3.19</b></td><td class="num"><b>2.28</b></td><td class="num"><b>1.65</b></td><td class="num"><b>5.40</b></td><td class="num"><b>6.07</b></td></tr>
+      <tr class="ours"><td><b>HMD-Poser</b></td><td style="font-size:11px;">HMD+2IMUs</td><td class="num"><b>2.27</b></td><td class="num"><b>1.83</b></td><td class="num"><b>1.39</b></td><td class="num"><b>3.35</b></td><td class="num"><b>5.96</b></td></tr>
+      <tr class="ours"><td><b>HMD-Poser</b></td><td style="font-size:11px;">HMD+3IMUs</td><td class="num"><b>1.89</b></td><td class="num"><b>1.73</b></td><td class="num"><b>1.27</b></td><td class="num"><b>2.46</b></td><td class="num"><b>5.35</b></td></tr>
+    </table>
+    <p style="font-size:11.5px;color:rgba(232,236,255,.45);margin:4px 0 10px;">MPJPE/H-PE/L-PE in cm. MPJRE in degrees. H-PE = hand position error. L-PE = lower-body position error.</p>
+
+    <div class="stat-row">
+      <div class="stat"><span class="stat-n">205.7</span><span class="stat-l">FPS on RTX 3080</span></div>
+      <div class="stat"><span class="stat-n">90</span><span class="stat-l">FPS on PICO 4 (on-device)</span></div>
+      <div class="stat"><span class="stat-n">↓37%</span><span class="stat-l">MPJPE from shape head</span></div>
+      <div class="stat"><span class="stat-n">↓61%</span><span class="stat-l">H-PE from shape head</span></div>
+    </div>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Ablations (HMD-only, Protocol 1)</h2>
+    <table>
+      <tr><th><span class="en">Config</span><span class="zh">配置</span></th><th>MPJPE↓</th><th>H-PE↓</th></tr>
+      <tr><td><span class="en">w/o hand-relative repr. (x^{l/h}, x^{r/h})</span><span class="zh">无手部相对表示</span></td><td class="num">3.43</td><td class="num">2.36</td></tr>
+      <tr><td><span class="en">w/o shape head (fixed default β)</span><span class="zh">无形状头（固定默认 β）</span></td><td class="num">5.08</td><td class="num">4.25</td></tr>
+      <tr class="ours best"><td><b>HMD-Poser (full)</b></td><td class="num"><b>3.19</b></td><td class="num"><b>1.65</b></td></tr>
+    </table>
+    <div style="margin-top:8px;font-size:13px;line-height:1.6;">
+      <div class="en" style="color:rgba(232,236,255,.78);">The shape head is by far the most impactful component (+37% MPJPE, +61% H-PE if removed) — prior work's "default shape" assumption is a severe bottleneck. Hand-relative representations also help significantly (+7% MPJPE, +30% H-PE).</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);">形状头是影响最大的组件（去除后 MPJPE 下降 37%，H-PE 下降 61%）——先前工作的"默认体型"假设是严重瓶颈。手部相对表示也有显著帮助（MPJPE +7%，H-PE +30%）。</div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Sim-to-real gap:</b> Trained on synthetic AMASS data; real PICO 4 sensor noise degrades MPJPE from 4.75cm (synthetic input) to 6.55cm (real sensors) — a 38% accuracy drop.</div>
+        <div class="zh"><b>仿真到真实的差距：</b>在合成 AMASS 数据上训练；真实 PICO 4 传感器噪声使 MPJPE 从 4.75cm（合成输入）降至 6.55cm（真实传感器）——精度下降 38%。</div>
+      </li>
+      <li>
+        <div class="en"><b>IMU lower-body ambiguity:</b> Struggles with slowly lifted legs (similar IMU readings regardless of which foot) — inherent limitation of sparse sensors.</div>
+        <div class="zh"><b>IMU 下肢歧义：</b>难以区分缓慢抬腿动作（两脚的 IMU 读数相似）——稀疏传感器的固有限制。</div>
+      </li>
+      <li>
+        <div class="en"><b>No video input:</b> Purely sensor-driven — no RGB information means no scene context, hand-object interaction, or visual grounding. Complementary to video-based methods like EgoAllo.</div>
+        <div class="zh"><b>无视频输入：</b>纯传感器驱动——无 RGB 信息意味着没有场景上下文、手-物体交互或视觉锚定。与 EgoAllo 等基于视频的方法互补。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      HMD-Poser (ByteDance Pico, CVPR 2024) recovers full-body SMPL motion from sparse VR sensors (HMD + optional leg IMUs) in real-time on a standalone VR headset (<b>90 FPS on PICO 4</b>). Key innovations: (1) <b>scalable zero-padding</b> for unified multi-config handling; (2) <b>LSTM+Transformer TSFL</b> — 5× faster than pure Transformer at same accuracy; (3) <b>online body shape head</b> — the biggest gain, ↓37% MPJPE. On AMASS HMD-only: MPJPE <b>3.19cm</b> vs 5.03cm (AvatarJLM). Sensor-driven, no RGB — complementary to egocentric video methods like EgoAllo.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

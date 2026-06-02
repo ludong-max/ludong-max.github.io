@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.8;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .vs-hamer{background:rgba(139,255,207,.04);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2409.12259 · CVPR 2025</div>
+    <h1>WiLoR: End-to-end 3D Hand Localization and Reconstruction in-the-wild</h1>
+    <div class="authors">
+      Rolandos Alexandros Potamias, Jinglei Zhang, Jiankang Deng, Stefanos Zafeiriou<br>
+      <span style="opacity:.7">Imperial College London &nbsp;·&nbsp; Shanghai Jiao Tong University</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Hand Regression</span>
+      <span class="tag">MANO</span>
+      <span class="tag">ViT-Large</span>
+      <span class="tag">Detection + Reconstruction</span>
+      <span class="tag">In-the-Wild</span>
+      <span class="tag tag-blue">CVPR 2025</span>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://arxiv.org/abs/2409.12259" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;" onmouseover="this.style.borderColor='rgba(139,255,207,.5)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='var(--muted)'">📄 arXiv</a>
+      <a href="https://github.com/rolpotamias/WiLoR" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);text-decoration:none;" onmouseover="this.style.borderColor='rgba(122,162,255,.7)';this.style.color='#a8c8ff'" onmouseout="this.style.borderColor='rgba(122,162,255,.35)';this.style.color='var(--accent)'">⭐ GitHub — rolpotamias/WiLoR</a>
+      <a href="https://rolpotamias.github.io/WiLoR/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;" onmouseover="this.style.borderColor='rgba(139,255,207,.5)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='var(--muted)'">🌐 Project Page</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can a single end-to-end pipeline simultaneously localize multiple hands and reconstruct them in 3D at real-time speed, outperforming two-stage HaMeR-style systems on in-the-wild benchmarks?</div>
+      <div class="zh"><b>一句话问题：</b>单一端到端流水线能否同时实时定位多只手并进行 3D 重建，在野外基准上超越 HaMeR 式两阶段系统？</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>End-to-end detection + reconstruction pipeline:</b> A fully convolutional one-stage detector (DarkNet + PANet) runs at 138–175 FPS, feeding crops directly to a ViT-Large reconstruction head — no separate crop-resize step needed.</div>
+        <div class="zh"><b>端到端检测 + 重建流水线：</b>全卷积单阶段检测器（DarkNet + PANet）以 138–175 FPS 运行，直接将裁剪区域送入 ViT-Large 重建头——无需独立的裁剪缩放步骤。</div>
+      </li>
+      <li>
+        <div class="en"><b>Multi-Scale Pose Refinement Module:</b> Projects the coarse MANO mesh onto multi-resolution feature maps to extract per-vertex image-aligned features, predicting pose/shape residuals (Δθ, Δβ) — the key accuracy gain over single-pass regression.</div>
+        <div class="zh"><b>多尺度姿态精化模块：</b>将粗略 MANO 网格投影到多分辨率特征图上，提取每顶点图像对齐特征，预测姿态/形状残差（Δθ, Δβ）——相比单次回归的关键精度提升。</div>
+      </li>
+      <li>
+        <div class="en"><b>WHIM — 2M in-the-wild training dataset:</b> 2M+ hand images from 1,400 YouTube videos covering sign language, cooking, sports, and egocentric viewpoints, auto-annotated with an ensemble detector + MANO fitting pipeline with biomechanical constraints.</div>
+        <div class="zh"><b>WHIM——200 万野外训练数据集：</b>来自 1,400 个 YouTube 视频的 200 万+ 手部图像，涵盖手语、烹饪、运动和自我中心视角，用集成检测器 + 生物力学约束 MANO 拟合自动标注。</div>
+      </li>
+      <li>
+        <div class="en"><b>SOTA on FreiHAND and HO3Dv2:</b> PA-MPJPE 5.5mm on FreiHAND (vs HaMeR 6.0mm) and AUCJ 0.851 on HO3Dv2 (vs HaMeR 0.846), while being significantly faster at inference.</div>
+        <div class="zh"><b>FreiHAND 和 HO3Dv2 上的最优结果：</b>FreiHAND 上 PA-MPJPE 5.5mm（vs HaMeR 6.0mm），HO3Dv2 上 AUCJ 0.851（vs HaMeR 0.846），同时推理速度明显更快。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <div style="margin-bottom:6px;">
+        <span style="color:var(--muted);font-size:12px;">Stage 1 — Detection</span><br>
+        <span style="color:rgba(232,236,255,.7);">Input image</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">DarkNet + PANet</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (multi-scale anchors-free)</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">bbox + hand-side + keypoints</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> @ 138 FPS</span>
+      </div>
+      <div>
+        <span style="color:var(--muted);font-size:12px;">Stage 2 — Reconstruction</span><br>
+        <span style="color:rgba(232,236,255,.7);">Cropped hand</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">ViT-L</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (ViTPose pretrain · 1280-dim)</span>
+        <span class="arrow">+</span>
+        <span style="color:var(--accent2);">learnable tokens</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (pose / shape / camera)</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">coarse MANO (θ, β, t)</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">Multi-Scale Refinement</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;"> (per-vertex image-aligned features → Δθ, Δβ)</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">final MANO mesh</span>
+      </div>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <b>Coarse-to-fine key insight:</b> After the ViT regresses initial parameters, the predicted hand mesh is projected back onto multi-resolution feature maps from the deconvolutional layers. Per-vertex image-aligned features are sampled and used to predict <em>residuals</em> rather than absolute values — this forces the model to correct alignment errors geometrically rather than relying on global context alone. The multi-scale variant (vs single-scale) cuts PA-MPJPE from 6.0mm to 5.5mm on FreiHAND.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <b>粗到精关键思路：</b>ViT 回归初始参数后，预测的手部网格被投影回反卷积层产生的多分辨率特征图上。采样每顶点的图像对齐特征，用于预测<em>残差</em>而非绝对值——这迫使模型从几何上纠正对齐误差，而非单纯依赖全局上下文。多尺度版本（vs 单尺度）在 FreiHAND 上将 PA-MPJPE 从 6.0mm 降至 5.5mm。
+    </div>
+  </div>
+
+  <!-- WHIM Dataset -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>WHIM Dataset</h2>
+    <table style="margin-bottom:10px;">
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Total images</td><td class="num">2M+</td></tr>
+      <tr><td>Source</td><td>1,400 YouTube videos</td></tr>
+      <tr><td>Activity domains</td><td>Sign language · cooking · everyday activities · sports · games</td></tr>
+      <tr><td>Viewpoints</td><td>Egocentric + exocentric · diverse scales · motion blur · occlusion</td></tr>
+      <tr><td>Detection annotation</td><td>Ensemble: ViTPose + AlphaPose + MediaPipe + OpenPose + ContactHands (weighted NMS)</td></tr>
+      <tr><td>3D MANO annotation</td><td>Optimization with biomechanical losses + PCA pose prior (from ARCTIC)</td></tr>
+    </table>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.75);line-height:1.6;">
+      Ablation: Training with only 0.25M images (vs 2M) causes an 8–13% mAP drop on detection benchmarks — dataset scale is critical for in-the-wild generalization.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.75);line-height:1.6;">
+      消融实验：仅使用 25 万张图像训练（vs 200 万）导致检测基准 mAP 下降 8–13%——数据集规模对野外泛化至关重要。
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">FreiHAND (3D GT, controlled)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>PA-MPJPE ↓</th><th>PA-MPVPE ↓</th><th>F@5mm ↑</th><th>F@15mm ↑</th></tr>
+      <tr><td>MobRecon</td><td class="num">5.7</td><td class="num">5.8</td><td class="num">0.784</td><td class="num">0.989</td></tr>
+      <tr><td>HaMeR</td><td class="num">6.0</td><td class="num">5.7</td><td class="num">0.785</td><td class="num">0.990</td></tr>
+      <tr class="best"><td><b>WiLoR</b></td><td class="num"><b>5.5</b></td><td class="num"><b>5.1</b></td><td class="num"><b>0.825</b></td><td class="num"><b>0.993</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">HO3Dv2 (hand-object, 3D GT)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>AUC_J ↑</th><th>PA-MPJPE ↓</th><th>PA-MPVPE ↓</th><th>F@5mm ↑</th></tr>
+      <tr><td>AMVUR</td><td class="num">0.835</td><td class="num">8.3</td><td class="num">8.2</td><td class="num">0.608</td></tr>
+      <tr><td>HaMeR</td><td class="num">0.846</td><td class="num">7.7</td><td class="num">7.9</td><td class="num">0.635</td></tr>
+      <tr class="best"><td><b>WiLoR</b></td><td class="num"><b>0.851</b></td><td class="num"><b>7.5</b></td><td class="num"><b>7.7</b></td><td class="num"><b>0.646</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px;">Hand Detection (COCO-WholeBody)</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>AP@0.5 ↑</th><th>mAP ↑</th><th>Speed</th></tr>
+      <tr><td>ContactHands</td><td class="num">50.29</td><td class="num">16.67</td><td class="num">3 FPS</td></tr>
+      <tr class="best"><td><b>WiLoR-M</b></td><td class="num"><b>62.48</b></td><td class="num"><b>25.97</b></td><td class="num"><b>138 FPS</b></td></tr>
+      <tr class="best"><td><b>WiLoR-S</b></td><td class="num">—</td><td class="num">—</td><td class="num"><b>175 FPS</b> (7 MB)</td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.45);margin:4px 0 0;">WiLoR-M is 45× faster than ContactHands while being significantly more accurate.</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation Study</h2>
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:5px;">Pose Estimation — FreiHAND PA-MPJPE (mm ↓)</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:5px;">姿态估计消融 — FreiHAND PA-MPJPE (mm ↓)</div>
+    <table style="margin-bottom:12px;">
+      <tr><th><span class="en">Config</span><span class="zh">配置</span></th><th>PA-MPJPE ↓</th></tr>
+      <tr><td><span class="en">w/o refinement module</span><span class="zh">无精化模块</span></td><td class="num">6.1</td></tr>
+      <tr><td><span class="en">Single-scale refinement</span><span class="zh">单尺度精化</span></td><td class="num">6.0</td></tr>
+      <tr><td><span class="en">w/o ViTPose pretrain</span><span class="zh">无 ViTPose 预训练</span></td><td class="num">5.9</td></tr>
+      <tr><td><span class="en">FreiHAND only training</span><span class="zh">仅在 FreiHAND 训练</span></td><td class="num">6.1</td></tr>
+      <tr class="best"><td><b>WiLoR (full)</b></td><td class="num"><b>5.5</b></td></tr>
+    </table>
+    <div class="en" style="font-size:12px;color:var(--muted);margin-bottom:5px;">Detection — Oxford-Hands + WHIM mAP</div>
+    <div class="zh" style="display:none;font-size:12px;color:var(--muted);margin-bottom:5px;">检测消融 — Oxford-Hands + WHIM mAP</div>
+    <table>
+      <tr><th><span class="en">Config</span><span class="zh">配置</span></th><th>mAP</th></tr>
+      <tr><td><span class="en">w/o augmentations</span><span class="zh">无数据增强</span></td><td><span class="en">−14% vs full</span><span class="zh">比完整低 14%</span></td></tr>
+      <tr><td><span class="en">w/o landmark loss</span><span class="zh">无关键点损失</span></td><td><span class="en">−2.5% vs full</span><span class="zh">比完整低 2.5%</span></td></tr>
+      <tr><td><span class="en">0.25M images (vs 2M)</span><span class="zh">25 万张（vs 200 万）</span></td><td><span class="en">−8 to −13%</span><span class="zh">低 8–13%</span></td></tr>
+      <tr><td><span class="en">ResNet50 backbone</span><span class="zh">ResNet50 主干</span></td><td><span class="en">4× slower</span><span class="zh">慢 4 倍</span></td></tr>
+    </table>
+  </div>
+
+  <!-- vs HaMeR comparison -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">WiLoR vs. HaMeR — 对比</h2>
+    <table>
+      <tr><th><span class="en">Dimension</span><span class="zh">维度</span></th><th>HaMeR (CVPR 2024)</th><th>WiLoR (CVPR 2025)</th></tr>
+      <tr>
+        <td><b><span class="en">Backbone</span><span class="zh">主干</span></b></td>
+        <td>ViT-H (huge, 632M)</td>
+        <td>ViT-L (large, 307M) — <span style="color:var(--accent2);">smaller but more accurate</span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Detection</span><span class="zh">检测</span></b></td>
+        <td><span class="en">External detector required (ViTPose / BodyWithFace)</span><span class="zh">需外部检测器</span></td>
+        <td><span style="color:var(--accent2);"><span class="en">Built-in 138 FPS one-stage detector</span><span class="zh">内置 138 FPS 单阶段检测器</span></span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Refinement</span><span class="zh">精化</span></b></td>
+        <td><span class="en">Single-pass regression</span><span class="zh">单次回归</span></td>
+        <td><span style="color:var(--accent2);"><span class="en">Multi-scale per-vertex image-aligned refinement (Δθ, Δβ)</span><span class="zh">多尺度每顶点图像对齐精化（Δθ, Δβ）</span></span></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">Training data</span><span class="zh">训练数据</span></b></td>
+        <td>2.7M (10 datasets, 3D+2D mixed)</td>
+        <td>2M+ WHIM (YouTube) + standard benchmarks</td>
+      </tr>
+      <tr>
+        <td><b>FreiHAND PA-MPJPE</b></td>
+        <td class="num">6.0 mm</td>
+        <td class="num" style="color:var(--accent2);"><b>5.5 mm ↓8%</b></td>
+      </tr>
+      <tr>
+        <td><b>HO3Dv2 AUC_J</b></td>
+        <td class="num">0.846</td>
+        <td class="num" style="color:var(--accent2);"><b>0.851 ↑</b></td>
+      </tr>
+      <tr>
+        <td><b>F@5mm (FreiHAND)</b></td>
+        <td class="num">0.785</td>
+        <td class="num" style="color:var(--accent2);"><b>0.825 ↑</b></td>
+      </tr>
+      <tr>
+        <td><b><span class="en">In-the-wild (HInt)</span><span class="zh">野外（HInt）</span></b></td>
+        <td><span class="en">2–3× over prior SOTA</span><span class="zh">比先前 SOTA 高 2–3 倍</span></td>
+        <td><span class="en">Not directly reported; WHIM dataset targets similar distribution</span><span class="zh">未直接报告；WHIM 数据集针对相似分布</span></td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:10px 0 0;">
+      <span class="en">Bottom line: WiLoR beats HaMeR on all controlled benchmarks while adding built-in detection. HaMeR's advantage is the HInt egocentric evaluation benchmark (Ego4D/EPIC-KITCHENS/YouTube) which WiLoR does not directly report on.</span>
+      <span class="zh">结论：WiLoR 在所有受控基准上超越 HaMeR，同时内置检测功能。HaMeR 的优势在于 HInt 自我中心评估基准（Ego4D/EPIC-KITCHENS/YouTube），WiLoR 未直接在该基准上报告结果。</span>
+    </p>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      WiLoR (CVPR 2025, Imperial College) is a <b>one-stage end-to-end pipeline</b> for multi-hand detection + 3D MANO reconstruction. Its key innovation is a <b>Multi-Scale Pose Refinement Module</b> that samples per-vertex image-aligned features to predict residuals, paired with a <b>built-in 138 FPS DarkNet detector</b>. Trained on <b>2M+ WHIM YouTube images</b>, it achieves SOTA on FreiHAND (<b>PA-MPJPE 5.5mm</b>, vs HaMeR 6.0mm) and HO3Dv2 (<b>AUC 0.851</b>, vs HaMeR 0.846). Direct successor / competitor to HaMeR with better accuracy and no external detector dependency.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

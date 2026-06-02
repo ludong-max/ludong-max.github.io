@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .new-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:999px;border:1px solid rgba(139,255,207,.4);color:var(--accent2);background:rgba(139,255,207,.08);margin-left:4px;vertical-align:middle;}
+  .improved{color:var(--accent2);}
+  tr.vs-new{background:rgba(139,255,207,.04);}
+  .metric-improve{font-size:11px;color:var(--accent2);margin-left:4px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2603.18496 · March 2026</div>
+    <h1>NymeriaPlus: Enriching Nymeria Dataset with Additional Annotations and Data</h1>
+    <div class="authors">
+      Daniel DeTone, Federica Bogo, Eric-Tuan Le, Duncan Frost, Julian Straub, Yawar Siddiqui, Yuting Ye, Jakob Engel, Richard Newcombe, Lingni Ma<br>
+      <span style="opacity:.7">Meta Reality Labs</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Full-Body Motion</span>
+      <span class="tag">MHR / SMPL-X</span>
+      <span class="tag">3D Objects</span>
+      <span class="tag tag-blue">arXiv 2026</span>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://arxiv.org/abs/2603.18496" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;" onmouseover="this.style.borderColor='rgba(139,255,207,.5)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)';this.style.color='var(--muted)'">📄 arXiv</a>
+      <a href="https://github.com/facebookresearch/nymeria_dataset?tab=readme-ov-file#getting-started" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);text-decoration:none;" onmouseover="this.style.borderColor='rgba(122,162,255,.7)';this.style.color='#a8c8ff'" onmouseout="this.style.borderColor='rgba(122,162,255,.35)';this.style.color='var(--accent)'">⭐ GitHub — Getting Started</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we enrich the Nymeria egocentric dataset with standardized body formats (MHR / SMPL), dense 3D scene object annotations, instance-level object reconstructions, and new sensor modalities (wristband video, audio) to broaden its applicability for 3D scene understanding and body regression research?</div>
+      <div class="zh"><b>一句话问题：</b>如何通过添加标准化体态格式（MHR / SMPL）、密集 3D 场景物体标注、实例级物体重建以及新传感器模态（腕带视频、音频），来丰富 Nymeria 自我中心数据集，拓展其在 3D 场景理解和体态回归研究中的适用性？</div>
+    </div>
+  </div>
+
+  <!-- What's New -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>What NymeriaPlus Adds</h2>
+    <ul>
+      <li>
+        <div class="en"><b>MHR body format <span class="new-badge">NEW</span>:</b> Momentum Human Rig — 127-joint parametric model with shape β and pose θ ∈ ℝ²⁰⁴ (136 joint-angle + 68 bone-length params). Unlike SMPL-X, MHR explicitly decouples body surface from skeleton, allowing fine-grained bone-length control. Motion quality dramatically improved over original Nymeria annotations.</div>
+        <div class="zh"><b>MHR 体态格式 <span class="new-badge">新增</span>：</b>Momentum Human Rig——127 关节参数化模型，形状参数 β 和姿态参数 θ ∈ ℝ²⁰⁴（136 关节角度 + 68 骨长参数）。与 SMPL-X 不同，MHR 显式解耦体表和骨骼，允许细粒度骨长控制。动作质量相比原始 Nymeria 大幅提升。</div>
+      </li>
+      <li>
+        <div class="en"><b>SMPL(-X) conversion <span class="new-badge">NEW</span>:</b> Standard SMPL format derived from MHR, enabling direct compatibility with the broader body regression ecosystem (HMR, SMPLer-X, OSX, etc.).</div>
+        <div class="zh"><b>SMPL(-X) 转换 <span class="new-badge">新增</span>：</b>从 MHR 派生的标准 SMPL 格式，可直接兼容更广泛的体态回归生态系统（HMR、SMPLer-X、OSX 等）。</div>
+      </li>
+      <li>
+        <div class="en"><b>3D/2D bounding box annotations <span class="new-badge">NEW</span>:</b> 10K+ fixed-taxonomy 3D OBBs (19 categories: chair, bed, couch, door, window, …) + ~12K open-set "Anything" objects across all 47 indoor venues. 2D projections computed automatically. Five densely-annotated venues provide 2,896 exhaustively labeled objects for benchmarking.</div>
+        <div class="zh"><b>3D/2D 边界框标注 <span class="new-badge">新增</span>：</b>47 个室内场所中 1 万+ 固定分类 3D OBBs（19 类）和约 1.2 万个开放集"任意"物体。2D 投影自动计算。5 个密集标注场所提供 2,896 个详尽标注物体用于基准测试。</div>
+      </li>
+      <li>
+        <div class="en"><b>Instance-level 3D object reconstructions <span class="new-badge">NEW</span>:</b> 4,547 high-quality 3D meshes from basemap recordings using the ShapeR algorithm (4 candidates per object, manual QA scored 1–5, threshold ≥ 3/5), out of 7,171 total candidates.</div>
+        <div class="zh"><b>实例级 3D 物体重建 <span class="new-badge">新增</span>：</b>从底图录像中使用 ShapeR 算法生成 4,547 个高质量 3D 网格（每个物体 4 个候选，人工 QA 1–5 分，阈值 ≥ 3/5），共 7,171 个候选。</div>
+      </li>
+      <li>
+        <div class="en"><b>Basemap recordings <span class="new-badge">NEW</span>:</b> 47 dedicated 5–15 min venue scans (one per indoor house) captured with Aria glasses for full 3D space coverage from diverse viewpoints.</div>
+        <div class="zh"><b>底图录像 <span class="new-badge">新增</span>：</b>47 段专用场所扫描（每个室内房屋一段，每段 5–15 分钟），用 Aria 眼镜从多视角完整覆盖 3D 空间。</div>
+      </li>
+      <li>
+        <div class="en"><b>Wristband videos <span class="new-badge">NEW</span>:</b> 600+ hours of wrist-perspective footage per participant (RGB + 2× grayscale forward-facing streams), fully anonymized.</div>
+        <div class="zh"><b>腕带视频 <span class="new-badge">新增</span>：</b>每位参与者 600+ 小时腕部视角录像（RGB + 2× 灰度前向摄像头流），已完全匿名化。</div>
+      </li>
+      <li>
+        <div class="en"><b>Audio <span class="new-badge">NEW</span>:</b> 600+ hours of spatial audio from Project Aria glasses microphones, covering both participants and observers, fully anonymized.</div>
+        <div class="zh"><b>音频 <span class="new-badge">新增</span>：</b>Project Aria 眼镜麦克风采集的 600+ 小时空间音频，涵盖参与者和观察者，已完全匿名化。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dataset Stats -->
+  <div class="card">
+    <h2>Dataset Statistics (NymeriaPlus)</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Sequences</td><td>1,083 (17 problematic sequences removed from original ~1,100)</td></tr>
+      <tr><td>Total duration</td><td>300+ hours of daily activities</td></tr>
+      <tr><td>Participants</td><td>256</td></tr>
+      <tr><td>Locations</td><td>50 total (47 indoor houses + 3 outdoor)</td></tr>
+      <tr><td>Scenarios</td><td>20 unscripted activity types</td></tr>
+      <tr><td>Wristband video</td><td>600+ hours (RGB + 2× grayscale per wrist)</td></tr>
+      <tr><td>Audio</td><td>600+ hours (Project Aria 7-mic spatial audio)</td></tr>
+      <tr><td>Basemap recordings</td><td>47 venue scans × 5–15 min</td></tr>
+      <tr><td>3D OBBs (fixed taxonomy)</td><td>~10K instances across 19 categories</td></tr>
+      <tr><td>Open-set objects</td><td>~12K annotations</td></tr>
+      <tr><td>Dense annotation venues</td><td>5 venues · 2,896 exhaustively labeled objects</td></tr>
+      <tr><td>3D object reconstructions</td><td>4,547 high-quality meshes (from 7,171 candidates)</td></tr>
+      <tr><td>Body format</td><td>MHR (127 joints) + SMPL conversion</td></tr>
+    </table>
+  </div>
+
+  <!-- MHR Body Model -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Momentum Human Rig (MHR)</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <p style="margin:0 0 8px;">MHR is a parametric body model M(β, θ) → N-vertex mesh, designed at Meta for egocentric motion capture:</p>
+      <ul style="margin:0 0 10px;">
+        <li><b>Skeleton:</b> 127 joints with per-joint affine transforms computed via Linear Blend Skinning (LBS).</li>
+        <li><b>Shape β:</b> Identity-space coefficients controlling global body shape.</li>
+        <li><b>Pose θ ∈ ℝ²⁰⁴:</b> 136 joint-angle params (θᴾ) + 68 bone-length params (θᴵ).</li>
+        <li><b>Key difference from SMPL-X:</b> Body surface is explicitly decoupled from skeleton — bone lengths are independently controllable, enabling better personalization to individual body proportions.</li>
+      </ul>
+      <p style="margin:0;">SMPL(-X) format is provided via conversion from MHR, enabling use with the standard body regression research ecosystem.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.7;">
+      <p style="margin:0 0 8px;">MHR 是 Meta 为自我中心动作捕捉设计的参数化人体模型 M(β, θ) → N 顶点网格：</p>
+      <ul style="margin:0 0 10px;">
+        <li><b>骨骼：</b>127 个关节，通过线性混合蒙皮（LBS）计算每关节仿射变换。</li>
+        <li><b>形状 β：</b>身份空间系数，控制整体体型。</li>
+        <li><b>姿态 θ ∈ ℝ²⁰⁴：</b>136 个关节角度参数（θᴾ）+ 68 个骨长参数（θᴵ）。</li>
+        <li><b>与 SMPL-X 的关键区别：</b>体表与骨骼显式解耦——骨长可独立控制，更好地个性化适应个体体型比例。</li>
+      </ul>
+      <p style="margin:0;">同时提供从 MHR 转换的 SMPL(-X) 格式，可直接用于标准体态回归研究生态。</p>
+    </div>
+  </div>
+
+  <!-- Motion Quality Improvements -->
+  <div class="card">
+    <h2>Motion Quality Improvements (vs. Original Nymeria)</h2>
+    <table>
+      <tr><th>Metric</th><th>Original Nymeria</th><th>NymeriaPlus (MHR)</th><th>Improvement</th></tr>
+      <tr class="vs-new"><td>Wrist distance error</td><td class="num">14.32 cm</td><td class="num improved"><b>5.07 cm</b></td><td class="num improved">↓ 64.6%</td></tr>
+      <tr class="vs-new"><td>Self-penetration error</td><td class="num">18.67</td><td class="num improved"><b>2.44</b></td><td class="num improved">↓ 86.9%</td></tr>
+      <tr class="vs-new"><td>Foot sliding frames</td><td class="num">35%</td><td class="num improved"><b>9.81%</b></td><td class="num improved">↓ 71.9%</td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:8px 0 0;">MHR's improved motion optimization directly addresses the major artifact categories present in the original Nymeria body annotations.</p>
+  </div>
+
+  <!-- vs Nymeria -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <h2 style="color:var(--accent);">NymeriaPlus vs. Nymeria (2024) — 主要变动</h2>
+    <table>
+      <tr><th>Dimension</th><th>Nymeria (2024)</th><th>NymeriaPlus (2026) <span class="new-badge">NEW</span></th></tr>
+      <tr><td><b>Sequences</b></td><td>~1,100</td><td>1,083 (17 removed due to wrist recording issues)</td></tr>
+      <tr class="vs-new">
+        <td><b>Body format</b></td>
+        <td>Proprietary Meta Momentum model (not publicly standard)</td>
+        <td><b>MHR</b> (127 joints, public spec) + <b>SMPL</b> conversion → direct use in body regression pipelines</td>
+      </tr>
+      <tr class="vs-new">
+        <td><b>Motion quality</b></td>
+        <td>Original optimization; wrist error 14.32 cm, foot sliding 35%</td>
+        <td>Re-optimized: wrist ↓64.6%, self-penetration ↓86.9%, foot sliding ↓71.9%</td>
+      </tr>
+      <tr class="vs-new">
+        <td><b>Scene objects</b></td>
+        <td>None</td>
+        <td>10K+ 3D OBBs (19 categories) + 12K open-set + 4,547 instance meshes</td>
+      </tr>
+      <tr class="vs-new">
+        <td><b>Wristband video</b></td>
+        <td>Not released</td>
+        <td><b>600+ hours</b> (RGB + 2× grayscale per wrist)</td>
+      </tr>
+      <tr class="vs-new">
+        <td><b>Audio</b></td>
+        <td>Not released</td>
+        <td><b>600+ hours</b> (Project Aria 7-mic spatial audio)</td>
+      </tr>
+      <tr class="vs-new">
+        <td><b>Basemap recordings</b></td>
+        <td>Implicit (embedded in activity recordings)</td>
+        <td><b>47 dedicated venue scans</b> (5–15 min each)</td>
+      </tr>
+      <tr>
+        <td><b>Core scale</b></td>
+        <td colspan="2">Unchanged: 300h · 256 participants · 50 locations · 20 activity types</td>
+      </tr>
+      <tr>
+        <td><b>Language annotations</b></td>
+        <td colspan="2">Unchanged: 301.5K sentences / 8.64M words</td>
+      </tr>
+    </table>
+    <div style="margin-top:12px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;">
+      <b>Bottom line:</b> NymeriaPlus keeps the same recording scale as Nymeria but fixes the body annotation quality (MHR re-optimization), adds SMPL compatibility, and enriches the dataset with 3D scene context (objects, basemaps) and two new sensor streams (wristband video + audio). The SMPL conversion is the key enabler for using NymeriaPlus as a training/evaluation source in standard body regression research.
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      NymeriaPlus is a <b>drop-in enrichment of the 2024 Nymeria dataset</b>. Same 300h / 256 participants / 50 locations, but adds: (1) <b>MHR + SMPL body formats</b> with dramatically improved motion quality (wrist error ↓64.6%, foot sliding ↓71.9%); (2) <b>10K+ 3D object bounding boxes</b> across 19 categories plus 4,547 instance meshes; (3) <b>600+ h wristband video</b>; (4) <b>600+ h spatial audio</b>; (5) <b>47 basemap venue scans</b>. The SMPL conversion makes it directly usable in standard body regression pipelines for the first time.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

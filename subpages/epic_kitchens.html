@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.4);color:#ffb450;background:rgba(255,180,80,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  .section-divider{font-size:11px;font-family:var(--mono);color:var(--accent);opacity:.8;margin:4px 0 8px;letter-spacing:.5px;text-transform:uppercase;}
+  .paper-row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+  .paper-row:last-child{border-bottom:none;}
+  .paper-year{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:36px;}
+  .paper-venue{font-size:11px;padding:2px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.12);color:var(--muted);white-space:nowrap;}
+  .challenge-chip{display:inline-block;font-size:11px;padding:3px 9px;border-radius:8px;border:1px solid rgba(139,255,207,.25);color:rgba(139,255,207,.8);background:rgba(139,255,207,.04);margin:3px 4px 3px 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Dataset Family · epic-kitchens.github.io · University of Bristol</div>
+    <h1>EPIC-KITCHENS — Egocentric Kitchen Activity Dataset Family</h1>
+    <div class="authors">
+      Dima Damen, Hazel Doughty, Giovanni Maria Farinella, Antonino Furnari, Jian Ma, Evangelos Kazakos, Davide Moltisanti, Jonathan Munro, Toby Perrett, Will Price, Michael Wray<br>
+      <span style="opacity:.7">University of Bristol · University of Catania · University of Edinburgh</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Egocentric</span>
+      <span class="tag">Kitchen / Cooking</span>
+      <span class="tag">Action Recognition</span>
+      <span class="tag tag-blue">Annual Challenge</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we capture long-form, unscripted egocentric cooking activity in real home kitchens at scale, with dense action, audio, segmentation, and 3D annotations to benchmark diverse video understanding tasks?</div>
+      <div class="zh"><b>一句话问题：</b>如何在真实家庭厨房中大规模采集长时无脚本的自我中心烹饪活动，并配以密集的动作、音频、分割和 3D 标注，用于多样化视频理解基准测试？</div>
+    </div>
+  </div>
+
+  <!-- Dataset Family -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Dataset Family Overview</h2>
+
+    <div class="section-divider">Core Dataset</div>
+    <div class="paper-row">
+      <span class="paper-year">2022</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;">EPIC-KITCHENS-100</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Rescaling Egocentric Vision — IJCV 2022 (expanded from ECCV 2018 + TPAMI 2021)</div>
+        <div class="en" style="font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">100h · 700 videos · 45 kitchens · 90K actions · 89.9K action segments · 4.0K action classes · 20M frames · 65.6M segmentation masks · 20.5K narrations</div>
+        <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">100小时 · 700段视频 · 45个厨房 · 9万个动作 · 4千个动作类别 · 2千万帧 · 6550万分割掩码 · 2万条叙述</div>
+      </div>
+      <span class="paper-venue">IJCV 2022</span>
+    </div>
+
+    <div class="section-divider" style="margin-top:12px;">Derived Datasets</div>
+    <div class="paper-row">
+      <span class="paper-year">2022</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;">VISOR</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Video Segmentation and Object Relations — NeurIPS 2022</div>
+        <div class="en" style="font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">Dense pixel-level hand-object segmentation masks and relation annotations for EPIC-KITCHENS clips; enables video object segmentation benchmarks.</div>
+        <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">EPIC-KITCHENS 片段的密集手-物体像素级分割和关系标注，支持视频目标分割基准。</div>
+      </div>
+      <span class="paper-venue">NeurIPS 2022</span>
+    </div>
+    <div class="paper-row">
+      <span class="paper-year">2023</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;">EPIC-Sounds</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Audio-Based Interaction Recognition — ICASSP 2023 / TPAMI 2025</div>
+        <div class="en" style="font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">Paired audio-action annotations from EPIC-KITCHENS recordings; supports audio-based action recognition and detection benchmarks.</div>
+        <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">EPIC-KITCHENS 录像中的配对音频-动作标注，支持基于音频的动作识别和检测基准。</div>
+      </div>
+      <span class="paper-venue">TPAMI 2025</span>
+    </div>
+    <div class="paper-row">
+      <span class="paper-year">2023</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;">EPIC-Fields</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">3D Neural Rendering for Egocentric Video — NeurIPS 2023</div>
+        <div class="en" style="font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">Augments EPIC-KITCHENS with per-frame camera poses and NeRF reconstructions of 19 kitchen scenes, enabling dynamic novel view synthesis and 3D understanding research.</div>
+        <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">为 19 个厨房场景提供每帧相机位姿和 NeRF 重建，支持动态新视角合成和 3D 理解研究。</div>
+      </div>
+      <span class="paper-venue">NeurIPS 2023</span>
+    </div>
+    <div class="paper-row">
+      <span class="paper-year">2025</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;">HD-EPIC</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Highly-Detailed EPIC — CVPR 2025</div>
+        <div class="en" style="font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">41h · 4.4M frames · 69 recipes · 59.4K actions · 50.9K audio events · 7.7M hand masks · 19.9K object tracks · 26.6K VQA questions · 3D digital twin scenes · "How & Why" captions.</div>
+        <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.7);margin-top:4px;">41小时 · 440万帧 · 69个食谱 · 5.94万个动作 · 770万手部掩码 · 1.99万个物体轨迹 · 2.66万条 VQA 问题 · 3D 数字孪生场景 · "方式与原因"字幕。</div>
+      </div>
+      <span class="paper-venue">CVPR 2025</span>
+    </div>
+  </div>
+
+  <!-- EPIC-KITCHENS-100 Stats -->
+  <div class="card">
+    <h2>EPIC-KITCHENS-100 — Key Statistics</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th></tr>
+      <tr><td>Total duration</td><td>100 hours</td></tr>
+      <tr><td>Videos</td><td>700 (variable length, unscripted)</td></tr>
+      <tr><td>Participants / Kitchens</td><td>45 (filmed in their own homes)</td></tr>
+      <tr><td>Frames</td><td>20 million</td></tr>
+      <tr><td>Action segments</td><td>89,977 across 4,053 classes (verb × noun)</td></tr>
+      <tr><td>Narrations</td><td>20,500 first-person narrations (participant-provided)</td></tr>
+      <tr><td>Segmentation masks</td><td>65.6M (via VISOR)</td></tr>
+      <tr><td>Annotation density</td><td>54% more actions/min vs EPIC-55</td></tr>
+      <tr><td>Camera</td><td>GoPro head-mounted · 60fps · 1080p</td></tr>
+      <tr><td>Dataset website</td><td>epic-kitchens.github.io</td></tr>
+    </table>
+  </div>
+
+  <!-- Benchmark Tasks -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Benchmark Tasks &amp; Annual Challenges</h2>
+    <div style="margin-bottom:10px;">
+      <span class="challenge-chip">Action Recognition</span>
+      <span class="challenge-chip">Action Detection</span>
+      <span class="challenge-chip">Action Anticipation</span>
+      <span class="challenge-chip">Multi-Instance Retrieval</span>
+      <span class="challenge-chip">Unsupervised Domain Adaptation</span>
+      <span class="challenge-chip">Video Object Segmentation (VISOR)</span>
+      <span class="challenge-chip">Audio Recognition (EPIC-Sounds)</span>
+      <span class="challenge-chip">Audio Detection (EPIC-Sounds)</span>
+      <span class="challenge-chip">HD-EPIC VQA</span>
+    </div>
+    <ul>
+      <li>
+        <div class="en"><b>Action recognition:</b> Predict verb + noun class from untrimmed egocentric video clips; evaluated on seen/unseen kitchen splits to test temporal generalization.</div>
+        <div class="zh"><b>动作识别：</b>从未修剪的自我中心视频片段预测动词+名词类别；在已见/未见厨房划分上测试时序泛化能力。</div>
+      </li>
+      <li>
+        <div class="en"><b>Action anticipation:</b> Predict the next action from past observations — a unique challenge in EPIC-KITCHENS that requires modeling long-range cooking intent.</div>
+        <div class="zh"><b>动作预测：</b>从过去观测预测下一个动作——EPIC-KITCHENS 的独特挑战，需要对长程烹饪意图建模。</div>
+      </li>
+      <li>
+        <div class="en"><b>Multi-instance retrieval:</b> Retrieve all video clips matching a text query (or vice versa), evaluated with mAP over ranked lists — requires fine-grained action-language alignment.</div>
+        <div class="zh"><b>多实例检索：</b>检索与文本查询匹配的所有视频片段（反之亦然），用排序列表的 mAP 评估——需要细粒度动作-语言对齐。</div>
+      </li>
+      <li>
+        <div class="en"><b>HD-EPIC VQA (2025 new):</b> Answer questions across 7 categories: recipes, ingredients, nutrition, actions, 3D perception, object motion, gaze — leveraging digital twin kitchen reconstructions.</div>
+        <div class="zh"><b>HD-EPIC VQA（2025 新增）：</b>回答 7 类问题：食谱、食材、营养、动作、3D 感知、物体运动、注视——借助数字孪生厨房重建。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Paper Submission Opportunities -->
+  <div class="card" style="background:rgba(255,180,80,.04);border-color:rgba(255,180,80,.30);">
+    <h2 style="color:#ffb450;">📢 有没有投文章的机会？</h2>
+    <div style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      <p style="margin:0 0 10px;"><b>✅ 年度 EgoVis Workshop @ CVPR</b>（每年随 CVPR 举办）</p>
+      <ul style="margin:0 0 12px;">
+        <li>EPIC-KITCHENS 官方挑战赛每年在 <b>EgoVis Workshop</b>（CVPR）上公布结果，参赛队伍需提交技术报告。</li>
+        <li>2025 年截止：2025-05-23（technical report via CMT），结果于 2025-06-12 @ EgoVis@CVPR2025 发布。</li>
+        <li>2026 年挑战赛预计随 CVPR 2026 举办，时间线通常为 3–4 月放榜数据、5 月截止报告。</li>
+      </ul>
+      <p style="margin:0 0 10px;"><b>✅ 直接投主会 / 期刊</b></p>
+      <ul style="margin:0 0 12px;">
+        <li>EPIC-KITCHENS 是 CVPR / ICCV / ECCV / NeurIPS 动作识别、视频理解、audio-visual 类论文的常用基准。</li>
+        <li>新任务方向：结合 HD-EPIC 3D 数字孪生做 <b>egocentric 3D scene understanding</b>、或用 EPIC-Sounds 做 <b>audio-visual 动作识别</b>，目前竞争相对 Ego4D 小。</li>
+      </ul>
+      <p style="margin:0 0 6px;"><b>⚠️ 注意</b></p>
+      <ul style="margin:0;">
+        <li>EPIC-KITCHENS 没有 SMPL-X 或全身姿态标注，不适合直接用于 body regression 任务。</li>
+        <li>VISOR 提供手-物体分割，可用于手部分析相关论文（hand regression 下游评估）。</li>
+        <li>HD-EPIC 是 2025 新数据集，挑战赛刚起步，早期参与论文容易形成 baseline 影响力。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      EPIC-KITCHENS is a <b>family of egocentric kitchen datasets</b> anchored by the 100-hour EPIC-KITCHENS-100 (IJCV 2022), extended by VISOR (segmentation), EPIC-Sounds (audio), EPIC-Fields (3D NeRF), and the new <b>HD-EPIC</b> (CVPR 2025, 41h with digital twin scenes + VQA). An <b>annual challenge</b> runs at EgoVis@CVPR — good opportunity for workshop papers on recognition, anticipation, retrieval, and VQA. <b>No SMPL-X annotations</b> — limited direct use for body regression, but VISOR hand masks can support hand analysis.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:22px;line-height:1.25;}
+  h2{margin:0 0 12px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.14);font-size:12px;}
+  td{color:rgba(232,236,255,.82);vertical-align:top;}
+  td.stats{font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+  tr:hover td{background:rgba(255,255,255,.02);}
+  .section-label{font-size:11px;font-family:var(--mono);color:var(--accent);opacity:.8;letter-spacing:.6px;text-transform:uppercase;margin:14px 0 6px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 9px;border-radius:7px;border:1px solid var(--border);color:var(--muted);background:rgba(255,255,255,.03);text-decoration:none;transition:.12s ease;white-space:nowrap;margin:2px 2px 2px 0;}
+  .link-btn:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);background:rgba(139,255,207,.05);text-decoration:none;}
+  .link-dl{border-color:rgba(122,162,255,.35);color:var(--accent);}
+  .link-dl:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;background:rgba(122,162,255,.05);}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.7;}
+  li{margin-bottom:5px;}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;z-index:2;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  /* bilingual table cell: wrap en/zh spans */
+  .bi-en{display:block;}
+  .bi-zh{display:none;color:rgba(232,236,255,.75);}
+</style>
+<script>
+  function toggleLang(btn) {
+    const card = btn.closest('.card');
+    const isEn = btn.dataset.state === 'en';
+    card.querySelectorAll('.en').forEach(el => el.style.display = isEn ? 'none' : 'block');
+    card.querySelectorAll('.zh').forEach(el => el.style.display = isEn ? 'block' : 'none');
+    card.querySelectorAll('.bi-en').forEach(el => el.style.display = isEn ? 'none' : 'block');
+    card.querySelectorAll('.bi-zh').forEach(el => el.style.display = isEn ? 'block' : 'none');
+    btn.dataset.state = isEn ? 'zh' : 'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:980px;margin:0 auto;">
+
+  <!-- ── Header ── -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Major Group · Meta Reality Labs Research · projectaria.com</div>
+    <h1>Project Aria Group</h1>
+    <div style="margin-top:5px;font-size:13px;color:rgba(232,236,255,.6);">
+      Meta Reality Labs Research &nbsp;·&nbsp; Menlo Park, CA &nbsp;·&nbsp;
+      <a href="https://www.projectaria.com" target="_blank">projectaria.com</a> &nbsp;·&nbsp;
+      <a href="https://github.com/facebookresearch/projectaria_tools" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Egocentric</span><span class="tag">AR / XR</span>
+      <span class="tag">Body Motion</span><span class="tag">Hand-Object</span>
+      <span class="tag">Scene Understanding</span><span class="tag tag-blue">Meta</span>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.7;color:rgba(232,236,255,.85);">
+      <div class="en"><b>One-sentence summary:</b> Project Aria is Meta Reality Labs' research program for egocentric AR/AI perception, releasing the world's largest open suite of egocentric datasets — covering full-body motion, hand-object interaction, scene understanding, and synthetic environments — all captured with the proprietary Aria wearable glasses.</div>
+      <div class="zh"><b>一句话总结：</b>Project Aria 是 Meta Reality Labs 的自我中心 AR/AI 感知研究项目，发布了全球最大的开放自我中心数据集系列——涵盖全身动作、手-物体交互、场景理解和合成环境——全部使用专有 Aria 可穿戴眼镜采集。</div>
+    </div>
+  </div>
+
+  <!-- ── Device ── -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Aria Device — Sensor Suite</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px;line-height:1.65;">
+      <div>
+        <div style="color:var(--accent2);font-size:12px;margin-bottom:6px;">Gen 1（当前数据集）</div>
+        <ul>
+          <li><span class="en">1× RGB camera (110° FOV, 30 fps, 1408×1408)</span><span class="zh">1× RGB 相机（110° 视角，30fps，1408×1408）</span></li>
+          <li><span class="en">2× mono SLAM cameras (150° FOV)</span><span class="zh">2× 单目 SLAM 相机（150° 视角）</span></li>
+          <li><span class="en">2× eye-tracking cameras (10 fps)</span><span class="zh">2× 眼动追踪相机（10fps）</span></li>
+          <li><span class="en">7-channel spatial audio microphone array</span><span class="zh">7 声道空间音频麦克风阵列</span></li>
+          <li><span class="en">2× IMUs (800 Hz / 1000 Hz)</span><span class="zh">2× IMU（800Hz / 1000Hz）</span></li>
+          <li><span class="en">Barometer + magnetometer</span><span class="zh">气压计 + 磁力计</span></li>
+          <li><span class="en">6DoF SLAM localization (VIO + MPS)</span><span class="zh">6DoF SLAM 定位（VIO + MPS）</span></li>
+          <li><span class="en">Weight: 75g — wearable all day</span><span class="zh">重量：75g，可全天佩戴</span></li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--accent2);font-size:12px;margin-bottom:6px;">Gen 2（Pilot，2025）</div>
+        <ul>
+          <li><span class="en">Upgraded optics and sensor stack</span><span class="zh">升级光学和传感器组合</span></li>
+          <li><span class="en">Aria Gen 2 Pilot dataset available</span><span class="zh">Aria Gen 2 Pilot 数据集已开放</span></li>
+          <li><span class="en">Wristband RGB + grayscale streams (NymeriaPlus)</span><span class="zh">腕带 RGB + 灰度视频流（NymeriaPlus）</span></li>
+          <li><a href="https://www.projectaria.com/datasets/gen2pilot/" target="_blank">projectaria.com/datasets/gen2pilot/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:rgba(232,236,255,.5);">
+      <span class="en">Device paper:</span><span class="zh">设备论文：</span>
+      <a href="https://arxiv.org/abs/2308.13561" target="_blank">arXiv 2308.13561</a>
+    </div>
+  </div>
+
+  <!-- ── Datasets ── -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Open Datasets</h2>
+
+    <div class="section-label">Body Motion &amp; Human Activity</div>
+    <table>
+      <tr>
+        <th style="width:16%"><span class="en">Dataset</span><span class="zh">数据集</span></th>
+        <th style="width:32%"><span class="en">One-liner</span><span class="zh">一句话描述</span></th>
+        <th style="width:22%"><span class="en">Key Stats</span><span class="zh">关键统计</span></th>
+        <th><span class="en">Links</span><span class="zh">链接</span></th>
+      </tr>
+      <tr>
+        <td><b>Nymeria</b><br><span style="font-size:11px;color:var(--muted);">2024</span></td>
+        <td>
+          <span class="bi-en">World's largest in-the-wild full-body motion dataset with multimodal egocentric streams and motion-language pairs</span>
+          <span class="bi-zh">全球最大野外全身动作数据集，含多模态自我中心数据流和动作-语言配对</span>
+        </td>
+        <td class="stats">300h · 264 participants<br>50 locations · 1,200 seqs<br>301.5K sentences</td>
+        <td>
+          <a class="link-btn" href="https://arxiv.org/abs/2406.09905" target="_blank">📄 arXiv</a>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/nymeria/" target="_blank">⬇ Download</a>
+          <a class="link-btn" href="https://explorer.projectaria.com/nymeria" target="_blank">🔍 Explorer</a>
+        </td>
+      </tr>
+      <tr>
+        <td><b>NymeriaPlus</b><br><span style="font-size:11px;color:var(--muted);">2026</span></td>
+        <td>
+          <span class="bi-en">Enriched Nymeria: MHR+SMPL body formats, 3D object OBBs, wristband video, and audio</span>
+          <span class="bi-zh">Nymeria 增强版：MHR+SMPL 体态格式、3D 物体 OBB、腕带视频和音频</span>
+        </td>
+        <td class="stats">1,083 seqs · 600h wristband<br>10K+ 3D OBBs<br>4,547 object meshes</td>
+        <td>
+          <a class="link-btn" href="https://arxiv.org/abs/2603.18496" target="_blank">📄 arXiv</a>
+        </td>
+      </tr>
+      <tr>
+        <td><b>AEA</b><br><span style="font-size:11px;color:var(--muted);">Aria Everyday Activities · 2024</span></td>
+        <td>
+          <span class="bi-en">Everyday activities (cooking, gaming, exercising) with eye tracking, 3D trajectories, and speech-to-text</span>
+          <span class="bi-zh">日常活动（烹饪、游戏、运动），含眼动追踪、3D 轨迹和语音转文字</span>
+        </td>
+        <td class="stats">Multi-user sequences<br>7 spatial mics · IMUs<br>Sub-ms time sync</td>
+        <td>
+          <a class="link-btn" href="https://arxiv.org/abs/2402.13349" target="_blank">📄 arXiv</a>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/aea/" target="_blank">⬇ Download</a>
+          <a class="link-btn" href="https://explorer.projectaria.com/aea" target="_blank">🔍 Explorer</a>
+        </td>
+      </tr>
+    </table>
+
+    <div class="section-label" style="margin-top:16px;">Hand-Object Interaction / 手-物体交互</div>
+    <table>
+      <tr>
+        <th style="width:16%"><span class="en">Dataset</span><span class="zh">数据集</span></th>
+        <th style="width:32%"><span class="en">One-liner</span><span class="zh">一句话描述</span></th>
+        <th style="width:22%"><span class="en">Key Stats</span><span class="zh">关键统计</span></th>
+        <th><span class="en">Links</span><span class="zh">链接</span></th>
+      </tr>
+      <tr>
+        <td><b>HOT3D</b><br><span style="font-size:11px;color:var(--muted);">2024</span></td>
+        <td>
+          <span class="bi-en">3D hand-object interaction benchmark from Aria + Quest 3 with high-fidelity 3D object models and PBR materials</span>
+          <span class="bi-zh">来自 Aria + Quest 3 的 3D 手-物体交互基准，含高保真 3D 物体模型和 PBR 材质</span>
+        </td>
+        <td class="stats">1M+ multi-view frames<br>800+ min recording<br>33 diverse objects</td>
+        <td>
+          <a class="link-btn" href="https://arxiv.org/abs/2411.19167" target="_blank">📄 arXiv</a>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/hot3D/" target="_blank">⬇ Download</a>
+        </td>
+      </tr>
+      <tr>
+        <td><b>AEO</b><br><span style="font-size:11px;color:var(--muted);">Aria Everyday Objects</span></td>
+        <td>
+          <span class="bi-en">Egocentric recordings of everyday hand-held object interactions</span>
+          <span class="bi-zh">日常手持物体交互的自我中心录像</span>
+        </td>
+        <td class="stats">—</td>
+        <td>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/aeo/" target="_blank">⬇ Download</a>
+        </td>
+      </tr>
+    </table>
+
+    <div class="section-label" style="margin-top:16px;">Scene Understanding &amp; 3D Reconstruction / 场景理解 &amp; 3D 重建</div>
+    <table>
+      <tr>
+        <th style="width:16%"><span class="en">Dataset</span><span class="zh">数据集</span></th>
+        <th style="width:32%"><span class="en">One-liner</span><span class="zh">一句话描述</span></th>
+        <th style="width:22%"><span class="en">Key Stats</span><span class="zh">关键统计</span></th>
+        <th><span class="en">Links</span><span class="zh">链接</span></th>
+      </tr>
+      <tr>
+        <td><b>ADT</b><br><span style="font-size:11px;color:var(--muted);">Aria Digital Twin · ICCV 2023</span></td>
+        <td>
+          <span class="bi-en">Egocentric dataset with ground-truth 6DoF device pose, 3D object pose, skeleton, gaze, depth, and instance segmentation</span>
+          <span class="bi-zh">含 6DoF 设备位姿、3D 物体位姿、骨骼、视线、深度图和实例分割真值的自我中心数据集</span>
+        </td>
+        <td class="stats">200 seqs (~400 min)<br>398 objects<br>2 real indoor scenes</td>
+        <td>
+          <a class="link-btn" href="https://openaccess.thecvf.com/content/ICCV2023/html/Pan_Aria_Digital_Twin_A_New_Benchmark_Dataset_for_Egocentric_3D_ICCV_2023_paper.html" target="_blank">📄 ICCV</a>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/adt/" target="_blank">⬇ Download</a>
+        </td>
+      </tr>
+      <tr>
+        <td><b>DTC</b><br><span style="font-size:11px;color:var(--muted);">Digital Twin Catalog · 2025</span></td>
+        <td>
+          <span class="bi-en">2,400+ sub-mm-accurate 3D scanned objects with photorealistic PBR renders and Aria capture sequences</span>
+          <span class="bi-zh">2,400+ 个亚毫米精度 3D 扫描物体，含逼真 PBR 渲染和 Aria 采集序列</span>
+        </td>
+        <td class="stats">2,400+ objects<br>400+ compatible w/ ADT<br>200 Aria recordings</td>
+        <td>
+          <a class="link-btn" href="https://arxiv.org/abs/2504.08541" target="_blank">📄 arXiv</a>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/dtc/" target="_blank">⬇ Download</a>
+          <a class="link-btn" href="https://dtc.projectaria.com/" target="_blank">🔍 Explorer</a>
+        </td>
+      </tr>
+    </table>
+
+    <div class="section-label" style="margin-top:16px;">Synthetic / Large-Scale / 合成大规模</div>
+    <table>
+      <tr>
+        <th style="width:16%"><span class="en">Dataset</span><span class="zh">数据集</span></th>
+        <th style="width:32%"><span class="en">One-liner</span><span class="zh">一句话描述</span></th>
+        <th style="width:22%"><span class="en">Key Stats</span><span class="zh">关键统计</span></th>
+        <th><span class="en">Links</span><span class="zh">链接</span></th>
+      </tr>
+      <tr>
+        <td><b>ASE</b><br><span style="font-size:11px;color:var(--muted);">Aria Synthetic Environments</span></td>
+        <td>
+          <span class="bi-en">100K procedurally-generated indoor scenes rendered with simulated Aria sensor characteristics for pre-training</span>
+          <span class="bi-zh">10 万个程序生成室内场景，用模拟 Aria 传感器特性渲染，适合预训练</span>
+        </td>
+        <td class="stats">100,000 unique scenes<br>~8,000 objects/scene<br>~2 min trajectories</td>
+        <td>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/ase/" target="_blank">⬇ Download</a>
+          <a class="link-btn" href="https://facebookresearch.github.io/projectaria_tools/docs/open_datasets/aria_synthetic_environments_dataset/ase_getting_started" target="_blank">📚 Docs</a>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Gen 2 Pilot</b><br><span style="font-size:11px;color:var(--muted);">2025</span></td>
+        <td>
+          <span class="bi-en">First dataset captured with next-generation Aria Gen 2 glasses</span>
+          <span class="bi-zh">使用下一代 Aria Gen 2 眼镜采集的首个数据集</span>
+        </td>
+        <td class="stats">Pilot release</td>
+        <td>
+          <a class="link-btn link-dl" href="https://www.projectaria.com/datasets/gen2pilot/" target="_blank">⬇ Download</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ── Tools ── -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Tools &amp; Models / 核心工具 &amp; 模型</h2>
+    <table>
+      <tr>
+        <th style="width:20%"><span class="en">Tool</span><span class="zh">工具</span></th>
+        <th><span class="en">Description</span><span class="zh">描述</span></th>
+        <th style="width:22%">Link</th>
+      </tr>
+      <tr>
+        <td><b>projectaria_tools</b></td>
+        <td>
+          <span class="bi-en">Official Python/C++ SDK for loading, visualizing, and processing all Aria datasets — supports VRS files, MPS outputs, and calibrations</span>
+          <span class="bi-zh">官方 Python/C++ SDK，用于加载、可视化和处理所有 Aria 数据集——支持 VRS 文件、MPS 输出和标定数据</span>
+        </td>
+        <td><a class="link-btn" href="https://github.com/facebookresearch/projectaria_tools" target="_blank">GitHub</a></td>
+      </tr>
+      <tr>
+        <td><b>EgoBlur</b></td>
+        <td>
+          <span class="bi-en">On-device privacy-preserving face and license plate blurring for egocentric video</span>
+          <span class="bi-zh">设备端隐私保护工具，对自我中心视频中的人脸和车牌进行模糊处理</span>
+        </td>
+        <td><a class="link-btn" href="https://www.projectaria.com/tools/egoblur/" target="_blank">Info</a></td>
+      </tr>
+      <tr>
+        <td><b>SceneScript</b></td>
+        <td>
+          <span class="bi-en">Structured language model for 3D scene representation and reconstruction from Aria recordings</span>
+          <span class="bi-zh">从 Aria 录像中进行 3D 场景表示和重建的结构化语言模型</span>
+        </td>
+        <td><a class="link-btn" href="https://www.projectaria.com/tools/scenescript/" target="_blank">Info</a></td>
+      </tr>
+      <tr>
+        <td><b>EFM3D</b></td>
+        <td>
+          <span class="bi-en">Egocentric foundation model for 3D surface estimation and novel view synthesis</span>
+          <span class="bi-zh">用于 3D 表面估计和新视角合成的自我中心基础模型</span>
+        </td>
+        <td><a class="link-btn" href="https://www.projectaria.com/tools/efm3d/" target="_blank">Info</a></td>
+      </tr>
+      <tr>
+        <td><b>Dataset Explorer</b></td>
+        <td>
+          <span class="bi-en">Web viewer for browsing all Aria datasets interactively (Nymeria, AEA, ADT, DTC, …)</span>
+          <span class="bi-zh">用于交互式浏览所有 Aria 数据集的网页查看器（Nymeria、AEA、ADT、DTC……）</span>
+        </td>
+        <td><a class="link-btn" href="https://explorer.projectaria.com" target="_blank">🔍 explorer.projectaria.com</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ── TL;DR ── -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      Project Aria Group (Meta Reality Labs) operates the most comprehensive open egocentric dataset suite for AR/AI research. Their <b>8 public datasets</b> span full-body motion (<b>Nymeria</b>, <b>NymeriaPlus</b>), hand-object interaction (<b>HOT3D</b>), indoor scene understanding (<b>ADT</b>, <b>DTC</b>), everyday activities (<b>AEA</b>), and synthetic pre-training (<b>ASE</b>). All use the proprietary Aria glasses (75g, 7-mic, IMU, eye tracking, SLAM). <b>For body regression work</b>: Nymeria/NymeriaPlus provide SMPL-compatible full-body MoCap at scale; HOT3D and ADT provide 3D hand + object poses.
+    </div>
+    <div class="zh" style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
+      Project Aria（Meta Reality Labs）运营着 AR/AI 研究领域最全面的开放自我中心数据集系列。其 <b>8 个公开数据集</b>涵盖全身动作（<b>Nymeria</b>、<b>NymeriaPlus</b>）、手-物体交互（<b>HOT3D</b>）、室内场景理解（<b>ADT</b>、<b>DTC</b>）、日常活动（<b>AEA</b>）和合成预训练（<b>ASE</b>）。全部使用专有 Aria 眼镜（75g，7 麦，IMU，眼动追踪，SLAM）采集。<b>对于体态回归工作</b>：Nymeria/NymeriaPlus 提供大规模 SMPL 兼容全身 MoCap；HOT3D 和 ADT 提供 3D 手部 + 物体位姿。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>
