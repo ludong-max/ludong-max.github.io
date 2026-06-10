@@ -612,6 +612,39 @@
 
   /* ── Dashboard ── */
   const RELATED_WORK_TOPICS = new Set(["Major Group", "CVPR Trend", "Future Work"]);
+  const TOPIC_ORDER_INDEX = new Map(TOPIC_ORDER.map((topic, idx) => [topic, idx]));
+
+  function latestYear(items) {
+    return items.reduce((max, p) => Math.max(max, Number(p.year) || -Infinity), -Infinity);
+  }
+
+  function papersForTopic(byTopic, topic) {
+    return Object.values(byTopic[topic] || {}).flat();
+  }
+
+  function compareByLatestYearThenName(a, b) {
+    const diff = b.latestYear - a.latestYear;
+    if (diff !== 0) return diff;
+
+    const orderA = TOPIC_ORDER_INDEX.has(a.name) ? TOPIC_ORDER_INDEX.get(a.name) : Infinity;
+    const orderB = TOPIC_ORDER_INDEX.has(b.name) ? TOPIC_ORDER_INDEX.get(b.name) : Infinity;
+    if (orderA !== orderB) return orderA - orderB;
+
+    return a.name.localeCompare(b.name);
+  }
+
+  function sortTopicsByLatestYear(topics, byTopic) {
+    return [...topics]
+      .map(name => ({ name, latestYear: latestYear(papersForTopic(byTopic, name)) }))
+      .sort(compareByLatestYearThenName)
+      .map(t => t.name);
+  }
+
+  function sortSubtopicsByLatestYear(subs) {
+    return Object.entries(subs)
+      .map(([name, list]) => ({ name, list, latestYear: latestYear(list) }))
+      .sort(compareByLatestYearThenName);
+  }
 
   function buildTopicCards(topics, byTopic) {
     let html = "";
@@ -632,8 +665,8 @@
           });
           html += `</ul>`;
         } else {
-          for (const [sub, list] of Object.entries(subs)) {
-            list.sort((a, b) => b.year - a.year);
+          for (const { name: sub, list: subList } of sortSubtopicsByLatestYear(subs)) {
+            const list = [...subList].sort((a, b) => b.year - a.year);
             html += `<div style="margin-top:8px;">
               <div style="font-size:11px;color:var(--accent);opacity:.8;margin-bottom:4px;">${escapeHtml(sub)}</div>
               <ul>`;
@@ -669,8 +702,8 @@
     const rwTopics = [...new Set([...Object.keys(byTopic)])]
       .filter(t => RELATED_WORK_TOPICS.has(t));
 
-    els.topicGrid.innerHTML       = buildTopicCards(mainTopics, byTopic);
-    els.relatedWorkGrid.innerHTML = buildTopicCards(rwTopics, byTopic);
+    els.topicGrid.innerHTML       = buildTopicCards(sortTopicsByLatestYear(mainTopics, byTopic), byTopic);
+    els.relatedWorkGrid.innerHTML = buildTopicCards(sortTopicsByLatestYear(rwTopics, byTopic), byTopic);
 
     els.panelTitle.textContent = "MaxInsights-Intern";
     els.panelSub.textContent   = `📊 Topics & Papers (${PAPERS.length} papers)`;
