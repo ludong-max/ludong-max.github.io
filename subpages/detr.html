@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-btn:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);text-decoration:none;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  tr.warn{background:rgba(255,200,80,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">CVPR Trend · DETR-style Foundation · ECCV 2020 · arXiv 2005.12872</div>
+    <h1>End-to-End Object Detection with Transformers</h1>
+    <div class="authors">
+      Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, Sergey Zagoruyko<br>
+      <span style="opacity:.7">Facebook AI Research</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">DETR</span>
+      <span class="tag">Object Queries</span>
+      <span class="tag">Set Prediction</span>
+      <span class="tag">Hungarian Matching</span>
+      <span class="tag tag-blue">Transformer Decoder</span>
+      <span class="tag tag-purple">DETR-style</span>
+      <span class="tag tag-warn">ECCV 2020</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn" href="https://arxiv.org/abs/2005.12872" target="_blank">arXiv</a>
+      <a class="link-btn" href="https://arxiv.org/pdf/2005.12872" target="_blank">PDF</a>
+      <a class="link-btn" href="https://github.com/facebookresearch/detr" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can object detection be formulated as direct set prediction, so the model outputs a final unordered set of boxes and labels without anchors, proposal generation, or non-maximum suppression?</div>
+      <div class="zh"><b>一句话问题：</b>能否把目标检测改写成直接的集合预测，让模型一次输出无序的 box + label 集合，而不再依赖 anchor、proposal generation 或 NMS？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> DETR is the root paper for the <b>DETR-style</b> topic. D4RT borrows the broader idea of query-based decoding, but replaces object queries with 4D geometry queries.</div>
+      <div class="zh"><b>在本库中的定位：</b>DETR 是 <b>DETR-style</b> 话题的源头论文。D4RT 借用了更广义的 query-based decoding 思路，但把 object query 换成了 4D geometry query。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Detection as set prediction:</b> DETR removes dense anchor assignment and duplicate-removal heuristics by predicting a fixed-size set of object slots.</div>
+        <div class="zh"><b>把检测改成集合预测：</b>DETR 通过预测固定数量的 object slots，去掉密集 anchor assignment 和 duplicate-removal 启发式规则。</div>
+      </li>
+      <li>
+        <div class="en"><b>Hungarian matching loss:</b> A bipartite matching step pairs each ground-truth object with exactly one prediction, enforcing one-to-one detections during training.</div>
+        <div class="zh"><b>匈牙利匹配损失：</b>二分图匹配把每个 GT object 和唯一预测配对，在训练中强制一对一检测。</div>
+      </li>
+      <li>
+        <div class="en"><b>Learned object queries:</b> A small fixed set of learned query embeddings enters a Transformer decoder, cross-attends to image features, and outputs boxes/classes in parallel.</div>
+        <div class="zh"><b>可学习 object queries：</b>少量固定的可学习 query embedding 进入 Transformer decoder，对图像特征做 cross-attention，并并行输出 boxes/classes。</div>
+      </li>
+      <li>
+        <div class="en"><b>Unified detection + panoptic extension:</b> The same set-prediction detector can be extended with a mask head for panoptic segmentation.</div>
+        <div class="zh"><b>统一检测和 panoptic 扩展：</b>同一个集合预测 detector 可以加 mask head 扩展到 panoptic segmentation。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">RGB image</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--accent2);">CNN backbone</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--accent2);">Transformer encoder</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--accent2);">learned object queries + decoder</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--warn);">set of class + box predictions</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Backbone:</b> ResNet extracts a 2D feature map. A 1x1 projection turns it into Transformer dimension tokens, with positional encodings added because attention itself is permutation-invariant.</p>
+      <p style="margin:0 0 8px;"><b>Encoder:</b> global self-attention lets every image location exchange context, which is useful for object relations and large objects.</p>
+      <p style="margin:0 0 8px;"><b>Decoder:</b> object queries serve as output slots. Each slot predicts one class distribution plus one normalized bounding box, or "no object".</p>
+      <p style="margin:0;"><b>Training loss:</b> Hungarian matching chooses the best one-to-one assignment using classification cost plus box costs. The matched pairs are then supervised with class loss, L1 box loss, and generalized IoU loss.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Backbone：</b>ResNet 提取 2D feature map。1x1 projection 把它变成 Transformer 维度的 tokens，并加入 positional encoding，因为 attention 本身对顺序不敏感。</p>
+      <p style="margin:0 0 8px;"><b>Encoder：</b>全局 self-attention 让任意图像位置交换上下文，有利于物体关系和大物体建模。</p>
+      <p style="margin:0 0 8px;"><b>Decoder：</b>object queries 作为输出槽位。每个 slot 预测一个类别分布和一个归一化 bounding box，或者预测 "no object"。</p>
+      <p style="margin:0;"><b>训练损失：</b>匈牙利匹配用分类代价和 box 代价找最优一对一分配。匹配后的 pair 再用分类损失、L1 box 损失和 generalized IoU 损失监督。</p>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Reported Results</h2>
+    <table>
+      <tr><th>Setting</th><th>Reported Number</th><th>Interpretation</th></tr>
+      <tr class="ours">
+        <td>COCO object detection, DETR-R50</td>
+        <td class="num">42.0 AP</td>
+        <td>Matches the Faster R-CNN R50-FPN level while using a much simpler end-to-end prediction pipeline.</td>
+      </tr>
+      <tr>
+        <td>COCO object detection, DETR-R50-DC5</td>
+        <td class="num">43.3 AP</td>
+        <td>Dilated C5 improves spatial resolution, useful for localization but slower at inference.</td>
+      </tr>
+      <tr>
+        <td>COCO object detection, DETR-R101</td>
+        <td class="num">43.5 AP</td>
+        <td>Deeper backbone improves AP, with higher model size and latency.</td>
+      </tr>
+      <tr>
+        <td>COCO panoptic, DETR-R50</td>
+        <td class="num">38.8 box AP · 31.1 segm AP · 43.4 PQ</td>
+        <td>The detector extends naturally to panoptic segmentation with an added mask branch.</td>
+      </tr>
+      <tr class="warn">
+        <td>Training schedule</td>
+        <td class="num">500 epochs in released model zoo</td>
+        <td>The clean formulation came with slow convergence; this became the main target for later variants such as Deformable DETR.</td>
+      </tr>
+    </table>
+    <p class="mini">Numbers follow the public facebookresearch/detr model zoo and paper summary. DETR's historical impact is the set-prediction/query formulation more than a permanent SOTA number.</p>
+  </div>
+
+  <!-- DETR-style pattern -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>The DETR-style Pattern</h2>
+    <table>
+      <tr><th>DETR Component</th><th>Generalized Meaning</th><th>How D4RT Reuses the Idea</th></tr>
+      <tr>
+        <td>Object query</td>
+        <td>A learned or specified request for one structured output slot.</td>
+        <td>Point query requests one 3D point at a target time/reference camera.</td>
+      </tr>
+      <tr>
+        <td>Cross-attention decoder</td>
+        <td>Queries retrieve task-relevant information from a global visual representation.</td>
+        <td>Geometry queries retrieve space-time evidence from the Global Scene Representation.</td>
+      </tr>
+      <tr>
+        <td>Set prediction</td>
+        <td>Predict a collection directly, instead of dense candidates plus hand-designed filtering.</td>
+        <td>Recover sparse tracks or dense geometry by choosing the number and placement of queries.</td>
+      </tr>
+      <tr>
+        <td>Bipartite matching</td>
+        <td>Resolve duplicate predictions with training-time assignment rather than NMS at inference.</td>
+        <td>D4RT does not use object matching, but inherits the cleaner "ask for structured outputs" interface.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations / Follow-up Direction</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Slow convergence:</b> Original DETR needs long training compared with mature CNN detectors. Deformable DETR and later variants largely target this bottleneck.</div>
+        <div class="zh"><b>收敛慢：</b>原始 DETR 相比成熟 CNN detector 需要更长训练。Deformable DETR 以及后续大量变体主要就是解决这个瓶颈。</div>
+      </li>
+      <li>
+        <div class="en"><b>Small-object weakness:</b> Global low-resolution attention makes small-object localization harder, especially before multi-scale/deformable attention variants.</div>
+        <div class="zh"><b>小物体弱：</b>全局低分辨率 attention 让小物体定位更难，尤其是在多尺度/可变形 attention 变体出现之前。</div>
+      </li>
+      <li>
+        <div class="en"><b>Not a universal recipe by itself:</b> The object-query idea is powerful, but strong performance often requires better feature scales, denoising training, reference points, or task-specific query design.</div>
+        <div class="zh"><b>不是单独万能公式：</b>object-query 思路很强，但高性能通常还需要更好的特征尺度、denoising training、reference points 或面向任务的 query 设计。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Takeaway -->
+  <div class="card" style="border-color:rgba(139,255,207,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Bottom Line</h2>
+    <div class="en" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.84);">
+      DETR's lasting contribution is not only "Transformer for detection"; it is the <b>query decoder as a structured-output interface</b>. That pattern now shows up far beyond boxes: pose queries, mask queries, track queries, and D4RT's 4D geometry queries all inherit the same design language.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;line-height:1.7;color:rgba(232,236,255,.84);">
+      DETR 持久的贡献不只是“用 Transformer 做检测”，而是把 <b>query decoder 作为结构化输出接口</b>。这个模式已经远超 bounding box：pose query、mask query、track query，以及 D4RT 的 4D geometry query，都继承了同一种设计语言。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

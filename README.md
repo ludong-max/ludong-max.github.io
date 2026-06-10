@@ -14,7 +14,7 @@ An interactive paper-reading dashboard for egocentric computer vision research, 
 | **Single-View SMPLX regression** | SMPLify-X, VPoser / human_body_prior |
 | **Ego-to-Exo SMPLX Regression** | HMD-Poser, AvatarPoser, EgoEgo, EgoAllo, EgoPoseFormer v2 |
 | **Hand Regression (MANO)** | HaMeR, WiLoR, HaWoR, Dyn-HaMR |
-| **CVPR Trends** | Ego Full-Body Estimation (CVPR 2026+), Works Using Ego-Exo4D |
+| **CVPR Trends** | Ego Full-Body Estimation (CVPR 2026+), Works Using Ego-Exo4D, DETR-style / DETR / D4RT |
 | **Major Research Groups** | Project Aria (Meta Reality Labs), non-Meta egocentric groups overview |
 | **Future Work** | EgoSMPL-X unified body+hand+face proposal |
 

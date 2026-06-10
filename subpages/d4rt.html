@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-btn:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);text-decoration:none;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  tr.baseline{background:rgba(122,162,255,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">CVPR Trend · DETR-style Query Decoder · arXiv 2512.08924 v2</div>
+    <h1>Efficiently Reconstructing Dynamic Scenes One D4RT at a Time</h1>
+    <div class="authors">
+      Chuhan Zhang, Guillaume Le Moing, Skanda Koppula, Ignacio Rocco, Liliane Momeni, Junyu Xie, Shuyang Sun, Rahul Sukthankar, Joelle K. Barral, Raia Hadsell, Zoubin Ghahramani, Andrew Zisserman, Junlin Zhang, Mehdi S. M. Sajjadi<br>
+      <span style="opacity:.7">Google DeepMind · University College London · University of Oxford</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Dynamic 4D Reconstruction</span>
+      <span class="tag">Point Tracking</span>
+      <span class="tag">Feedforward Geometry</span>
+      <span class="tag tag-blue">DETR-style Queries</span>
+      <span class="tag tag-purple">CVPR Trend</span>
+      <span class="tag tag-warn">2025</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn" href="https://arxiv.org/abs/2512.08924" target="_blank">arXiv</a>
+      <a class="link-btn" href="https://arxiv.org/pdf/2512.08924" target="_blank">PDF</a>
+      <a class="link-btn" href="https://d4rt-paper.github.io/" target="_blank">Project</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can one feedforward model recover dynamic 4D scene geometry, 3D point tracks, depth, and camera parameters from a video without running separate task-specific decoders or heavy test-time optimization?</div>
+      <div class="zh"><b>一句话问题：</b>能否用一个前馈模型从视频中同时恢复动态 4D 场景几何、3D 点轨迹、深度和相机参数，而不是为每个任务运行独立解码器或昂贵的测试时优化？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> This is not an egocentric body/hand paper. It is added under <b>CVPR Trend / DETR-style</b> because its query-decoder interface is a strong example of the broader trend: use a global visual token field plus sparse transformer queries to request exactly the 3D/4D state needed downstream.</div>
+      <div class="zh"><b>在本库中的定位：</b>这不是自我中心人体/手部论文。它被放在 <b>CVPR Trend / DETR-style</b> 下，因为它清楚体现了一个趋势：用全局视觉 token 表示 + 稀疏 Transformer query，按需索取下游需要的 3D/4D 状态。</div>
+    </div>
+  </div>
+
+  <!-- Why DETR-style -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Why This Is "DETR-style"</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Query-centric decoding:</b> Instead of dense per-frame heads, D4RT asks the decoder independent questions such as "where is this source pixel at target time t, expressed in camera frame r?"</div>
+        <div class="zh"><b>以 query 为中心的解码：</b>D4RT 不做密集逐帧 head，而是让解码器回答独立问题，例如“这个源帧像素在目标时间 t、参考相机 r 下的 3D 位置在哪里？”</div>
+      </li>
+      <li>
+        <div class="en"><b>Cross-attention into a global representation:</b> A video Transformer encoder builds a Global Scene Representation; each point query cross-attends into it and directly outputs a 3D point.</div>
+        <div class="zh"><b>对全局表示做 cross-attention：</b>视频 Transformer 编码器先构建 Global Scene Representation；每个点 query 对其做 cross-attention，并直接输出 3D 点。</div>
+      </li>
+      <li>
+        <div class="en"><b>Sparse first, dense when needed:</b> Like DETR-style interfaces, the decoder cost scales with the number of queries. You can ask for a few tracks, or tile queries to recover dense point clouds and depth.</div>
+        <div class="zh"><b>先稀疏，必要时再密集：</b>类似 DETR-style 接口，解码成本随 query 数量增长。可以只查询少量轨迹，也可以铺满 query 恢复密集点云和深度。</div>
+      </li>
+      <li>
+        <div class="en"><b>Important caveat:</b> D4RT is DETR-style by interface, not by task. Its queries are 4D geometry probes rather than object-detection queries.</div>
+        <div class="zh"><b>重要区别：</b>D4RT 是接口形态上的 DETR-style，不是目标检测任务。它的 query 是 4D 几何探针，而不是 object query。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">input video</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--accent2);">ViT video encoder</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--accent2);">Global Scene Representation</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--accent2);">independent point queries</span>
+      <span class="arrow">-&gt;</span>
+      <span style="color:var(--warn);">3D position in space-time</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Query definition:</b> a normalized 2D source point, source timestep, target timestep, and reference camera timestep. The decoder predicts that point's 3D position at the target time in the requested camera coordinate system.</p>
+      <p style="margin:0 0 8px;"><b>Local appearance patch:</b> each query also includes an embedding of the RGB patch around the source pixel. The ablation shows this sharply improves depth and pose by preserving local object boundaries.</p>
+      <p style="margin:0;"><b>Training:</b> end-to-end query supervision with 3D point loss plus auxiliary 2D position, normal, visibility, displacement, and confidence terms. The reported main model uses a ViT-g encoder and an 8-layer cross-attention decoder.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Query 定义：</b>归一化 2D 源点、源时间、目标时间、参考相机时间。解码器预测该点在目标时间、指定相机坐标系下的 3D 位置。</p>
+      <p style="margin:0 0 8px;"><b>局部外观 patch：</b>每个 query 还包含源像素周围 RGB patch 的 embedding。消融显示它能明显改善深度和相机位姿，并保留更清晰的物体边界。</p>
+      <p style="margin:0;"><b>训练：</b>端到端 query 监督，主 3D 点损失外加 2D 位置、法线、可见性、位移和置信度辅助项。主模型使用 ViT-g 编码器和 8 层 cross-attention 解码器。</p>
+    </div>
+  </div>
+
+  <!-- Unified tasks -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>One Query Interface, Many 4D Tasks</h2>
+    <table>
+      <tr><th>Output</th><th>How D4RT Gets It</th><th>Why It Matters</th></tr>
+      <tr>
+        <td>3D point track</td>
+        <td>Fix a source pixel, vary target timestep.</td>
+        <td>Tracks dynamic objects directly in 3D, not just 2D optical flow.</td>
+      </tr>
+      <tr>
+        <td>Point cloud</td>
+        <td>Query all pixels into one reference frame.</td>
+        <td>Builds a holistic scene representation across static and moving regions.</td>
+      </tr>
+      <tr>
+        <td>Depth map</td>
+        <td>Query pixels in their own camera frame and keep the Z coordinate.</td>
+        <td>Reuses the same decoder, no separate depth head.</td>
+      </tr>
+      <tr>
+        <td>Camera extrinsics</td>
+        <td>Decode corresponding 3D point sets in two reference frames, then solve the rigid transform.</td>
+        <td>Pose emerges from the 4D point interface rather than a dedicated pose decoder.</td>
+      </tr>
+      <tr>
+        <td>Camera intrinsics</td>
+        <td>Decode grid points and estimate focal parameters under a camera model.</td>
+        <td>Allows the same model to recover full camera parameters.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Reported Results</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-n">550</span><span class="stat-l">tracks @ 60 FPS</span></div>
+      <div class="stat"><span class="stat-n">1,570</span><span class="stat-l">tracks @ 24 FPS</span></div>
+      <div class="stat"><span class="stat-n">3,890</span><span class="stat-l">tracks @ 10 FPS</span></div>
+      <div class="stat"><span class="stat-n">40,180</span><span class="stat-l">tracks @ 1 FPS</span></div>
+      <div class="stat"><span class="stat-n">18-300x</span><span class="stat-l">faster tracking claim</span></div>
+    </div>
+    <table>
+      <tr><th>Benchmark / Task</th><th>D4RT Number</th><th>Takeaway</th></tr>
+      <tr class="ours">
+        <td>TAPVid-3D tracking, with GT intrinsics</td>
+        <td class="num">DriveTrack AJ 0.304 · ADT AJ 0.307 · PStudio AJ 0.372</td>
+        <td>Best or tied-best dynamic 3D tracking among compared methods.</td>
+      </tr>
+      <tr class="ours">
+        <td>World-coordinate tracking, with GT intrinsics</td>
+        <td class="num">DriveTrack AJ 0.470 / L1 0.017 · ADT AJ 0.398 / L1 0.093</td>
+        <td>Strong evidence that the query interface can change reference frames implicitly.</td>
+      </tr>
+      <tr>
+        <td>Point cloud L1</td>
+        <td class="num">Sintel 0.768 · ScanNet 0.028</td>
+        <td>Outperforms recent reconstruction baselines on dynamic and static scenes.</td>
+      </tr>
+      <tr>
+        <td>Video depth AbsRel</td>
+        <td class="num">Sintel 0.171/0.148 · ScanNet 0.020/0.018 · KITTI 0.055/0.051</td>
+        <td>Top-tier depth performance under scale-only and scale-shift alignment.</td>
+      </tr>
+      <tr>
+        <td>Camera pose</td>
+        <td class="num">Sintel ATE 0.065 · ScanNet ATE 0.014 · Re10K Pose AUC 83.5</td>
+        <td>Pose is both more accurate and faster than the listed feedforward baselines.</td>
+      </tr>
+    </table>
+    <p class="mini">Numbers are copied from the paper's v2 tables. Some ar5iv table labels are lossy, so the digest keeps only the high-signal metrics used in the paper narrative.</p>
+  </div>
+
+  <!-- Relevance -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Why It Matters for Egocentric AR / Robotics</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Dynamic scene grounding:</b> Ego body and hand pipelines often assume the scene is static or only use SLAM head pose. D4RT-style queries could provide dynamic object tracks and 3D contact context.</div>
+        <div class="zh"><b>动态场景 grounding：</b>很多 ego body / hand 流水线假设场景静态，或只使用 SLAM 头部轨迹。D4RT-style query 可以提供动态物体轨迹和 3D 接触上下文。</div>
+      </li>
+      <li>
+        <div class="en"><b>Composable perception interface:</b> Downstream modules can request only the points, tracks, depth, or camera parameters they need, instead of consuming a fixed dense output.</div>
+        <div class="zh"><b>可组合感知接口：</b>下游模块可以只请求自己需要的点、轨迹、深度或相机参数，而不是被迫消费固定的密集输出。</div>
+      </li>
+      <li>
+        <div class="en"><b>Bridge to DETR-like pose systems:</b> Query decoders are already common in human pose and hand pose. D4RT extends the same design principle from object/body queries to 4D geometry probes.</div>
+        <div class="zh"><b>连接 DETR-like 姿态系统：</b>query decoder 已经在人体/手部姿态中常见。D4RT 把同一设计原则从 object/body query 扩展到 4D 几何探针。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations / Open Questions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Scale and data dependency:</b> The main model uses a very large ViT-g encoder and training includes internal data. Reproducing the exact performance may be difficult.</div>
+        <div class="zh"><b>规模和数据依赖：</b>主模型使用很大的 ViT-g 编码器，训练数据还包含内部数据。完全复现实验性能可能不容易。</div>
+      </li>
+      <li>
+        <div class="en"><b>No articulated semantics:</b> It tracks points and geometry, but does not output SMPL-X body, MANO hands, object categories, affordances, or contact states by itself.</div>
+        <div class="zh"><b>没有关节语义：</b>它输出点和几何，但本身不输出 SMPL-X 人体、MANO 手、物体类别、可供性或接触状态。</div>
+      </li>
+      <li>
+        <div class="en"><b>Dense reconstruction still costs queries:</b> The interface is efficient, but fully dense all-pixel tracking still requires many decoded queries. The occupancy-grid algorithm reduces redundancy but does not remove the cost.</div>
+        <div class="zh"><b>密集重建仍然消耗 query：</b>接口很高效，但全像素密集 tracking 仍要解码大量 query。occupancy-grid 算法减少冗余，但没有完全消除成本。</div>
+      </li>
+      <li>
+        <div class="en"><b>Egocentric validation remains open:</b> The paper covers strong general video benchmarks, but the most relevant AR setting would be head-mounted fisheye video with hand-object interaction and severe motion blur.</div>
+        <div class="zh"><b>自我中心验证仍待观察：</b>论文覆盖了强通用视频基准，但最贴近 AR 的场景是头戴鱼眼视频、手物交互和剧烈运动模糊，这还需要专门验证。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Takeaway -->
+  <div class="card" style="border-color:rgba(139,255,207,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Bottom Line</h2>
+    <div class="en" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.84);">
+      D4RT is best read as a <b>query-native 4D perception foundation model</b>: encode the whole video once, then use independent geometry queries to recover tracks, depth, point clouds, and camera parameters. The architectural lesson for this paper bank is bigger than the specific reconstruction task: DETR-style querying is becoming a general interface for asking foundation models for structured state.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;line-height:1.7;color:rgba(232,236,255,.84);">
+      D4RT 最适合被理解为一个 <b>query-native 的 4D 感知 foundation model</b>：先编码整段视频，再用独立几何 query 恢复轨迹、深度、点云和相机参数。对本论文库最重要的不是某个重建任务本身，而是架构趋势：DETR-style querying 正在变成向 foundation model 索取结构化状态的通用接口。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>
