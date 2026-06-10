@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .code{font-family:var(--mono);font-size:12px;color:rgba(232,236,255,.85);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Code Digest · human_body_prior · VPoser · SMPLify-X / CVPR 2019</div>
+    <h1>VPoser: Variational Human Pose Prior for Body Inverse Kinematics</h1>
+    <div class="authors">
+      Code: Nima Ghorbani · Perceiving Systems, Max Planck Institute for Intelligent Systems<br>
+      <span style="opacity:.7">Used by SMPLify-X: Expressive Body Capture: 3D Hands, Face, and Body from a Single Image</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Single-View SMPLX regression</span>
+      <span class="tag">Optimization / Prior</span>
+      <span class="tag">VAE</span>
+      <span class="tag">poZ Latent Space</span>
+      <span class="tag">AMASS</span>
+      <span class="tag">SMPL / SMPL-X</span>
+      <span class="tag">IK Prior</span>
+      <span class="tag tag-blue">human_body_prior</span>
+      <span class="tag tag-orange">MPI</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-g" href="https://github.com/nghorbani/human_body_prior" target="_blank">GitHub</a>
+      <a class="link-btn link-a" href="https://smpl-x.is.tue.mpg.de/" target="_blank">SMPL-X / Weights</a>
+      <a class="link-btn link-a" href="https://arxiv.org/abs/1904.05866" target="_blank">SMPL-X Paper</a>
+      <a class="link-btn link-a" href="https://amass.is.tue.mpg.de/" target="_blank">AMASS</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we replace raw 63D SMPL body pose parameters with a low-dimensional differentiable latent prior that prefers natural human poses and can be used inside optimization or learning pipelines?</div>
+      <div class="zh"><b>一句话问题：</b>如何用一个低维、可微的人体姿态 latent prior 替代原始 63 维 SMPL body pose 参数，使优化或学习管线更倾向于自然人体姿态？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> VPoser belongs under <b>Single-View SMPLX regression -> Optimization / Prior</b>. It is not a pose estimator by itself; it is a learned prior / latent representation used by SMPLify-X and other SMPL/SMPL-X fitting or IK systems.</div>
+      <div class="zh"><b>在本库中的定位：</b>VPoser 归入 <b>Single-View SMPLX regression -> Optimization / Prior</b>。它本身不是姿态估计器，而是用于 SMPLify-X 以及其他 SMPL/SMPL-X fitting / IK 系统的学习式先验和 latent 表示。</div>
+    </div>
+  </div>
+
+  <!-- Code Structure -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Repository / Code Structure</h2>
+    <table>
+      <tr><th>Module</th><th>Role</th><th>Key Logic</th></tr>
+      <tr>
+        <td><span class="code">models/vposer_model.py</span></td>
+        <td>VPoser VAE model</td>
+        <td>Encoder maps 21-joint axis-angle body pose to Normal latent q(z|pose); decoder maps latent z to 21 continuous 6D joint rotations, then converts to axis-angle.</td>
+      </tr>
+      <tr>
+        <td><span class="code">train/vposer_trainer.py</span></td>
+        <td>PyTorch Lightning training loop</td>
+        <td>Loads AMASS pose_body samples, computes reconstruction through BodyModel, KL-to-N(0,I), mesh reconstruction, geodesic rotation, and joint losses.</td>
+      </tr>
+      <tr>
+        <td><span class="code">body_model/body_model.py</span></td>
+        <td>SMPL-family differentiable body model</td>
+        <td>Loads SMPL/SMPLH/SMPL-X/FLAME/MANO npz assets, constructs full_pose, applies LBS, returns vertices and joints.</td>
+      </tr>
+      <tr>
+        <td><span class="code">tools/model_loader.py</span></td>
+        <td>Checkpoint loading utility</td>
+        <td>Finds latest checkpoint + YAML config, instantiates model, strips optional state_dict prefixes, disables gradients, loads eval weights.</td>
+      </tr>
+      <tr>
+        <td><span class="code">tutorials/vposer.ipynb</span></td>
+        <td>Usage tutorial</td>
+        <td>Shows loading VPoser + SMPL-X, encoding pose -> poZ, decoding poZ -> pose_body, and sampling novel body poses.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Model Logic -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>VPoser Model Logic</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">pose_body</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (21 joints × 3 axis-angle = 63D)</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">Encoder MLP</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">q(z|pose)</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> Normal(mu, softplus(logvar))</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">rsample()</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">Decoder MLP</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">21 × 6D rotations</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">pose_body axis-angle</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Encoder:</b> flattens the input pose, normalizes 63D body pose, then uses MLP layers with BatchNorm, LeakyReLU, and Dropout. The final <span class="code">NormalDistDecoder</span> outputs a Gaussian posterior over the latent pose code.</p>
+      <p style="margin:0 0 8px;"><b>Latent space:</b> tutorials describe VPoser's <b>poZ</b> as a 32D spherical Gaussian latent space. Sampling z ~ N(0, I) and decoding should produce plausible body poses.</p>
+      <p style="margin:0 0 8px;"><b>Decoder:</b> maps latent z to 21×6 values, then <span class="code">ContinousRotReprDecoder</span> turns each 6D representation into an orthonormal 3×3 rotation matrix using normalization, projection removal, and cross product.</p>
+      <p style="margin:0;"><b>Output:</b> decoded rotation matrices are converted to axis-angle by <span class="code">matrot2aa</span>. The forward pass returns <span class="code">pose_body</span>, <span class="code">pose_body_matrot</span>, latent mean/std, and the posterior distribution object.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Encoder：</b>把输入 pose 展平成 63 维，用 BatchNorm、MLP、LeakyReLU 和 Dropout 编码，最后由 <span class="code">NormalDistDecoder</span> 输出 latent pose code 的高斯后验。</p>
+      <p style="margin:0 0 8px;"><b>Latent space：</b>教程中把 VPoser 的 <b>poZ</b> 描述为 32 维球形高斯 latent space。从 z ~ N(0, I) 采样并 decode 后，应得到合理人体姿态。</p>
+      <p style="margin:0 0 8px;"><b>Decoder：</b>把 z 映射成 21×6 个数，再由 <span class="code">ContinousRotReprDecoder</span> 通过归一化、投影移除和叉乘，把每个 6D 表示转成正交 3×3 rotation matrix。</p>
+      <p style="margin:0;"><b>输出：</b>rotation matrix 通过 <span class="code">matrot2aa</span> 转回 axis-angle。forward 返回 <span class="code">pose_body</span>、<span class="code">pose_body_matrot</span>、latent mean/std 和后验分布对象。</p>
+    </div>
+  </div>
+
+  <!-- Training -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Training / Loss Logic</h2>
+    <table>
+      <tr><th>Step</th><th>What Happens</th><th>Why It Matters</th></tr>
+      <tr>
+        <td>Dataset</td>
+        <td><span class="code">VPoserDS</span> loads <span class="code">pose_body</span> from AMASS-derived splits.</td>
+        <td>AMASS gives broad mocap coverage, so the prior learns natural body configurations rather than image-specific bias.</td>
+      </tr>
+      <tr>
+        <td>Reconstruction</td>
+        <td>Original and reconstructed poses are passed through <span class="code">BodyModel</span>; mesh vertices and joints are compared.</td>
+        <td>Training does not only match raw pose parameters; it also makes decoded poses produce similar body geometry.</td>
+      </tr>
+      <tr>
+        <td>KL prior</td>
+        <td>KL(q(z|pose) || N(0,I)) regularizes the posterior to the standard Gaussian.</td>
+        <td>This makes the latent space sampleable and usable as an optimization variable.</td>
+      </tr>
+      <tr>
+        <td>Extra early losses</td>
+        <td>Geodesic rotation loss on matrices and joint-location L1 loss are used until a configured epoch.</td>
+        <td>Stabilizes learning before relying mainly on mesh reconstruction and KL.</td>
+      </tr>
+      <tr>
+        <td>Sampling</td>
+        <td><span class="code">sample_poses()</span> draws z from N(0,I) and decodes to pose_body.</td>
+        <td>Useful for generating plausible synthetic body poses or initializing IK/fitting.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- IK Usage -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>How It Is Used in IK / SMPLify-X</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Raw SMPL pose is unconstrained:</b> direct axis-angle optimization can create broken or unnatural bodies. VPoser replaces direct body-pose variables with a latent pose code whose distribution is known.</p>
+      <p style="margin:0 0 8px;"><b>Optimization variable:</b> instead of optimizing 63 axis-angle values freely, fitting can optimize poZ. Decoding poZ gives body pose, then SMPL/SMPL-X produces joints/vertices for 2D or 3D keypoint losses.</p>
+      <p style="margin:0 0 8px;"><b>IK engine:</b> the repo supports defining keypoints as joints or surface-relative locations, then optimizing pose, translation, and global orientation with LBFGS/Adam while using the VPoser latent pose parameterization.</p>
+      <p style="margin:0;"><b>In SMPLify-X:</b> VPoser is the learned body prior that lets the optimizer satisfy OpenPose keypoints while avoiding implausible body poses.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>原始 SMPL pose 无约束：</b>直接优化 axis-angle 很容易得到扭曲、不自然的人体。VPoser 用一个已知分布的 latent pose code 替代自由 body-pose 变量。</p>
+      <p style="margin:0 0 8px;"><b>优化变量：</b>fitting 不再自由优化 63 个 axis-angle，而是优化 poZ。decode poZ 得到 body pose，再通过 SMPL/SMPL-X 产生 joints/vertices 用于 2D 或 3D keypoint loss。</p>
+      <p style="margin:0 0 8px;"><b>IK engine：</b>仓库支持把 keypoints 定义成 joints 或身体表面相对点，然后用 LBFGS/Adam 优化姿态、平移和全局朝向，同时使用 VPoser latent pose 表示。</p>
+      <p style="margin:0;"><b>在 SMPLify-X 中：</b>VPoser 是学习式 body prior，让优化器在满足 OpenPose 关键点的同时避免不合理人体姿态。</p>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Body pose only:</b> VPoser models the 21 body joints. It does not model hands, face, shape, global translation, contact, or scene constraints.</div>
+        <div class="zh"><b>仅身体姿态：</b>VPoser 建模的是 21 个身体关节，不建模手、脸、体型、全局平移、接触或场景约束。</div>
+      </li>
+      <li>
+        <div class="en"><b>Prior, not estimator:</b> It cannot infer pose from images or video by itself; it must be coupled with keypoint losses, regressors, or fitting objectives.</div>
+        <div class="zh"><b>是先验，不是估计器：</b>它本身不能从图像或视频推断姿态，必须和 keypoint loss、regressor 或 fitting objective 结合使用。</div>
+      </li>
+      <li>
+        <div class="en"><b>AMASS distribution bias:</b> The learned prior reflects mocap data. Rare egocentric activities, floor contact, object interaction, or extreme poses may be underrepresented.</div>
+        <div class="zh"><b>AMASS 分布偏差：</b>学习到的先验反映的是动捕数据。少见 egocentric 动作、地面接触、物体交互或极端姿态可能覆盖不足。</div>
+      </li>
+      <li>
+        <div class="en"><b>License and assets:</b> Code is public, but pretrained VPoser weights and SMPL-X model files require separate download/registration under research licensing.</div>
+        <div class="zh"><b>许可和资产：</b>代码公开，但预训练 VPoser 权重和 SMPL-X 模型文件需要单独注册下载，并受研究许可约束。</div>
+      </li>
+      <li>
+        <div class="en"><b>No temporal dynamics:</b> VPoser is a per-pose prior, not a motion prior. Temporal smoothness or dynamics must be added separately.</div>
+        <div class="zh"><b>没有时序动力学：</b>VPoser 是逐姿态先验，不是 motion prior。时序平滑和动力学需要额外加入。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Direction</th><th>How VPoser Helps</th></tr>
+      <tr><td>SMPLify-X</td><td>Core body pose prior. It turns single-view fitting from unconstrained 63D axis-angle optimization into latent-space optimization over plausible poses.</td></tr>
+      <tr><td>Single-View SMPLX regression</td><td>Can regularize regressors or generate pseudo labels by making fitted poses more natural.</td></tr>
+      <tr><td>Ego-to-Exo SMPLX Regression</td><td>Useful as a fallback prior when ego-video evidence is weak or lower body is invisible, but it must be combined with SLAM/world-space/temporal cues.</td></tr>
+      <tr><td>EgoSMPL-X proposal</td><td>Could serve as the body branch prior, while hand/face/contact/world-space priors are added separately.</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en"><b>Research value:</b> VPoser is a compact way to inject human-pose plausibility into any SMPL/SMPL-X pipeline. For egocentric work, it is most useful when the body is not visible: it can constrain the solution space while SLAM, head motion, hands, and temporal models provide task-specific evidence.</div>
+      <div class="zh"><b>研究价值：</b>VPoser 是向任何 SMPL/SMPL-X 管线注入人体姿态合理性的紧凑方法。对 egocentric 工作来说，当身体不可见时尤其有用：它约束解空间，而 SLAM、头部运动、手部和时序模型提供任务相关证据。</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      VPoser is an AMASS-trained VAE prior for SMPL-family body pose. Its code encodes a 63D axis-angle body pose (21 joints × 3) into a low-dimensional Gaussian <b>poZ</b> latent code, then decodes it through MLP layers and a continuous 6D rotation representation back to axis-angle body pose. Training combines KL-to-N(0,I), mesh reconstruction through <b>BodyModel</b>, rotation geodesic loss, and joint reconstruction. In practice, VPoser is not an estimator; it is a differentiable pose prior for SMPLify-X, IK, pseudo-label generation, and future ego-body systems where the lower body is often invisible.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

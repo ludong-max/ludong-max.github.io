@@ -1,0 +1,291 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2308.06493 · ECCV 2024</div>
+    <h1>EgoPoser: Robust Real-Time Egocentric Pose Estimation from Sparse and Intermittent Observations Everywhere</h1>
+    <div class="authors">
+      Jiaxi Jiang, Paul Streli, Manuel Meier, Christian Holz<br>
+      <span style="opacity:.7">Department of Computer Science, ETH Zurich · Sensing, Interaction &amp; Perception Lab</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">SMPL Body Regression</span>
+      <span class="tag">Sparse Sensor / HMD</span>
+      <span class="tag">Intermittent Hands</span>
+      <span class="tag">Global-in-Local</span>
+      <span class="tag">SlowFast</span>
+      <span class="tag">Real-time MR</span>
+      <span class="tag tag-blue">ECCV 2024</span>
+      <span class="tag tag-orange">ETH SIPLab</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2308.06493" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://static.siplab.org/papers/eccv2024-egoposer.pdf" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://siplab.org/projects/EgoPoser" target="_blank">Project</a>
+      <a class="link-btn link-g" href="https://github.com/eth-siplab/EgoPoser" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can an MR headset recover full-body pose in large real scenes from only sparse head + hand/controller tracking, even when hands intermittently leave the headset field of view and users have different body sizes?</div>
+      <div class="zh"><b>一句话问题：</b>MR 头显能否只依赖头部 + 双手/控制器的稀疏追踪，在大场景中实时恢复全身姿态，并且在手部离开头显视场、用户体型不同的情况下仍然稳定？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> EgoPoser is the direct sparse-HMD successor to AvatarPoser. It belongs under <b>Ego-to-Exo SMPLX Regression -> Sparse Sensor / HMD</b>, although the paper uses the first 22 SMPL-H/SMPL body joints and does not estimate articulated hands or face.</div>
+      <div class="zh"><b>在本库中的定位：</b>EgoPoser 是 AvatarPoser 之后的稀疏 HMD 全身姿态方法，归入 <b>Ego-to-Exo SMPLX Regression -> Sparse Sensor / HMD</b>。不过它实际输出的是 SMPL-H/SMPL 的 22 个身体关节，不估计精细手部或面部。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Large-scene sparse-HMD pose estimation:</b> Targets practical inside-out MR tracking where global headset/hand poses can be far from mocap-room origins, unlike training data concentrated near the origin.</div>
+        <div class="zh"><b>大场景稀疏 HMD 姿态估计：</b>面向真实 inside-out MR 追踪，头显/手部的全局位置可能远离动捕房间原点，而不是只在训练数据附近活动。</div>
+      </li>
+      <li>
+        <div class="en"><b>Global-in-Local (GiL) motion decomposition:</b> Keeps useful vertical/global trajectory cues while removing horizontal position dependence, making predictions robust to meter-scale and 50m-scale offsets.</div>
+        <div class="zh"><b>Global-in-Local (GiL) 运动分解：</b>保留有用的竖直/轨迹信息，同时去除水平全局位置依赖，使模型对米级乃至 50m 偏移都稳定。</div>
+      </li>
+      <li>
+        <div class="en"><b>Realistic field-of-view modeling:</b> Simulates whether each hand is actually visible from the headset based on relative hand/head geometry, instead of uniformly random hand masking.</div>
+        <div class="zh"><b>真实视场建模：</b>根据手相对头部的几何关系判断手是否在头显视场内，而不是用均匀随机 masking 近似追踪丢失。</div>
+      </li>
+      <li>
+        <div class="en"><b>SlowFast temporal fusion:</b> Uses both dense recent frames and sparse long-range frames over an 80-frame context, keeping Transformer cost similar to a 40-frame input.</div>
+        <div class="zh"><b>SlowFast 时序融合：</b>在 80 帧上下文中同时使用高密度近邻帧和低密度长程帧，同时保持接近 40 帧输入的计算量。</div>
+      </li>
+      <li>
+        <div class="en"><b>Body-size adaptation:</b> Adds calibration-based and calibration-free size-aware estimation so the avatar scale matches the user better and reduces floating/ground-penetration artifacts.</div>
+        <div class="zh"><b>体型适配：</b>提供需要校准和免校准两种 size-aware 估计方式，让虚拟人比例更接近用户，并减少漂浮和穿地问题。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">HMD + left/right hand 6-DoF poses</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">GiL preprocessing</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">FoV-aware masking</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">SlowFast fusion</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">Transformer encoder</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">Multi-head decoder</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">global body pose + SMPL-H shape</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Input:</b> 3-point tracking from the MR device: headset pose and two hand/controller poses. Each timestep uses positions, 6D rotations, linear velocity, and angular velocity; the final network input is 59 features per frame after decomposition.</p>
+      <p style="margin:0 0 8px;"><b>Global-in-Local:</b> Spatial normalization makes horizontal translation relative to the head but keeps vertical/global height information. Temporal normalization subtracts the first-frame horizontal translation within the window, preserving local trajectory shape without overfitting to absolute scene coordinates.</p>
+      <p style="margin:0 0 8px;"><b>FoV modeling:</b> A hand is masked only when its relative position falls outside the simulated headset horizontal/vertical field of view. When a hand is missing, EgoPoser uses predicted hand pose as a temporal reference for normalization.</p>
+      <p style="margin:0;"><b>Output:</b> root/global localization, local body joint rotations, and shape parameters are fed into a differentiable SMPL-H body model. The method estimates body pose, not MANO hands or FLAME face.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>输入：</b>MR 设备提供的 3 点追踪：头显姿态和左右手/控制器姿态。每帧包含位置、6D 旋转、线速度、角速度；经过分解后每帧输入为 59 维。</p>
+      <p style="margin:0 0 8px;"><b>Global-in-Local：</b>空间归一化让水平位移相对头部，但保留竖直/身高相关的全局信息；时序归一化减去窗口首帧水平位移，保留局部轨迹形状，同时避免对绝对场景坐标过拟合。</p>
+      <p style="margin:0 0 8px;"><b>FoV 建模：</b>只有当手相对头部的位置落在模拟头显水平/竖直视场之外时才 mask。手缺失时，EgoPoser 使用预测手部姿态作为时序归一化参考。</p>
+      <p style="margin:0;"><b>输出：</b>全局定位、局部身体关节旋转和体型参数进入可微 SMPL-H body model。该方法估计身体姿态，不输出 MANO 手部或 FLAME 面部。</p>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Data / Training Setup</h2>
+    <table>
+      <tr><th>Dataset</th><th>Use</th><th>Notes</th></tr>
+      <tr><td>AMASS</td><td>Training + main evaluation</td><td>Public mocap corpus converted to SMPL-family body parameters; paper follows AvatarPoser-style AMASS splits.</td></tr>
+      <tr><td>HPS</td><td>Large-scene evaluation</td><td>Real-world large-scene dataset used to test whether AMASS-trained models generalize beyond indoor mocap-origin assumptions.</td></tr>
+      <tr><td>Body-shape test set</td><td>Size-aware evaluation</td><td>More than 175 subjects, height range 145-207 cm, used to evaluate body-size adaptation.</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en"><b>Supervision:</b> L1 losses on local rotations, global orientation, joint positions through forward kinematics, plus L1 regularization for estimated shape parameters. The method is trained from mocap-derived pose/shape supervision, not image annotations.</div>
+      <div class="zh"><b>监督：</b>局部旋转、全局朝向、通过 FK 得到的关节位置使用 L1 损失，并对估计体型参数加 L1 正则。训练依赖动捕生成的姿态/体型监督，不依赖图像标注。</div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">AMASS large-scene robustness. MPJPE in cm, MPJVE in cm/s. Lower is better.</div>
+    <table style="margin-bottom:16px;">
+      <tr><th>Method</th><th>Offset 0m<br>MPJPE / MPJVE</th><th>Offset 10m<br>MPJPE / MPJVE</th><th>Offset 50m<br>MPJPE / MPJVE</th><th>Takeaway</th></tr>
+      <tr><td>AvatarPoser</td><td class="num">4.18 / 29.40</td><td class="num">18.40 / 66.19</td><td class="num">31.67 / 68.79</td><td>Global input degrades with scene offset.</td></tr>
+      <tr><td>AGRoL</td><td class="num">3.86 / 50.94</td><td class="num">20.74 / 252.54</td><td class="num">53.45 / 1795.78</td><td>Strong at origin, unstable under offset.</td></tr>
+      <tr class="ours best"><td><b>EgoPoser</b></td><td class="num"><b>4.14 / 25.95</b></td><td class="num"><b>4.14 / 25.95</b></td><td class="num"><b>4.14 / 25.95</b></td><td><b>Position-invariant under synthetic offsets.</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">HPS large-scene evaluation. MPJPE in cm, lower is better.</div>
+    <table style="margin-bottom:16px;">
+      <tr><th>Method</th><th>BIB_EG_Tour</th><th>MPI_EG</th><th>Working_Standing</th><th>UG_Computers</th><th>Go_Around</th><th>UG_Long</th></tr>
+      <tr><td>AvatarPoser</td><td class="num">22.53</td><td class="num">16.54</td><td class="num">19.08</td><td class="num">23.24</td><td class="num">19.50</td><td class="num">16.65</td></tr>
+      <tr><td>AGRoL</td><td class="num">28.95</td><td class="num">19.41</td><td class="num">17.67</td><td class="num">20.90</td><td class="num">14.16</td><td class="num">12.81</td></tr>
+      <tr class="ours best"><td><b>EgoPoser</b></td><td class="num"><b>9.55</b></td><td class="num"><b>11.05</b></td><td class="num"><b>8.70</b></td><td class="num"><b>10.34</b></td><td class="num"><b>6.90</b></td><td class="num"><b>8.95</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Outside-FoV hand tracking on AMASS. MPJPE / MPJVE, lower is better.</div>
+    <table>
+      <tr><th>Strategy</th><th>FoV 180 deg</th><th>FoV 120 deg</th><th>FoV 90 deg</th></tr>
+      <tr><td>Full visibility training</td><td class="num">24.75 / 183.84</td><td class="num">38.99 / 144.42</td><td class="num">41.24 / 95.66</td></tr>
+      <tr><td>Random masking</td><td class="num">7.09 / 49.91</td><td class="num">13.29 / 64.09</td><td class="num">14.84 / 58.33</td></tr>
+      <tr class="ours best"><td><b>EgoPoser FoV modeling</b></td><td class="num"><b>5.31 / 39.69</b></td><td class="num"><b>6.07 / 46.01</b></td><td class="num"><b>6.60 / 48.25</b></td></tr>
+    </table>
+    <p class="mini">The 120 deg setting approximates Oculus Quest 2; 90 deg approximates HoloLens 2 in the paper's discussion.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-n">600+ fps</span><span class="stat-l">reported inference speed</span></div>
+      <div class="stat"><span class="stat-n">80 frames</span><span class="stat-l">SlowFast context</span></div>
+      <div class="stat"><span class="stat-n">59</span><span class="stat-l">input features/frame</span></div>
+      <div class="stat"><span class="stat-n">145-207cm</span><span class="stat-l">shape eval heights</span></div>
+    </div>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation / Design Insight</h2>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Global motion decomposition ablation. MPJPE in cm, MPJVE in cm/s.</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Configuration</th><th>MPJPE</th><th>MPJVE</th></tr>
+      <tr><td>Mean normalization, all features</td><td class="num">6.25</td><td class="num">42.69</td></tr>
+      <tr><td>Spatial normalization, horizontal positions</td><td class="num">4.45</td><td class="num">27.56</td></tr>
+      <tr><td>Temporal normalization</td><td class="num">4.58</td><td class="num">28.01</td></tr>
+      <tr class="ours best"><td><b>GiL: temporal + spatial horizontal normalization</b></td><td class="num"><b>4.14</b></td><td class="num"><b>25.95</b></td></tr>
+    </table>
+
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Body-size adaptation. All metrics in cm.</div>
+    <table>
+      <tr><th>Strategy</th><th>MPJPE</th><th>Vertex</th><th>Height</th><th>Arm</th><th>Ground penetration</th><th>Foot floating</th></tr>
+      <tr><td>Mean shape</td><td class="num">6.36</td><td class="num">6.74</td><td class="num">7.67</td><td class="num">7.42</td><td class="num">3.87</td><td class="num">5.38</td></tr>
+      <tr><td>DA + calibration</td><td class="num">5.26</td><td class="num">4.69</td><td class="num">1.36</td><td class="num">1.24</td><td class="num">2.06</td><td class="num">1.67</td></tr>
+      <tr class="ours best"><td><b>Size prediction</b></td><td class="num"><b>4.79</b></td><td class="num"><b>4.08</b></td><td class="num"><b>1.78</b></td><td class="num"><b>1.66</b></td><td class="num"><b>2.31</b></td><td class="num"><b>1.64</b></td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.78);"><b>Key lesson:</b> For sparse-HMD body tracking, absolute world coordinates are a liability unless the representation is carefully decomposed. The most transferable insight for this paper bank is not the Transformer itself, but the input representation: keep motion cues that disambiguate pose while removing scene-origin dependence.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);"><b>关键结论：</b>对稀疏 HMD 全身追踪来说，如果不做表示分解，绝对世界坐标会成为严重负担。对本论文库最有迁移价值的不是 Transformer 本身，而是输入表示：保留能消歧身体姿态的运动线索，同时去掉场景原点依赖。</div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>No visual grounding:</b> EgoPoser uses HMD/hand/controller tracking signals, not RGB video, so it cannot use scene contact, object interaction, visible body parts, or image evidence.</div>
+        <div class="zh"><b>没有视觉 grounding：</b>EgoPoser 使用头显/手部/控制器追踪信号，不使用 RGB 视频，因此无法利用场景接触、物体交互、可见身体部位或图像证据。</div>
+      </li>
+      <li>
+        <div class="en"><b>Body only:</b> Output is a SMPL-H/SMPL body representation with the first 22 body joints. It does not recover detailed MANO hands, face expression, or unified SMPL-X whole-body parameters.</div>
+        <div class="zh"><b>仅身体：</b>输出是 SMPL-H/SMPL 的 22 个身体关节表示，不恢复 MANO 精细手部、面部表情或统一 SMPL-X whole-body 参数。</div>
+      </li>
+      <li>
+        <div class="en"><b>Still underdetermined:</b> Inferring legs and pelvis from head + intermittent hands is intrinsically ambiguous; FoV modeling improves robustness but cannot remove all lower-body uncertainty.</div>
+        <div class="zh"><b>问题仍欠定：</b>从头部 + 间歇手部推断腿部和骨盆本身存在歧义；FoV 建模增强鲁棒性，但不能消除所有下肢不确定性。</div>
+      </li>
+      <li>
+        <div class="en"><b>Mocap-driven training:</b> The core model is trained on AMASS-style mocap, so real headset deployment still depends on tracking quality and the realism of simulated hand visibility failures.</div>
+        <div class="zh"><b>动捕驱动训练：</b>核心模型仍基于 AMASS 式动捕训练，真实头显部署依赖追踪质量以及模拟手部可见性丢失是否足够真实。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Related work</th><th>Relationship</th></tr>
+      <tr><td>AvatarPoser</td><td>Same ETH lineage; EgoPoser fixes large-scene coordinate overfitting, intermittent hand tracking, and body-size mismatch.</td></tr>
+      <tr><td>HMD-Poser</td><td>Both are real-time sparse-HMD body tracking. HMD-Poser focuses on scalable HMD+IMU configurations and on-device deployment; EgoPoser focuses on large-scene position invariance and realistic hand FoV failures.</td></tr>
+      <tr><td>EgoEgo / EgoAllo</td><td>Complementary input regime. EgoEgo/EgoAllo use egocentric video/SLAM and generative models; EgoPoser uses headset tracking signals and is designed for real-time MR.</td></tr>
+      <tr><td>EgoSMPL-X proposal</td><td>GiL-style coordinate decomposition and FoV-aware intermittent-hand handling are useful priors for a future world-space SMPL-X system, but EgoPoser lacks RGB, MANO hands, and face.</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en"><b>Research value:</b> For future single-egocentric-camera/body+hand+face work, EgoPoser is a strong lesson in representation design: do not feed raw global poses naively, and model real sensor visibility rather than abstract random dropout.</div>
+      <div class="zh"><b>研究价值：</b>对未来单目 egocentric body+hand+face 工作来说，EgoPoser 的核心启发是表示设计：不要直接把原始全局位姿喂给网络，也不要把真实传感器可见性问题简化成随机 dropout。</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      EgoPoser (ETH SIPLab, ECCV 2024) is a real-time sparse-HMD full-body pose estimator for practical MR tracking. It predicts SMPL-H/SMPL body pose from headset + two intermittent hand/controller poses using <b>Global-in-Local motion decomposition</b>, <b>realistic field-of-view masking</b>, <b>SlowFast temporal fusion</b>, and <b>body-size estimation</b>. Its key result is large-scene robustness: on AMASS, AvatarPoser degrades from 4.18cm MPJPE at 0m offset to 31.67cm at 50m, while EgoPoser stays at <b>4.14cm</b>. Best viewed as a robust sparse-sensor baseline between AvatarPoser and HMD-Poser, but not a full SMPL-X hand/face or RGB-grounded egocentric method.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

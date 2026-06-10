@@ -72,8 +72,7 @@
       <span style="opacity:.7">¹Meta &nbsp;·&nbsp; ²KAUST &nbsp;·&nbsp; ³Max Planck Institute for Intelligent Systems</span>
     </div>
     <div style="margin-top:10px;">
-      <span class="tag">Keypoint XYZ / Body Model</span>
-      <span class="tag">Momentum Body Model</span>
+      <span class="tag">Ego-to-Exo SMPLX Regression</span>
       <span class="tag">Egocentric</span>
       <span class="tag">Transformer</span>
       <span class="tag">Semi-Supervised</span>
@@ -85,8 +84,8 @@
       <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2603.04090" target="_blank">📄 arXiv</a>
     </div>
     <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
-      <div class="en"><b>One-sentence problem:</b> How can we build a fully end-to-end, temporally-consistent egocentric body pose estimator for AR/VR that supports both 3D keypoint (XYZ) and parametric body model (Momentum, joint rotations + FK) outputs, and also scales to millions of unlabeled frames via semi-supervised auto-labeling — all under a constant 0.8ms GPU latency budget?</div>
-      <div class="zh"><b>一句话问题：</b>如何构建一个完全端到端、时序一致的自我中心体态估计器，同时支持 3D 关键点（XYZ）和参数化体态模型（Momentum，关节旋转 + FK）两种输出，并通过半监督自动标注扩展到数百万帧无标注数据——且 GPU 延迟保持恒定 0.8ms？</div>
+      <div class="en"><b>One-sentence problem:</b> How can we build a fully end-to-end, temporally-consistent egocentric body pose estimator for AR/VR that also scales to millions of unlabeled frames via semi-supervised auto-labeling — all under a constant 0.8ms GPU latency budget?</div>
+      <div class="zh"><b>一句话问题：</b>如何构建一个完全端到端、时序一致的自我中心体态估计器，用于 AR/VR，同时通过半监督自动标注扩展到数百万帧无标注数据——且 GPU 延迟保持恒定 0.8ms？</div>
     </div>
   </div>
 
@@ -157,61 +156,14 @@
 
   <!-- Datasets -->
   <div class="card">
-    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
-    <h2>Training Data — 重点分析</h2>
-
-    <table style="margin-bottom:14px;">
-      <tr><th>Dataset</th><th>类型</th><th>规模</th><th>用途</th><th>标注方式</th></tr>
-      <tr>
-        <td><b>EgoBody3M</b></td>
-        <td>有标注 · 真实</td>
-        <td class="num">3.4M 帧<br><span style="font-size:11px;color:var(--muted);">训练 2.4M / 测试 426k</span></td>
-        <td>有监督训练 + 基准测试</td>
-        <td>4 路同步单色全局快门相机（Meta Quest VR 头显）· MoCap GT keypoints → <b>IK via Momentum</b> → 关节旋转 + body scales</td>
-      </tr>
-      <tr>
-        <td><b>EGO-ITW-70M</b></td>
-        <td>无标注 · 野外</td>
-        <td class="num">70M 帧</td>
-        <td>ALS 教师→学生半监督</td>
-        <td>无 GT，与 EgoBody3M 相同硬件 · Meta <b>私有</b>数据集</td>
-      </tr>
-      <tr>
-        <td><b>XR-MBT</b></td>
-        <td>多模态 · 野外</td>
-        <td class="num">—</td>
-        <td>仅定性泛化评估</td>
-        <td>跨设备（Aria / HoloLens 等），不参与训练</td>
-      </tr>
+    <h2>Datasets</h2>
+    <table>
+      <tr><th>Dataset</th><th>Type</th><th>Scale</th><th>Use</th></tr>
+      <tr><td><b>EgoBody3M</b></td><td>Labeled, real</td><td class="num">3.4M frames · 4 sync mono cameras · VR headset</td><td>Train (2.4M) + Test (426k)</td></tr>
+      <tr><td><b>EGO-ITW-70M</b></td><td>Unlabeled, in-the-wild</td><td class="num">70M frames (same hardware as EgoBody3M)</td><td>ALS teacher → student</td></tr>
+      <tr><td><b>XR-MBT</b></td><td>In-the-wild</td><td class="num">Multi-modal, real world</td><td>Qualitative generalization eval</td></tr>
     </table>
-
-    <div class="two-col" style="margin-bottom:10px;">
-      <div class="sub-box">
-        <h3>EgoBody3M 标注细节</h3>
-        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
-          Raw GT = <b>3D keypoints</b> only (from outside-in MoCap). Body model parameters (joint rotations + body scales) are <b>not directly captured</b> — they are computed post-hoc by running <b>Inverse Kinematics (IK)</b> on the GT keypoints using Meta's <b>Momentum</b> body tool (<code>facebookresearch.github.io/momentum</code>). This means the parametric supervision signal is <em>derived</em>, not directly observed.
-        </div>
-        <div class="zh" style="display:none;font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
-          原始 GT = 仅有 <b>3D 关键点</b>（来自外部 MoCap）。Body model 参数（关节旋转 + body scales）<b>并非直接采集</b>——而是通过对 GT 关键点跑 <b>IK（逆运动学）</b> 经由 Meta 的 <b>Momentum</b> 工具（<code>facebookresearch.github.io/momentum</code>）事后计算得到。也就是说参数化监督信号是<em>推导出的</em>，而非直接观测的。
-        </div>
-      </div>
-      <div class="sub-box">
-        <h3>EGO-ITW-70M 与 ALS</h3>
-        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
-          <b>Meta-private</b>, no public release. Collected with the same 4-camera VR headset hardware as EgoBody3M. No ground-truth labels at all. Used exclusively as unlabeled corpus for the Auto-Labeling System (ALS): teacher (ViT-B / DINOv3) → pseudo-labels → uncertainty distillation → student. Fig. 6 shows ALS benefit saturates around 50–100% of 70M frames; <b>MobileNetV4-S benefits proportionally more</b> than ResNet-18.
-        </div>
-        <div class="zh" style="display:none;font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.65;">
-          <b>Meta 私有</b>，不公开。与 EgoBody3M 使用相同的 4 相机 VR 头显硬件采集。完全无 GT 标注。仅用于 ALS 的无标注语料：教师模型（ViT-B / DINOv3）→ 伪标签 → 不确定性蒸馏 → 学生模型。Fig. 6 显示 ALS 收益在 50–100% 的 70M 帧附近趋于饱和；<b>MobileNetV4-S 受益比例更大</b>。
-        </div>
-      </div>
-    </div>
-
-    <div class="en" style="font-size:12px;color:rgba(232,236,255,.55);line-height:1.6;padding:8px 12px;background:rgba(255,180,80,.05);border:1px solid rgba(255,180,80,.2);border-radius:8px;">
-      <b>⚠️ Reproducibility caveat:</b> EGO-ITW-70M is a Meta-internal dataset — external researchers cannot replicate the full ALS pipeline. Only the EgoBody3M-based results (w/o ALS, MPJPE 4.17cm) are fully reproducible from public data.
-    </div>
-    <div class="zh" style="display:none;font-size:12px;color:rgba(232,236,255,.55);line-height:1.6;padding:8px 12px;background:rgba(255,180,80,.05);border:1px solid rgba(255,180,80,.2);border-radius:8px;margin-top:8px;">
-      <b>⚠️ 可复现性说明：</b>EGO-ITW-70M 是 Meta 内部数据集——外部研究者无法复现完整的 ALS 流程。仅基于 EgoBody3M 的结果（w/o ALS，MPJPE 4.17cm）可用公开数据完全复现。
-    </div>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:8px 0 0;">EgoBody3M is the first large-scale real-world egocentric dataset from a VR headset with accurate 3D ground truth (vs prior work relying on synthetic or lab MoCap). Keypoints computed via inverse kinematics from joint rotations using the Momentum body model.</p>
   </div>
 
   <!-- Results -->
@@ -306,7 +258,7 @@
   <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
     <h2 style="color:var(--accent2);">TL;DR</h2>
     <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
-      EgoPoseFormer v2 (Meta + KAUST, CVPR 2026) advances egocentric body pose estimation for AR/VR with two innovations: (1) a <b>single holistic query transformer</b> with projection-conditioned multi-view cross-attention + causal temporal attention (RoPE + KV-Cache), fully E2E at constant 0.8ms; (2) an <b>uncertainty-aware auto-labeling system</b> scaling to 70M unlabeled frames via teacher-student distillation. <b>Output representation:</b> supports both direct 3D keypoint XYZ regression AND parametric pose (joint rotations + body scales via Meta's <b>Momentum body model</b> → FK) — NOT SMPL-X. On EgoBody3M: MPJPE <b>4.02cm</b> (↓22.4% vs EgoBody3M, ↓15.4% vs EPFv1) and temporal jitter ↓51.7%. ALS alone improves wrist MPJPE by 13.1%.
+      EgoPoseFormer v2 (Meta + KAUST, CVPR 2026) advances egocentric body pose estimation for AR/VR with two innovations: (1) a <b>single holistic query transformer</b> with projection-conditioned multi-view cross-attention + causal temporal attention (RoPE + KV-Cache), fully E2E at constant 0.8ms; (2) an <b>uncertainty-aware auto-labeling system</b> scaling to 70M unlabeled frames via teacher-student distillation. On EgoBody3M: MPJPE <b>4.02cm</b> (↓22.4% vs EgoBody3M, ↓15.4% vs EPFv1) and temporal jitter ↓51.7%. ALS alone improves wrist MPJPE by 13.1%.
     </p>
   </div>
 

@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 1904.05866 · CVPR 2019</div>
+    <h1>Expressive Body Capture: 3D Hands, Face, and Body from a Single Image</h1>
+    <div class="authors">
+      Georgios Pavlakos, Vasileios Choutas, Nima Ghorbani, Timo Bolkart, Ahmed A. A. Osman, Dimitrios Tzionas, Michael J. Black<br>
+      <span style="opacity:.7">Max Planck Institute for Intelligent Systems · University of Pennsylvania</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Single-View SMPLX regression</span>
+      <span class="tag">SMPLify-X</span>
+      <span class="tag">SMPL-X</span>
+      <span class="tag">Optimization-Based Fitting</span>
+      <span class="tag">Body + Hands + Face</span>
+      <span class="tag">VPoser</span>
+      <span class="tag tag-blue">CVPR 2019</span>
+      <span class="tag tag-orange">MPI / UPenn</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/1904.05866" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/1904.05866" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://smpl-x.is.tue.mpg.de/" target="_blank">Project / Model</a>
+      <a class="link-btn link-g" href="https://github.com/vchoutas/smplify-x" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can we recover an expressive 3D human mesh with body, articulated hands, and facial expression from a single RGB image, without paired image-to-3D SMPL-X training data?</div>
+      <div class="zh"><b>一句话问题：</b>能否仅从单张 RGB 图像恢复包含身体、精细手部和面部表情的 3D 人体 mesh，并且不依赖成对的图像到 SMPL-X 3D 训练数据？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> SMPLify-X is the anchor method for <b>Single-View SMPLX regression</b>. Strictly speaking, it is <b>optimization-based fitting</b>, not a feed-forward neural regressor, but it defines the SMPL-X target representation and produces pseudo labels used by later regressors such as ExPose.</div>
+      <div class="zh"><b>在本库中的定位：</b>SMPLify-X 是 <b>Single-View SMPLX regression</b> 的基础方法。严格说它是<b>优化式拟合</b>，不是前向神经网络回归器，但它定义了 SMPL-X 输出表示，并为后续 ExPose 等回归方法提供 pseudo label。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>SMPL-X unified expressive body model:</b> Extends SMPL with MANO-style articulated hands and a FLAME-style expressive face, learned from thousands of 3D scans into a single differentiable mesh model.</div>
+        <div class="zh"><b>SMPL-X 统一表达式人体模型：</b>在 SMPL 基础上加入 MANO 式精细手部和 FLAME 式面部表情，并从数千个 3D 扫描中学习成统一可微 mesh 模型。</div>
+      </li>
+      <li>
+        <div class="en"><b>SMPLify-X fitting pipeline:</b> Fits SMPL-X to a single image by minimizing 2D reprojection error against OpenPose body, hand, foot, and face keypoints plus priors and collision terms.</div>
+        <div class="zh"><b>SMPLify-X 拟合管线：</b>通过最小化 OpenPose 身体、手、脚、脸关键点的 2D 重投影误差，并结合先验和碰撞项，将 SMPL-X 拟合到单张图像。</div>
+      </li>
+      <li>
+        <div class="en"><b>VPoser pose prior:</b> Replaces SMPLify's hand-crafted / GMM-style prior with a VAE latent pose prior trained on large MoCap data, improving robustness under 2D-to-3D ambiguity.</div>
+        <div class="zh"><b>VPoser 姿态先验：</b>用基于 VAE 的潜空间人体姿态先验替代 SMPLify 的手工/GMM 式先验，在 2D 到 3D 歧义下提高拟合稳定性。</div>
+      </li>
+      <li>
+        <div class="en"><b>Fast differentiable interpenetration penalty:</b> Adds a more accurate and efficient self-collision term using a BVH-style implementation with custom CUDA/PyTorch operators.</div>
+        <div class="zh"><b>快速可微穿透惩罚：</b>加入更准确高效的自碰撞项，使用 BVH 式实现和自定义 CUDA/PyTorch 算子。</div>
+      </li>
+      <li>
+        <div class="en"><b>Practical release:</b> Releases fitting code, model assets, VPoser dependencies, example configs, and a research license pipeline that became a standard source of SMPL-X fits.</div>
+        <div class="zh"><b>实用开源：</b>发布拟合代码、模型资源、VPoser 依赖、示例配置和研究许可流程，成为后续 SMPL-X fits 的标准来源之一。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">RGB image</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">OpenPose keypoints</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (body + hands + feet + face)</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">gender model selection</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">L-BFGS SMPL-X optimization</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (2D reprojection + VPoser + priors + collision)</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">SMPL-X mesh</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (body, hands, face, shape, expression)</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Input:</b> one monocular RGB image. The public code expects an image folder plus precomputed OpenPose keypoints, including body, hands, feet, and face detections.</p>
+      <p style="margin:0 0 8px;"><b>Objective:</b> optimize SMPL-X pose, shape, facial expression, camera translation, and part-specific parameters to minimize robust 2D reprojection error while regularizing with VPoser, hand/face/expression priors, body-shape priors, bending penalties, and interpenetration penalties.</p>
+      <p style="margin:0 0 8px;"><b>Optimization:</b> uses PyTorch L-BFGS with strong Wolfe line search and a staged annealing scheme: first stabilize global body pose, then increase hand and face influence after the body fit is reasonable.</p>
+      <p style="margin:0;"><b>Output:</b> SMPL-X parameters and mesh in camera/image space. It is not metric world-space tracking and has no temporal state.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>输入：</b>单张单目 RGB 图像。公开代码要求图片目录和预先计算好的 OpenPose 关键点，包括身体、手部、脚部和面部检测。</p>
+      <p style="margin:0 0 8px;"><b>目标函数：</b>优化 SMPL-X 姿态、体型、面部表情、相机平移和各部位参数，最小化鲁棒 2D 重投影误差，同时加入 VPoser、手/脸/表情先验、体型先验、关节弯曲惩罚和自碰撞惩罚。</p>
+      <p style="margin:0 0 8px;"><b>优化：</b>使用 PyTorch L-BFGS 和 strong Wolfe line search，并采用分阶段 annealing：先稳定全局身体姿态，再逐步增加手部和面部关键点权重。</p>
+      <p style="margin:0;"><b>输出：</b>相机/图像坐标中的 SMPL-X 参数和 mesh。它不是公制世界坐标追踪，也没有时序状态。</p>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Data / Supervision</h2>
+    <table>
+      <tr><th>Component</th><th>Data / Supervision</th><th>Role</th></tr>
+      <tr>
+        <td>SMPL-X model</td>
+        <td>Thousands of 3D scans, combining SMPL body, MANO hands, and FLAME head/face into one learned model.</td>
+        <td>Defines the unified body+hands+face mesh representation.</td>
+      </tr>
+      <tr>
+        <td>2D fitting signal</td>
+        <td>OpenPose body, hand, foot, and face keypoints with confidence scores.</td>
+        <td>Provides the image evidence for monocular fitting without paired 3D labels.</td>
+      </tr>
+      <tr>
+        <td>VPoser</td>
+        <td>MoCap-derived body poses from CMU, Human3.6M training set, and PosePrior data.</td>
+        <td>Constrains body poses to a plausible latent pose manifold.</td>
+      </tr>
+      <tr>
+        <td>Gender classifier</td>
+        <td>50,216 training examples and 16,170 test samples annotated from LSP, LSP-extended, MPII, MS-COCO, and LIP.</td>
+        <td>Selects male, female, or neutral model to improve body-shape fitting.</td>
+      </tr>
+      <tr>
+        <td>EHF evaluation set</td>
+        <td>100 curated images with pseudo ground truth created from 3D scans and SMPL-X fits.</td>
+        <td>Quantitative evaluation for expressive body, hands, and face together.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Reported Results / Practical Facts</h2>
+    <table>
+      <tr><th>Aspect</th><th>Paper / Repository Report</th><th>Interpretation</th></tr>
+      <tr class="ours">
+        <td>Speed</td>
+        <td>PyTorch implementation reports more than 8x speedup over the older Chumpy implementation.</td>
+        <td>Still optimization-based and slower than feed-forward regressors, but practical enough for offline pseudo-label generation.</td>
+      </tr>
+      <tr>
+        <td>Evaluation data</td>
+        <td>EHF: 100 images with pseudo 3D ground truth from scans.</td>
+        <td>Important because full body+hand+face 3D ground truth is rare for single-view images.</td>
+      </tr>
+      <tr>
+        <td>Model coverage</td>
+        <td>Fits body, articulated hands, feet keypoints, facial landmarks, body shape, and facial expression.</td>
+        <td>More expressive than SMPL-only single-view fitting; captures cues needed for gestures and communication.</td>
+      </tr>
+      <tr>
+        <td>Release</td>
+        <td>GitHub repo includes fitting code, configs for SMPL / SMPL+H / SMPL-X, rendering script, requirements, and research license terms.</td>
+        <td>Useful as a reproducible baseline and as an engineering reference for SMPL-X optimization.</td>
+      </tr>
+    </table>
+    <p class="mini">Exact per-table EHF values should be read from the CVPR paper/PDF when comparing methods; this page emphasizes the method's role and engineering interface in this paper bank.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-n">1 image</span><span class="stat-l">monocular RGB input</span></div>
+      <div class="stat"><span class="stat-n">100</span><span class="stat-l">EHF eval images</span></div>
+      <div class="stat"><span class="stat-n">8x+</span><span class="stat-l">reported PyTorch speedup</span></div>
+      <div class="stat"><span class="stat-n">50,216</span><span class="stat-l">gender classifier train examples</span></div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Optimization, not direct regression:</b> SMPLify-X requires iterative fitting and is much slower than later feed-forward methods. It is better as a high-quality offline baseline or pseudo-label generator.</div>
+        <div class="zh"><b>优化式而非直接回归：</b>SMPLify-X 需要迭代拟合，比后续前向网络慢得多。它更适合作为高质量离线 baseline 或 pseudo-label 生成器。</div>
+      </li>
+      <li>
+        <div class="en"><b>Depends on 2D detections:</b> Bad OpenPose detections, hand occlusion, missing face keypoints, truncation, or multi-person ambiguity can drive the optimizer into poor local minima.</div>
+        <div class="zh"><b>依赖 2D 检测：</b>OpenPose 检测错误、手部遮挡、面部关键点缺失、人体截断或多人歧义都会让优化落入较差局部最优。</div>
+      </li>
+      <li>
+        <div class="en"><b>No temporal or world-space reasoning:</b> The method fits each image independently in camera/image coordinates; it does not enforce temporal smoothness, SLAM alignment, scale consistency, or scene contact.</div>
+        <div class="zh"><b>没有时序或世界坐标推理：</b>该方法逐图独立在相机/图像坐标中拟合，不强制时序平滑、SLAM 对齐、尺度一致性或场景接触。</div>
+      </li>
+      <li>
+        <div class="en"><b>Limited clothing/shape fidelity:</b> SMPL-X is a naked-body parametric model; clothing, hair, carried objects, and loose garments are not explicitly represented.</div>
+        <div class="zh"><b>衣物/外形表达有限：</b>SMPL-X 是裸人体参数模型；衣物、头发、手持物和宽松服装并没有显式表示。</div>
+      </li>
+      <li>
+        <div class="en"><b>License and model access:</b> The GitHub code is public, but SMPL-X model assets and related software are under non-commercial research terms and require separate model download/registration.</div>
+        <div class="zh"><b>许可和模型访问：</b>GitHub 代码公开，但 SMPL-X 模型资产和相关软件使用非商业研究许可，需要单独注册下载。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Direction</th><th>Relationship</th></tr>
+      <tr><td>Single-View SMPLX regression</td><td>SMPLify-X is the canonical optimization baseline and pseudo-label generator; later feed-forward methods learn to approximate or improve this process.</td></tr>
+      <tr><td>ExPose / body-driven attention</td><td>ExPose explicitly addresses SMPLify-X's slowness by training direct SMPL-X regressors and using body-driven crops for hands/face refinement.</td></tr>
+      <tr><td>Ego-to-Exo SMPLX Regression</td><td>Provides the target whole-body representation and priors, but lacks egocentric SLAM, world-space trajectory, and temporal consistency.</td></tr>
+      <tr><td>EgoSMPL-X proposal</td><td>Useful for initialization, offline pseudo labels, and defining unified body+hands+face parameterization; not sufficient for single head-mounted video without temporal and world-space modules.</td></tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en"><b>Research value:</b> For this paper bank, SMPLify-X is the root of the SMPL-X branch: it turns 2D cues into unified expressive 3D fits and makes later learning-based SMPL-X regressors possible. For egocentric work, the main lesson is how to combine body, hands, face, shape, and collision priors in one differentiable objective.</div>
+      <div class="zh"><b>研究价值：</b>在本库里，SMPLify-X 是 SMPL-X 分支的根方法：它把 2D 线索转成统一的 expressive 3D fits，使后续学习式 SMPL-X 回归器成为可能。对 egocentric 工作来说，关键启发是如何在一个可微目标函数中结合身体、手部、面部、体型和碰撞先验。</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      SMPLify-X (CVPR 2019) is the foundational single-view SMPL-X fitting method. It introduced the unified <b>SMPL-X</b> model for body + articulated hands + expressive face, then fits it to one RGB image using OpenPose 2D keypoints, <b>VPoser</b>, hand/face/shape priors, a differentiable collision penalty, gender-specific body models, and PyTorch L-BFGS optimization. It is not a real-time neural regressor, but it is the key optimization baseline and pseudo-label source for later Single-View SMPLX regression methods. For ego-to-exo work, it provides the representation and priors, while SLAM/world-space/temporal modules still need to be added.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

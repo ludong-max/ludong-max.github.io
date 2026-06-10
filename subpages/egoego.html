@@ -68,7 +68,7 @@
       <span style="opacity:.7">Stanford University</span>
     </div>
     <div style="margin-top:10px;">
-      <span class="tag">SMPL-X Body Regression</span>
+      <span class="tag">SMPL Body Regression</span>
       <span class="tag">Egocentric</span>
       <span class="tag">Conditional Diffusion</span>
       <span class="tag">SLAM</span>
@@ -77,7 +77,10 @@
     </div>
     <div class="link-row">
       <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2212.04636" target="_blank">📄 arXiv</a>
+      <a class="link-btn link-arxiv" href="https://arxiv.org/pdf/2212.04636" target="_blank">PDF</a>
       <a class="link-btn link-cvpr" href="https://openaccess.thecvf.com/content/CVPR2023/papers/Li_Ego-Body_Pose_Estimation_via_Ego-Head_Pose_Estimation_CVPR_2023_paper.pdf" target="_blank">📋 CVPR PDF</a>
+      <a class="link-btn link-arxiv" href="https://lijiaman.github.io/projects/egoego/" target="_blank">Project</a>
+      <a class="link-btn link-cvpr" href="https://github.com/lijiaman/egoego_release" target="_blank">GitHub</a>
     </div>
     <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
       <div class="en"><b>One-sentence problem:</b> Can we estimate full-body 3D human motion from monocular egocentric video — where the body is almost never visible — by using <em>head motion as an intermediate representation</em>, without requiring paired egocentric video + 3D motion training data?</div>
@@ -226,6 +229,34 @@
       <div class="en" style="color:rgba(232,236,255,.75);">Key takeaway: head pose accuracy directly bottlenecks body quality — improving head estimation from predicted (T_head=148mm) to GT (T_head=29mm) reduces MPJPE from 121mm to 106mm, a 12% gain. This motivates EgoAllo's improved SLAM conditioning.</div>
       <div class="zh" style="color:rgba(232,236,255,.75);">关键结论：头部姿态精度直接制约体态质量——将头部从预测（T_head=148mm）改善到真值（T_head=29mm）时，MPJPE 从 121mm 降至 106mm（提升 12%）。这为 EgoAllo 改进 SLAM 条件化提供了动机。</div>
     </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Camera-space body only:</b> EgoEgo estimates SMPL-style 22-joint body motion in the camera/head coordinate setting. It does not recover world-space / allocentric trajectories that can be directly anchored in an AR scene.</div>
+        <div class="zh"><b>仅相机坐标系身体：</b>EgoEgo 估计的是相机/头部坐标设定下的 22 关节 SMPL 式身体运动，不恢复可直接锚定到 AR 场景的世界坐标系 / 异中心轨迹。</div>
+      </li>
+      <li>
+        <div class="en"><b>No articulated hands or face:</b> The method does not estimate MANO hands, FLAME face, or unified SMPL-X parameters. It is useful as a body-motion precursor, not a complete whole-body avatar solution.</div>
+        <div class="zh"><b>没有精细手部或面部：</b>该方法不估计 MANO 手部、FLAME 面部或统一 SMPL-X 参数。它适合作为身体运动前序方法，而不是完整 whole-body avatar 方案。</div>
+      </li>
+      <li>
+        <div class="en"><b>Head pose is the bottleneck:</b> The diffusion body generator depends heavily on Stage-1 head pose. The paper's own ablation shows that using GT head pose reduces ARES MPJPE from 121.1mm to 105.6mm, so SLAM/HeadNet errors directly cap final body quality.</div>
+        <div class="zh"><b>头部姿态是瓶颈：</b>扩散体态生成器强依赖第一阶段头部姿态。论文消融显示，使用真值头部姿态可将 ARES MPJPE 从 121.1mm 降到 105.6mm，因此 SLAM/HeadNet 误差会直接限制最终体态质量。</div>
+      </li>
+      <li>
+        <div class="en"><b>Synthetic benchmark dependency:</b> ARES is valuable for systematic evaluation, but it is rendered from AMASS + Replica rather than captured in the wild. Real-world generalization is still tested on limited datasets such as Kinpoly and GIMO.</div>
+        <div class="zh"><b>依赖合成基准：</b>ARES 对系统评测很有价值，但它由 AMASS + Replica 渲染生成，不是真实野外采集。真实泛化仍主要依赖 Kinpoly 和 GIMO 等规模有限的数据集验证。</div>
+      </li>
+      <li>
+        <div class="en"><b>Generative but not real-time focused:</b> Stage 2 is a conditional diffusion model and quantitative evaluation samples multiple motions from the same head pose. This improves plausibility but is not optimized for low-latency headset deployment.</div>
+        <div class="zh"><b>生成式但不以实时为主：</b>第二阶段是条件扩散模型，定量评测会从同一头部姿态采样多个动作。这提升合理性，但并非针对低延迟头显部署优化。</div>
+      </li>
+    </ul>
   </div>
 
   <!-- vs EgoAllo -->

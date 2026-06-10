@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2207.13784 · ECCV 2022</div>
+    <h1>AvatarPoser: Articulated Full-Body Pose Tracking from Sparse Motion Sensing</h1>
+    <div class="authors">
+      Jiaxi Jiang, Paul Streli, Huajian Qiu, Andreas Fender, Larissa Laich, Patrick Snape, Christian Holz<br>
+      <span style="opacity:.7">ETH Zurich · Reality Labs at Meta</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">SMPL Body Regression</span>
+      <span class="tag">Sparse Sensor</span>
+      <span class="tag">HMD + Controllers</span>
+      <span class="tag">Transformer</span>
+      <span class="tag">Inverse Kinematics</span>
+      <span class="tag">Real-time VR</span>
+      <span class="tag tag-blue">ECCV 2022</span>
+      <span class="tag tag-orange">ETH / Meta</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2207.13784" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2207.13784" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://github.com/eth-siplab/AvatarPoser" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can a VR/AR system recover full-body SMPL avatar motion in world coordinates from only three sparse 6-DoF inputs: the headset and two hands/controllers?</div>
+      <div class="zh"><b>一句话问题：</b>VR/AR 系统能否只用头显和双手/控制器这 3 个稀疏 6DoF 输入，恢复世界坐标系下的全身 SMPL 虚拟人动作？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> precursor to later sparse-HMD body tracking work such as HMD-Poser. It belongs under <b>Ego-to-Exo SMPLX Regression → Sparse Sensor / HMD</b>, even though AvatarPoser itself uses the 22-joint SMPL body skeleton rather than SMPL-X.</div>
+      <div class="zh"><b>在本库中的定位：</b>这是 HMD-Poser 等稀疏 HMD 全身追踪工作的前序代表。归入 <b>Ego-to-Exo SMPLX Regression → Sparse Sensor / HMD</b>，但它本身使用的是 22 关节 SMPL 身体骨架，而不是 SMPL-X。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Three-input full-body avatar tracking:</b> Predicts full-body pose from only the head-mounted display and two hand/controller poses, avoiding pelvis trackers or body-worn IMUs.</div>
+        <div class="zh"><b>三输入全身虚拟人追踪：</b>只用头显和两个手部/控制器姿态预测全身动作，不依赖骨盆追踪器或身体 IMU。</div>
+      </li>
+      <li>
+        <div class="en"><b>Transformer sequence model:</b> Uses a 3-layer, 8-head Transformer encoder over a 40-frame history of sparse tracker signals, then predicts global orientation and local SMPL joint rotations.</div>
+        <div class="zh"><b>Transformer 时序模型：</b>对 40 帧稀疏追踪信号使用 3 层、8 头 Transformer 编码器，再预测全局朝向和局部 SMPL 关节旋转。</div>
+      </li>
+      <li>
+        <div class="en"><b>Global motion decoupling via Stabilizer:</b> Learns pelvis/global orientation separately instead of directly trusting head orientation, reducing floating-avatar artifacts when users rotate their head independently.</div>
+        <div class="zh"><b>Stabilizer 解耦全局运动：</b>单独学习骨盆/全局朝向，而不是直接相信头部朝向，降低用户独立转头时的漂浮虚拟人问题。</div>
+      </li>
+      <li>
+        <div class="en"><b>Learning + model-based IK:</b> FK supervision keeps the skeleton physically structured, while a post-network IK step adjusts shoulder/elbow rotations so the predicted hands better match tracked hand positions.</div>
+        <div class="zh"><b>学习模型 + IK 优化：</b>FK 监督保证骨架结构合理，网络后置 IK 调整肩肘旋转，使预测手部更贴近真实追踪的手部位置。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Architecture -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">3 sparse 6-DoF trackers</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">54-dim/frame signal</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Transformer Encoder</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Stabilizer + local pose MLP</span>
+      <span class="arrow">→</span>
+      <span style="color:#ffc850;">SMPL FK</span>
+      <span class="arrow">→</span>
+      <span style="color:#ffc850;">arm IK refinement</span>
+    </div>
+
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <b>Input:</b> for each tracker, position, linear velocity, 6D rotation, and angular velocity. With S=3 trackers, each frame has 54 features. The model consumes the previous 39 frames plus the current frame.<br><br>
+      <b>Output:</b> 22-joint SMPL pose. The network predicts local joint rotations plus pelvis/global orientation; pelvis translation is inferred from head position through the body kinematic chain.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <b>输入：</b>每个 tracker 包含位置、线速度、6D 旋转、角速度。S=3 时每帧 54 维；模型使用过去 39 帧 + 当前帧。<br><br>
+      <b>输出：</b>22 关节 SMPL 姿态。网络预测局部关节旋转和骨盆/全局朝向；骨盆平移通过头部位置和人体运动链推得。
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results — AMASS</h2>
+    <table>
+      <tr><th>Method</th><th colspan="3">Four Inputs: HMD + hands + pelvis</th><th colspan="3">Three Inputs: HMD + hands</th></tr>
+      <tr><th></th><th>MPJRE↓</th><th>MPJPE↓</th><th>MPJVE↓</th><th>MPJRE↓</th><th>MPJPE↓</th><th>MPJVE↓</th></tr>
+      <tr><td>Final IK</td><td class="num">12.39</td><td class="num">9.54</td><td class="num">36.73</td><td class="num">16.77</td><td class="num">18.09</td><td class="num">59.24</td></tr>
+      <tr><td>CoolMoves</td><td class="num">4.58</td><td class="num">5.55</td><td class="num">65.28</td><td class="num">5.20</td><td class="num">7.83</td><td class="num">100.54</td></tr>
+      <tr><td>LoBSTr</td><td class="num">8.09</td><td class="num">5.56</td><td class="num">30.12</td><td class="num">10.69</td><td class="num">9.02</td><td class="num">44.97</td></tr>
+      <tr><td>VAE-HMD</td><td class="num">3.12</td><td class="num">3.51</td><td class="num">28.23</td><td class="num">4.11</td><td class="num">6.83</td><td class="num">37.99</td></tr>
+      <tr class="ours best"><td><b>AvatarPoser</b></td><td class="num"><b>2.59</b></td><td class="num"><b>2.61</b></td><td class="num"><b>22.16</b></td><td class="num"><b>3.21</b></td><td class="num"><b>4.18</b></td><td class="num"><b>29.40</b></td></tr>
+    </table>
+    <p style="font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 10px;">MPJRE in degrees, MPJPE in cm, MPJVE in cm/s. Three-input setting is the practical MR setup: headset + two hands/controllers.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-n">4.18cm</span><span class="stat-l">MPJPE, 3-input AMASS</span></div>
+      <div class="stat"><span class="stat-n">2.61cm</span><span class="stat-l">MPJPE, 4-input AMASS</span></div>
+      <div class="stat"><span class="stat-n">662 FPS</span><span class="stat-l">reported network inference ceiling</span></div>
+      <div class="stat"><span class="stat-n">3 inputs</span><span class="stat-l">headset + two hands</span></div>
+    </div>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation — HDM05 Cross-Dataset</h2>
+    <table>
+      <tr><th>Configuration</th><th>MPJRE↓</th><th>Full-body MPJPE↓</th><th>Hand MPJPE↓</th></tr>
+      <tr class="ours best"><td><b>Default</b></td><td class="num"><b>6.39</b></td><td class="num"><b>8.05</b></td><td class="num"><b>1.86</b></td></tr>
+      <tr><td>No Stabilizer</td><td class="num">6.39</td><td class="num">9.29</td><td class="num">2.15</td></tr>
+      <tr><td>Predict pelvis position</td><td class="num">6.42</td><td class="num">8.82</td><td class="num">2.11</td></tr>
+      <tr><td>No FK module</td><td class="num">6.24</td><td class="num">8.41</td><td class="num">2.04</td></tr>
+      <tr><td>No IK module</td><td class="num">6.41</td><td class="num">8.07</td><td class="num">3.17</td></tr>
+    </table>
+    <div style="margin-top:8px;font-size:13px;line-height:1.6;">
+      <div class="en" style="color:rgba(232,236,255,.78);">The IK module is most visible in hand accuracy: removing it changes full-body MPJPE only slightly, but hand error rises from 1.86cm to 3.17cm. The Stabilizer mainly improves global body placement.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);">IK 模块最明显地改善手部精度：去掉它后全身 MPJPE 变化不大，但手部误差从 1.86cm 增至 3.17cm。Stabilizer 主要改善全身的全局朝向和放置。</div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>No visual grounding:</b> Uses only 6-DoF motion signals, so it cannot reason about scene contacts, object interactions, foot visibility, or camera images.</div>
+        <div class="zh"><b>没有视觉 grounding：</b>只使用 6DoF 运动信号，无法利用场景接触、物体交互、脚部可见性或相机图像。</div>
+      </li>
+      <li>
+        <div class="en"><b>Ambiguous lower body:</b> Inferring legs from head and hands is intrinsically underdetermined, especially for seated poses, small leg motions, or actions where the upper body is weakly correlated with the feet.</div>
+        <div class="zh"><b>下肢歧义：</b>从头和手推腿部本身就是欠定问题，坐姿、小幅腿部运动、上半身和脚弱相关动作尤其困难。</div>
+      </li>
+      <li>
+        <div class="en"><b>SMPL body only:</b> Does not model SMPL-X hands/face or detailed hand articulation. It is avatar body tracking, not full whole-body mesh recovery.</div>
+        <div class="zh"><b>仅 SMPL 身体：</b>不建模 SMPL-X 手/脸或精细手部关节；它是虚拟人身体追踪，不是完整 whole-body mesh recovery。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      AvatarPoser (ETH Zurich + Meta Reality Labs, ECCV 2022) is an early sparse-HMD full-body avatar tracking method. It predicts 22-joint SMPL motion from only the headset and two hand/controller 6-DoF streams using a Transformer encoder, a global-motion Stabilizer, FK supervision, and post-network arm IK. On AMASS, the practical three-input setting reaches <b>4.18cm MPJPE</b> vs VAE-HMD's 6.83cm, with reported network inference up to <b>662 FPS</b>. Best viewed as a predecessor to HMD-Poser: strong sparse-sensor body tracking, but no RGB scene grounding and no SMPL-X hands/face.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

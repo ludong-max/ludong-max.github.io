@@ -1,0 +1,288 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2511.16624 v2 · Meta · 2025/2026</div>
+    <h1>SAM 3D: 3Dfy Anything in Images</h1>
+    <div class="authors">
+      SAM 3D Team: Xingyu Chen, Fu-Jen Chu, Pierre Gleize, Kevin J Liang, Alexander Sax, Hao Tang, Weiyao Wang, Michelle Guo, Thibaut Hardin, Xiang Li, Aohan Lin, Jiawei Liu, Ziqi Ma, Anushka Sagar, Bowen Song, Xiaodong Wang, Jianing Yang, Bowen Zhang, Piotr Dollar, Georgia Gkioxari, Matt Feiszli, Jitendra Malik<br>
+      <span style="opacity:.7">Meta Superintelligence Labs / Meta AI</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Foundation Model</span>
+      <span class="tag">Single-Image 3D</span>
+      <span class="tag">Object Reconstruction</span>
+      <span class="tag">Geometry + Texture + Layout</span>
+      <span class="tag">Data Engine</span>
+      <span class="tag tag-purple">Future Work</span>
+      <span class="tag tag-blue">Meta</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2511.16624" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2511.16624" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://ai.meta.com/research/sam3d/" target="_blank">Project</a>
+      <a class="link-btn link-g" href="https://github.com/facebookresearch/sam-3d-objects" target="_blank">Objects GitHub</a>
+      <a class="link-btn link-g" href="https://github.com/facebookresearch/sam-3d-body" target="_blank">Body GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can a foundation model reconstruct visually grounded 3D objects from a single natural image, including shape, texture, pose/layout, and robustness to clutter and occlusion?</div>
+      <div class="zh"><b>一句话问题：</b>一个 foundation model 能否仅从单张自然图像中恢复视觉对齐的 3D 物体，包括形状、纹理、姿态/布局，并且能处理遮挡和复杂场景？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> SAM 3D is not an egocentric pose paper. It is included as a <b>Future Work / 3D foundation model</b> reference because egocentric AR needs object + body + scene reconstruction in a shared 3D frame. The arXiv paper focuses on <b>SAM 3D Objects</b>; Meta's SAM 3D suite also includes the companion <b>SAM 3D Body</b> model.</div>
+      <div class="zh"><b>在本库中的定位：</b>SAM 3D 不是自我中心姿态论文。这里把它作为 <b>Future Work / 3D foundation model</b> 参考，因为 egocentric AR 最终需要在同一 3D 坐标中恢复物体、人体和场景。该 arXiv 论文重点是 <b>SAM 3D Objects</b>；Meta 的 SAM 3D 套件还包含配套的 <b>SAM 3D Body</b>。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Single-image 3D object reconstruction foundation model:</b> Predicts object geometry, texture, and scene layout from natural images, targeting in-the-wild objects rather than curated synthetic or studio captures.</div>
+        <div class="zh"><b>单图 3D 物体重建 foundation model：</b>从自然图像预测物体几何、纹理和场景布局，目标是野外真实物体，而不是只处理合成或棚拍数据。</div>
+      </li>
+      <li>
+        <div class="en"><b>Data engine for the 3D data barrier:</b> Uses a human- and model-in-the-loop pipeline to annotate object shape, texture, and pose at scale, then aligns synthetic pretraining with real-world data.</div>
+        <div class="zh"><b>突破 3D 数据瓶颈的数据引擎：</b>使用 human/model-in-the-loop 标注流程，大规模获取物体形状、纹理和姿态，并把合成预训练与真实世界数据对齐。</div>
+      </li>
+      <li>
+        <div class="en"><b>Two-stage generative object pipeline:</b> The released SAM 3D Objects implementation uses a DiT-based pipeline: first reconstructing object shape/pose/layout, then refining texture and detail.</div>
+        <div class="zh"><b>两阶段生成式物体管线：</b>开源 SAM 3D Objects 实现使用基于 DiT 的管线：先恢复物体形状/姿态/布局，再精化纹理和细节。</div>
+      </li>
+      <li>
+        <div class="en"><b>Natural-image robustness:</b> Explicitly targets clutter, occlusion, small objects, unusual poses, and recognition cues from image context, where previous 3D generation models often fail.</div>
+        <div class="zh"><b>自然图像鲁棒性：</b>明确面向 clutter、遮挡、小物体、异常姿态和上下文识别线索，这些是以往 3D 生成模型常见失败点。</div>
+      </li>
+      <li>
+        <div class="en"><b>Released model/code/demo/benchmark:</b> Meta released code and weights for Objects and Body, an online playground, and a 3D Artist Object Set / benchmark for real-world 3D reconstruction evaluation.</div>
+        <div class="zh"><b>开放模型、代码、demo 和 benchmark：</b>Meta 发布 Objects 和 Body 的代码/权重、在线 playground，以及用于真实 3D 重建评测的 3D Artist Object Set / benchmark。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Single RGB image + object mask</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">SAM 3D Objects</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (DiT shape/pose/layout generator)</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">texture/detail refinement</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">posed 3D object model</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (geometry + texture + layout)</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Input:</b> a natural image and a target object mask. The public demo can reconstruct a single object or multiple masked objects and export results such as Gaussian splats / 3D assets.</p>
+      <p style="margin:0 0 8px;"><b>Object model:</b> SAM 3D Objects is designed to produce independent posed 3D objects that can be manipulated, inserted, or aligned with other scene elements.</p>
+      <p style="margin:0 0 8px;"><b>Training recipe:</b> synthetic pretraining is followed by real-world alignment using the data engine, with human feedback and model-in-the-loop annotation to scale visually grounded 3D supervision.</p>
+      <p style="margin:0;"><b>Companion model:</b> SAM 3D Body uses a transformer encoder-decoder to predict 3D human pose and mesh parameters from a single image, based on Meta's Momentum Human Rig (MHR) representation.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>输入：</b>一张自然图像和目标物体 mask。公开 demo 支持单物体或多 mask 物体重建，并导出 Gaussian splats / 3D assets 等结果。</p>
+      <p style="margin:0 0 8px;"><b>物体模型：</b>SAM 3D Objects 目标是生成可独立操作、插入和对齐的 posed 3D objects。</p>
+      <p style="margin:0 0 8px;"><b>训练策略：</b>先合成预训练，再通过数据引擎做真实世界对齐；用人工反馈和模型闭环标注扩大视觉对齐 3D 监督。</p>
+      <p style="margin:0;"><b>配套模型：</b>SAM 3D Body 使用 Transformer encoder-decoder，从单图预测 3D 人体姿态和 mesh 参数，基于 Meta 的 Momentum Human Rig (MHR) 表示。</p>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Data / Benchmark</h2>
+    <table>
+      <tr><th>Component</th><th>What It Provides</th><th>Why It Matters</th></tr>
+      <tr>
+        <td>Synthetic pretraining</td>
+        <td>Large-scale geometric and appearance prior before real-image alignment.</td>
+        <td>Gives the generator broad 3D shape coverage, but alone is insufficient for natural images.</td>
+      </tr>
+      <tr>
+        <td>Human + model-in-the-loop annotation</td>
+        <td>Object shape, texture, and pose supervision for real images.</td>
+        <td>Addresses the 3D data barrier: real-image 3D supervision is expensive and sparse.</td>
+      </tr>
+      <tr>
+        <td>3D Artist Object Set</td>
+        <td>A challenging real-world evaluation set for visually grounded 3D reconstruction.</td>
+        <td>Pushes evaluation away from curated synthetic assets toward common-sense 3D perception in real images.</td>
+      </tr>
+      <tr>
+        <td>SAM 3D Body data</td>
+        <td>Released data and checkpoints for promptable single-image human mesh recovery.</td>
+        <td>Useful companion for object+human scene reconstruction, but belongs to the separate SAM 3D Body paper.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Reported Results / Public Checkpoints</h2>
+    <table style="margin-bottom:14px;">
+      <tr><th>Result Type</th><th>Reported Number / Claim</th><th>Interpretation</th></tr>
+      <tr class="ours">
+        <td>SAM 3D Objects</td>
+        <td class="num">at least 5:1 win rate</td>
+        <td>Human preference tests favor SAM 3D over recent 3D generation methods on real-world objects and scenes.</td>
+      </tr>
+      <tr>
+        <td>Objects release</td>
+        <td>code + weights + online demo + benchmark</td>
+        <td>Important for reproducibility and practical testing on user-provided natural images.</td>
+      </tr>
+      <tr>
+        <td>SAM 3D Body DINOv3-H+ checkpoint</td>
+        <td class="num">3DPW MPJPE 54.8 · EMDB MPJPE 61.7 · RICH PVE 60.3 · COCO PCK@.05 86.5 · LSPET PCK@.05 68.0 · FreiHAND PA-MPJPE 5.5</td>
+        <td>Body repo reports strong broad benchmark performance for the companion HMR model.</td>
+      </tr>
+      <tr>
+        <td>SAM 3D Body ViT-H checkpoint</td>
+        <td class="num">3DPW MPJPE 54.8 · EMDB MPJPE 62.9 · RICH PVE 61.7 · COCO PCK@.05 86.8 · LSPET PCK@.05 68.9 · FreiHAND PA-MPJPE 5.5</td>
+        <td>Comparable public checkpoint with slightly different backbone tradeoffs.</td>
+      </tr>
+    </table>
+    <p class="mini">Object-side detailed table numbers are not exposed in the project-page text. The paper reports human preference win-rate; the public Body repository lists the body metrics above. Metrics use the official repositories/pages.</p>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Not egocentric or temporal:</b> SAM 3D is single-image reconstruction. It does not solve egocentric video tracking, temporal consistency, SLAM anchoring, or user-centric world-coordinate motion.</div>
+        <div class="zh"><b>不是自我中心时序方法：</b>SAM 3D 是单图重建，不解决 egocentric video tracking、时序一致性、SLAM 锚定或以用户为中心的世界坐标运动。</div>
+      </li>
+      <li>
+        <div class="en"><b>Object-level, not full scene geometry:</b> SAM 3D Objects reconstructs masked objects and layout, but it is not a complete metric SLAM/NeRF scene reconstruction system with physical scale guaranteed from arbitrary images.</div>
+        <div class="zh"><b>物体级而非完整场景几何：</b>SAM 3D Objects 重建 mask 物体和布局，但不是能从任意图像保证物理尺度的完整 metric SLAM/NeRF 场景重建系统。</div>
+      </li>
+      <li>
+        <div class="en"><b>Prompt/mask dependency:</b> Public workflows assume a target object mask. In an egocentric system, segmentation and object persistence across frames remain separate problems.</div>
+        <div class="zh"><b>依赖 prompt/mask：</b>公开流程假设已有目标物体 mask。在自我中心系统里，分割和跨帧物体持久跟踪仍是独立问题。</div>
+      </li>
+      <li>
+        <div class="en"><b>Body model is separate:</b> The arXiv 2511.16624 paper is centered on Objects. Body reconstruction uses the companion SAM 3D Body model/paper, so object and human results should not be conflated.</div>
+        <div class="zh"><b>人体模型是独立配套：</b>arXiv 2511.16624 重点是 Objects。人体重建来自配套 SAM 3D Body 模型/论文，不能把物体和人体结果混在一起解读。</div>
+      </li>
+      <li>
+        <div class="en"><b>Evaluation relies partly on preference:</b> Human preference is useful for visual quality, but for robotics/AR we still need metric pose, scale, contact, collision, and temporal stability metrics.</div>
+        <div class="zh"><b>评测部分依赖偏好测试：</b>人工偏好能衡量视觉质量，但 robotics/AR 仍需要尺度、位姿、接触、碰撞和时序稳定性的定量指标。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Bank Direction</th><th>How SAM 3D Helps</th><th>Remaining Gap</th></tr>
+      <tr>
+        <td>EgoSMPL-X proposal</td>
+        <td>SAM 3D Body suggests a strong single-image full-body mesh prior; Objects gives a route to reconstruct interactable objects around the avatar.</td>
+        <td>Need temporal egocentric fusion, world-space anchoring, and unified SMPL-X body+hands+face rather than separate image-level outputs.</td>
+      </tr>
+      <tr>
+        <td>Project Aria / NymeriaPlus</td>
+        <td>Aria/Nymeria have egocentric RGB, SLAM, audio, body motion, and object annotations; SAM 3D could enrich object meshes or scene priors.</td>
+        <td>Need calibration to Aria camera/SLAM coordinates and consistency across long egocentric sequences.</td>
+      </tr>
+      <tr>
+        <td>Hand-object / HOT3D</td>
+        <td>Object reconstruction can support interaction assets when known CAD or high-quality object meshes are missing.</td>
+        <td>Need contact-aware hand-object pose tracking and metric object alignment, not just plausible object shape.</td>
+      </tr>
+      <tr>
+        <td>Ego-Exo4D</td>
+        <td>Could produce object-level 3D priors from ego/exo frames for skilled activity understanding.</td>
+        <td>Need cross-view consistency and procedural temporal reasoning.</td>
+      </tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en"><b>Research value:</b> SAM 3D is best treated as a reusable 3D prior: object geometry/texture/layout for the environment, and companion body mesh recovery for people. The missing piece for this paper bank is egocentric temporal integration: SLAM alignment, persistent identities, contact-aware interaction, and SMPL-X-level human representation.</div>
+      <div class="zh"><b>研究价值：</b>SAM 3D 最适合作为可复用 3D prior：给环境提供物体几何/纹理/布局，配套 Body 模型给人提供 mesh recovery。本库真正缺的是 egocentric 时序整合：SLAM 对齐、持久身份、接触感知交互和 SMPL-X 级人体表示。</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      SAM 3D (Meta, arXiv 2511.16624) is a single-image 3D foundation model centered on <b>SAM 3D Objects</b>: it reconstructs object geometry, texture, pose, and layout from natural images using a large data engine and multi-stage training. The paper reports at least a <b>5:1 human-preference win rate</b> over recent 3D generation methods and releases code, weights, demo, and a real-world benchmark. For this egocentric paper bank, it is not a direct ego-body method; its value is as a future <b>object/scene 3D prior</b> that could be fused with Project Aria/Nymeria/EgoSMPL-X pipelines. The key missing work is temporal, metric, ego-SLAM-aligned reconstruction with persistent objects and SMPL-X humans.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

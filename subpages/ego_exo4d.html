@@ -140,6 +140,70 @@
     </ul>
   </div>
 
+  <!-- Ego Pose Benchmark -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ego Pose Benchmark — Data & Tasks</h2>
+    <div style="font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;margin-bottom:10px;">
+      <div class="en">
+        The Ego Pose benchmark is designed to recover the camera wearer's skilled <b>3D body and hand motion from first-person input</b>. At test time, it intentionally excludes exocentric video, point clouds, audio, and eye gaze so the task remains a true wearable/egocentric pose problem.
+      </div>
+      <div class="zh">
+        Ego Pose benchmark 的目标是从第一人称输入中恢复佩戴者的<b>三维身体和手部动作</b>。测试时刻意排除外部视角视频、点云、音频和眼动信息，确保任务是真正的 wearable / egocentric pose 问题。
+      </div>
+    </div>
+
+    <table>
+      <tr><th>Data Type</th><th>What It Contains</th><th>Use</th></tr>
+      <tr>
+        <td><b>Body pose labels</b></td>
+        <td>17 3D body joints following MS COCO convention, plus projected 2D keypoints. v2 documents 9.2M auto 3D / 46.87M auto 2D labels and 376K manual 3D / 2M manual 2D labels.</td>
+        <td>Train/evaluate full-body pose from ego RGB, IMU, or both.</td>
+      </tr>
+      <tr>
+        <td><b>Hand pose labels</b></td>
+        <td>21 3D joints per visible hand, 2D hand boxes/keypoints, and manual triangulation confidence via number of visible views. v2 documents 4.3M auto 3D / 21M auto 2D labels and 68K manual 3D / 340K manual 2D labels.</td>
+        <td>Train/evaluate ego hand pose from undistorted egocentric frames or hand crops.</td>
+      </tr>
+      <tr>
+        <td><b>Input streams</b></td>
+        <td>Egocentric Aria RGB video and IMU/head-pose sensor sequence for body; undistorted ego RGB frames for hand. Exo views are used for annotation generation, not benchmark test input.</td>
+        <td>Build methods that work from wearable first-person signals.</td>
+      </tr>
+      <tr>
+        <td><b>Annotation pipeline</b></td>
+        <td>Automatic GT from multi-view exo detections + camera-wearer selection using projected headset location + RANSAC triangulation. Hand annotations additionally use ego-frame hand detections and manual ego/exo correction.</td>
+        <td>Provides large pseudo-GT plus smaller manually verified evaluation data.</td>
+      </tr>
+    </table>
+
+    <div style="margin-top:12px;">
+      <table>
+        <tr><th>Task</th><th>Definition</th><th>Metrics / Baselines</th></tr>
+        <tr>
+          <td><b>Body pose estimation</b></td>
+          <td>Given ego RGB sequence, IMU/head-pose sequence, or both, estimate the camera wearer's 3D body pose sequence P<sub>t</sub> ∈ R<sup>17×3</sup>. Evaluation uses visible annotated joints.</td>
+          <td>MPJPE in cm, MPJVE in m/s. Baselines include Static Pose, Kinpoly, EgoEgo, and Location-based sparse-input Transformer.</td>
+        </tr>
+        <tr>
+          <td><b>Hand pose estimation</b></td>
+          <td>Given an egocentric frame/crop, estimate 21 3D joints for each hand that is at least partially visible in the ego view.</td>
+          <td>MPJPE and PA-MPJPE in mm. Baselines include THOR-net, HandOccNet, POTTER, and METRO inference.</td>
+        </tr>
+        <tr>
+          <td><b>Challenge-style extensions</b></td>
+          <td>CVPR/EgoVis challenge submissions explore model fusion, diffusion from SLAM/head pose, ViT-based body pose, and HP-ViT / HaMeR-style hand pose.</td>
+          <td>Useful for benchmarking new ego-body and ego-hand models against public leaderboard-style baselines.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;">
+      <div class="en" style="color:rgba(232,236,255,.78);"><b>What you can build with it:</b> ego-video body pose, IMU+video fusion, head-pose-to-body generation, single-frame ego hand pose, hand occlusion robustness, activity-conditioned pose priors, and pseudo-label pretraining for SMPL/SMPL-X fitting. <b>Important:</b> the benchmark gives 3D joints, not native SMPL-X parameters.</div>
+      <div class="zh" style="color:rgba(232,236,255,.78);"><b>可以实现的任务：</b>自我中心视频体态估计、IMU+视频融合、头部姿态到全身生成、单帧 ego 手部姿态、手部遮挡鲁棒性、动作条件化姿态先验，以及用于 SMPL/SMPL-X fitting 的 pseudo-label 预训练。<b>注意：</b>benchmark 提供的是 3D joints，不是原生 SMPL-X 参数。</div>
+    </div>
+  </div>
+
   <!-- Note -->
   <div class="card" style="background:rgba(255,200,80,.04);border-color:rgba(255,200,80,.30);">
     <h2 style="color:#ffc850;margin-bottom:8px;">⚠️ Note</h2>

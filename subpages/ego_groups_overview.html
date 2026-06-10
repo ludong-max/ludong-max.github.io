@@ -186,34 +186,6 @@
         </div>
       </div>
 
-      <!-- Pico / ByteDance -->
-      <div class="group-card" style="border-color:rgba(139,255,207,.25);">
-        <div class="group-header">
-          <div>
-            <div class="group-name">🟩 Pico / ByteDance</div>
-            <div class="group-affil">Pico AI Team · ByteDance VR subsidiary</div>
-          </div>
-          <span class="tag">Industry (China)</span>
-        </div>
-        <div class="group-summary">VR-native egocentric pose estimation group. Focus: multimodal fusion of HMD stereo imagery + body-worn IMUs for consumer VR (PICO4 headset). The only team building a large synchronized HMD+IMU dataset with SMPL body annotations from real-world hardware. EMHI fills a gap between vision-only methods (UnrealEgo, EgoPoseFormer) and IMU-only methods (HMD-Poser) by providing both modalities together at scale.</div>
-        <div class="group-summary-zh">面向 VR 的自我中心姿态估计团队。专注：消费级 VR（PICO4 头显）中 HMD 双目图像与体穿式 IMU 的多模态融合。唯一构建大规模同步 HMD+IMU 数据集并附有真实硬件 SMPL 体态标注的团队。EMHI 填补了纯视觉方法（UnrealEgo、EgoPoseFormer）和纯 IMU 方法（HMD-Poser）之间的空白，同时在规模上提供两种模态。</div>
-        <ul class="dataset-list">
-          <li>
-            <span class="ds-name">EMHI</span>
-            <span class="ds-venue">AAAI 2025 · 885 seq · 58 subj · 39 actions · 28.5h · 3.07M pairs</span>
-            <div style="margin-top:3px;font-size:11px;color:rgba(232,236,255,.55);">
-              PICO4 stereo (640×480) + 5 IMUs (head/2×hands/2×legs) · SMPL GT (θ∈ℝ⁷⁵, β∈ℝ¹⁰) via Kinect+Optitrack+IK ·
-              MEPoser baseline: MPJPE <b style="color:var(--accent2);">3.7cm</b> (P1) ↓32.7% vs UnrealEgo ↓36.2% vs HMD-Poser
-            </div>
-          </li>
-        </ul>
-        <div style="margin-top:8px;">
-          <a class="link-btn" href="https://arxiv.org/abs/2408.17168" target="_blank">EMHI arXiv</a>
-          <a class="link-btn" href="https://github.com/Pico-AI-Team/EMHI" target="_blank">GitHub</a>
-          <a class="link-btn" href="https://pico-ai-team.github.io/EMHI/" target="_blank">Project Page</a>
-        </div>
-      </div>
-
       <!-- Alibaba / InternRobotics -->
       <div class="group-card">
         <div class="group-header">
@@ -287,14 +259,6 @@
         <td>Ego4D · Ego-Exo4D</td>
       </tr>
       <tr>
-        <td><b>Pico / ByteDance</b></td>
-        <td>Industry</td>
-        <td>PICO4 VR + IMUs</td>
-        <td><span class="en">VR pose, HMD+IMU fusion</span><span class="zh">VR 体姿、HMD+IMU 融合</span></td>
-        <td style="color:#ffc850;">⚠️ SMPL <span class="en">(not SMPL-X)</span><span class="zh">（非 SMPL-X）</span></td>
-        <td>EMHI (AAAI 2025)</td>
-      </tr>
-      <tr>
         <td><b>Alibaba / InternRobotics</b></td>
         <td>Industry</td>
         <td><span class="en">Various</span><span class="zh">多种</span></td>
@@ -324,11 +288,7 @@
         <li><b>ETH Zurich (Tang/Pollefeys)</b> is the top academic group for 3D body understanding from egocentric views, with SMPL-X as the output format — most directly useful for body regression research.</li>
         <li><b>CMU (Kitani) / Berkeley (Malik)</b> are key academic PIs in the Ego4D/Ego-Exo4D consortium.</li>
       </ul>
-      <p style="margin:0 0 10px;"><b>New entrants to watch:</b></p>
-      <ul style="margin:0;">
-        <li><b>Pico / ByteDance (EMHI, AAAI 2025)</b> is the most relevant new entrant for VR body pose research. They are the only group producing a real-world, publicly available dataset that synchronizes consumer VR headset video with multi-body-part IMUs and provides SMPL annotations. EMHI's multimodal fusion approach (MPJPE 3.7cm) outperforms both vision-only (EgoPoseFormer, 5.1cm) and IMU-only (HMD-Poser) methods on their benchmark. Key limitation: uses SMPL (not SMPL-X), and the EGO-ITW-70M unlabeled data is Meta-internal for their follow-up work.</li>
-        <li><b>Alibaba/InternRobotics</b> (EgoRe-5M, 13M clips) signals that Chinese AI labs are entering the egocentric space at scale, specifically targeting video-language reasoning rather than MoCap-style annotation.</li>
-      </ul>
+      <p style="margin:0;"><b>New entrant to watch:</b> Alibaba/InternRobotics (EgoRe-5M, 13M clips) signals that Chinese AI labs are entering the egocentric space at scale, specifically targeting video-language reasoning rather than MoCap-style annotation.</p>
     </div>
     <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;">
       <p style="margin:0 0 10px;"><b>工业巨头——两大阵营：</b></p>
@@ -345,11 +305,7 @@
         <li><b>ETH Zurich（Tang/Pollefeys）</b>是从自我中心视角进行 3D 人体理解的顶级学术团队，以 SMPL-X 作为输出格式——对体态回归研究最直接有用。</li>
         <li><b>CMU（Kitani）/ Berkeley（Malik）</b>是 Ego4D/Ego-Exo4D 联合体的核心学术 PI。</li>
       </ul>
-      <p style="margin:0 0 10px;"><b>值得关注的新兴力量：</b></p>
-      <ul style="margin:0;">
-        <li><b>Pico / ByteDance（EMHI，AAAI 2025）</b>是 VR 体态研究中最值得关注的新兴参与者。他们是唯一提供真实世界公开数据集的团队，该数据集将消费级 VR 头显视频与多部位 IMU 同步，并提供 SMPL 标注。EMHI 的多模态融合方法（MPJPE 3.7cm）在其基准上优于纯视觉（EgoPoseFormer，5.1cm）和纯 IMU（HMD-Poser）方法。关键局限：使用 SMPL（非 SMPL-X），且用于后续工作的 EGO-ITW-70M 无标注数据是 Meta 内部数据集。</li>
-        <li><b>阿里巴巴/书生机器人</b>（EgoRe-5M，1300 万片段）表明中国 AI 实验室正在大规模进入自我中心领域，专门针对视频-语言推理而非传统动捕式标注。</li>
-      </ul>
+      <p style="margin:0;"><b>值得关注的新兴力量：</b>阿里巴巴/书生机器人（EgoRe-5M，1300 万片段）表明中国 AI 实验室正在大规模进入自我中心领域，专门针对视频-语言推理而非传统动捕式标注。</p>
     </div>
   </div>
 
@@ -358,10 +314,10 @@
     <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
     <h2 style="color:var(--accent2);">TL;DR</h2>
     <div class="en" style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
-      <b>Meta dominates</b> egocentric data at scale and quality. <b>Bristol</b> owns the kitchen benchmark community. <b>ETH Zurich</b> leads academic 3D body understanding with SMPL-X. <b>Microsoft</b> covers HoloLens-based task guidance. <b>Apple and Google have no public egocentric datasets.</b> <b>Pico / ByteDance</b> is the key new entrant for VR pose research — EMHI (AAAI 2025) is the only public real-world dataset combining consumer HMD stereo video with 5 body-worn IMUs and SMPL body annotations. <b>Alibaba</b> is the large-scale entrant for video-language reasoning. For SMPL-X body regression, Meta (Nymeria) and ETH (EgoBody) remain the primary sources; for HMD+IMU multimodal fusion, Pico's EMHI is the unique reference.
+      <b>Meta dominates</b> egocentric data at scale and quality. <b>Bristol</b> owns the kitchen benchmark community. <b>ETH Zurich</b> leads academic 3D body understanding with SMPL-X. <b>Microsoft</b> covers HoloLens-based task guidance. <b>Apple and Google have no public egocentric datasets.</b> <b>Alibaba</b> is the new large-scale entrant focusing on video-language reasoning. For body regression research, Meta (Nymeria) and ETH (EgoBody) are the most relevant sources of SMPL-X compatible egocentric training data.
     </div>
     <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.85);line-height:1.75;">
-      <b>Meta 在规模和质量上主导</b>自我中心数据领域。<b>Bristol</b> 拥有厨房基准社区。<b>ETH Zurich</b> 以 SMPL-X 引领学术 3D 人体理解。<b>Microsoft</b> 覆盖基于 HoloLens 的任务指导。<b>Apple 和 Google 没有公开的自我中心数据集。</b><b>Pico / ByteDance</b> 是 VR 体态研究的关键新兴参与者——EMHI（AAAI 2025）是唯一将消费级 HMD 双目视频与 5 个体穿式 IMU 及 SMPL 体态标注结合的公开真实世界数据集。<b>阿里巴巴</b>是视频-语言推理领域的大规模新进入者。对于 SMPL-X 体态回归，Meta（Nymeria）和 ETH（EgoBody）仍是主要数据来源；对于 HMD+IMU 多模态融合，Pico 的 EMHI 是唯一参考。
+      <b>Meta 在规模和质量上主导</b>自我中心数据领域。<b>Bristol</b> 拥有厨房基准社区。<b>ETH Zurich</b> 以 SMPL-X 引领学术 3D 人体理解。<b>Microsoft</b> 覆盖基于 HoloLens 的任务指导。<b>Apple 和 Google 没有公开的自我中心数据集。</b><b>阿里巴巴</b>是专注视频-语言推理的新兴大规模参与者。对于体态回归研究，Meta（Nymeria）和 ETH（EgoBody）是最相关的 SMPL-X 兼容自我中心训练数据来源。
     </div>
   </div>
 

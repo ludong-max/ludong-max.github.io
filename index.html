@@ -280,7 +280,7 @@
 
 <script>
   /* ── Paper data ──────────────────────────────────────────────────────
-     topic  : "Public Datasets" | "SMPL-X Body Regression/Generation" | "Hand Regression"
+     topic  : "Public Datasets" | "Single-View SMPLX regression" | "Ego-to-Exo SMPLX Regression" | "Hand Regression"
      subtopic (optional) : sub-group label shown inside the topic card
   */
   const PAPERS = [
@@ -340,68 +340,91 @@
       subtopic: "Egocentric"
     },
     {
-      id: "emhi",
-      abbr: "EMHI (Multimodal Egocentric HMD+IMU Dataset)",
-      year: 2025,
-      note: "Dataset + Baseline: PICO4 stereo HMD + 5 body-worn IMUs · 885 seq · 58 subj · 39 actions · 28.5h · SMPL GT · MEPoser MPJPE 3.7cm P1 (↓32.7% vs UnrealEgo) · AAAI 2025 Pico",
-      path: "subpages/emhi.html",
-      arxiv: "https://arxiv.org/abs/2408.17168",
-      pdf: "https://arxiv.org/pdf/2408.17168",
-      topic: "Body Pose Estimation",
-      subtopic: "Egocentric Estimation"
+      id: "smplifyx",
+      abbr: "SMPLify-X (Expressive Body Capture)",
+      year: 2019,
+      note: "Single-View SMPLX regression: CVPR 2019 optimization-based fitting of SMPL-X body+hands+face from one RGB image via OpenPose 2D keypoints, VPoser prior, collision penalty, and gender-specific body models; foundational pseudo-label generator for later SMPL-X regressors",
+      path: "subpages/smplifyx.html",
+      arxiv: "https://arxiv.org/abs/1904.05866",
+      pdf: "https://arxiv.org/pdf/1904.05866",
+      topic: "Single-View SMPLX regression",
+      subtopic: "Optimization / Fitting"
+    },
+    {
+      id: "vposer",
+      abbr: "VPoser / human_body_prior (Variational Body Pose Prior)",
+      year: 2019,
+      note: "Single-View SMPLX regression: AMASS-trained VAE prior for 21-joint SMPL/SMPL-X body pose; encodes 63D axis-angle pose into low-dimensional poZ latent space and decodes via continuous 6D rotations; used by SMPLify-X as differentiable IK/pose regularization",
+      path: "subpages/vposer.html",
+      arxiv: "https://arxiv.org/abs/1904.05866",
+      pdf: "https://arxiv.org/pdf/1904.05866",
+      topic: "Single-View SMPLX regression",
+      subtopic: "Optimization / Prior"
     },
     {
       id: "hmd_poser",
       abbr: "HMD-Poser (On-Device Body from Sparse HMD+IMU)",
       year: 2024,
-      note: "SMPL-X Body Regression/Generation: LSTM+Transformer TSFL; scalable HMD-only/+2IMU/+3IMU; online shape head ↓37% MPJPE; 90 FPS on PICO 4; MPJPE 3.19cm HMD-only vs 5.03cm prior SOTA",
+      note: "Ego-to-Exo SMPLX Regression: LSTM+Transformer TSFL; scalable HMD-only/+2IMU/+3IMU; online shape head ↓37% MPJPE; 90 FPS on PICO 4; MPJPE 3.19cm HMD-only vs 5.03cm prior SOTA",
       path: "subpages/hmd_poser.html",
       arxiv: "https://arxiv.org/abs/2403.03561",
       pdf: "https://arxiv.org/pdf/2403.03561",
-      topic: "SMPL-X Body Regression/Generation",
+      topic: "Ego-to-Exo SMPLX Regression",
+      subtopic: "Sparse Sensor / HMD"
+    },
+    {
+      id: "avatarposer",
+      abbr: "AvatarPoser (Full-Body Avatar from HMD+Hands)",
+      year: 2022,
+      note: "SMPL Body Regression: Transformer + Stabilizer + FK/IK for full-body avatar pose from only HMD + 2 hand controllers; 3-input AMASS MPJPE 4.18cm vs VAE-HMD 6.83cm; ECCV 2022",
+      path: "subpages/avatarposer.html",
+      arxiv: "https://arxiv.org/abs/2207.13784",
+      pdf: "https://arxiv.org/pdf/2207.13784",
+      topic: "Ego-to-Exo SMPLX Regression",
+      subtopic: "Sparse Sensor / HMD"
+    },
+    {
+      id: "egoposer",
+      abbr: "EgoPoser (Robust Sparse-HMD Body in Large Scenes)",
+      year: 2024,
+      note: "SMPL Body Regression: ECCV 2024 ETH SIPLab; Global-in-Local decomposition + realistic hand FoV masking + SlowFast fusion for real-time body pose from HMD + intermittent hands; AMASS offset 50m MPJPE 4.14cm vs AvatarPoser 31.67cm; 600+ FPS",
+      path: "subpages/egoposer.html",
+      arxiv: "https://arxiv.org/abs/2308.06493",
+      pdf: "https://static.siplab.org/papers/eccv2024-egoposer.pdf",
+      topic: "Ego-to-Exo SMPLX Regression",
       subtopic: "Sparse Sensor / HMD"
     },
     {
       id: "egoego",
       abbr: "EgoEgo (Ego-Body via Ego-Head Pose)",
       year: 2023,
-      note: "SMPL-X Body Regression/Generation: SLAM+GravityNet+HeadNet → head pose → conditional diffusion → SMPL body; unpaired training; CVPR 2023 precursor to EgoAllo; MPJPE 121mm on ARES",
+      note: "Ego-to-Exo SMPLX Regression: SLAM+GravityNet+HeadNet → head pose → conditional diffusion → SMPL body; unpaired training; CVPR 2023 precursor to EgoAllo; MPJPE 121mm on ARES",
       path: "subpages/egoego.html",
       arxiv: "https://arxiv.org/abs/2212.04636",
       pdf: "https://arxiv.org/pdf/2212.04636",
-      topic: "SMPL-X Body Regression/Generation",
+      topic: "Ego-to-Exo SMPLX Regression",
       subtopic: "Egocentric Estimation"
     },
     {
       id: "egoallo",
       abbr: "EgoAllo (Egocentric Body & Hand Estimation)",
       year: 2024,
-      note: "SMPL-X Body Regression/Generation: Conditional diffusion for allocentric body+hand motion from egocentric SLAM footage, ↓18% body error / ↓40% hand error",
+      note: "Ego-to-Exo SMPLX Regression: Conditional diffusion for allocentric body+hand motion from egocentric SLAM footage, ↓18% body error / ↓40% hand error",
       path: "subpages/egoallo.html",
       arxiv: "https://arxiv.org/abs/2410.03665",
       pdf: "https://arxiv.org/pdf/2410.03665",
-      topic: "SMPL-X Body Regression/Generation",
-      subtopic: "Egocentric Estimation"
-    },
-    {
-      id: "egoposeformer",
-      abbr: "EgoPoseFormer (Stereo Egocentric 3D Pose)",
-      year: 2024,
-      note: "Egocentric Pose: PPN (2-layer MLP, global pool) + PRFormer (DETR-style, Deformable Stereo Attn); MPJPE 33.4mm ↓45% vs Ego3DPose; 14.1M params / 7.3G FLOPs; SceneEgo MPJPE 93.0mm ↓21%; Edinburgh + Meta; ECCV 2024",
-      path: "subpages/egoposeformer.html",
-      pdf: "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/07241.pdf",
-      topic: "Body Pose Estimation",
+      topic: "Ego-to-Exo SMPLX Regression",
       subtopic: "Egocentric Estimation"
     },
     {
       id: "egoposeformer_v2",
       abbr: "EgoPoseFormer v2 (Egocentric Body for AR/VR)",
       year: 2026,
-      note: "Egocentric Pose (XYZ + Momentum body model, NOT SMPL-X): Single holistic query transformer + projection-conditioned MV attention + causal temporal + ALS (70M unlabeled); MPJPE 4.02cm ↓22.4% vs EgoBody3M; 0.8ms GPU; CVPR 2026 Meta",
+      note: "Ego-to-Exo SMPLX Regression: Single holistic query transformer + projection-conditioned MV attention + causal temporal + ALS (70M unlabeled); MPJPE 4.02cm ↓22.4% vs EgoBody3M; 0.8ms GPU; CVPR 2026 Meta",
       path: "subpages/egoposeformer_v2.html",
       arxiv: "https://arxiv.org/abs/2603.04090",
       pdf: "https://arxiv.org/pdf/2603.04090",
-      topic: "Body Pose Estimation",
+      topic: "Ego-to-Exo SMPLX Regression",
       subtopic: "Egocentric Estimation"
     },
     {
@@ -471,6 +494,28 @@
       subtopic: "Ego-Exo4D"
     },
     {
+      id: "future_ego_smplx",
+      abbr: "EgoSMPL-X: Egocentric-Guided Full-Body SMPL-X (Proposal)",
+      year: 2026,
+      note: "Future Work: 3-branch diffusion (EgoAllo body + HaWoR hands + audio face) → unified world-space SMPL-X; builds on NymeriaPlus/HOT3D/EgoBody; target CVPR 2027 / SIGGRAPH Asia 2026",
+      path: "subpages/future_ego_smplx.html",
+      arxiv: "",
+      pdf: "",
+      topic: "Future Work",
+      subtopic: "Research Proposal"
+    },
+    {
+      id: "sam3d",
+      abbr: "SAM 3D (3Dfy Anything in Images)",
+      year: 2025,
+      note: "Future Work: Meta 3D foundation model for single-image object geometry+texture+layout reconstruction; data engine + synthetic pretraining + real-world alignment; ≥5:1 human-preference win rate; useful as object/scene prior for egocentric AR, but not an ego temporal method",
+      path: "subpages/sam3d.html",
+      arxiv: "https://arxiv.org/abs/2511.16624",
+      pdf: "https://arxiv.org/pdf/2511.16624",
+      topic: "Future Work",
+      subtopic: "3D Foundation Model"
+    },
+    {
       id: "ego_groups_overview",
       abbr: "Egocentric Dataset Landscape — Who Else?",
       year: 2025,
@@ -491,22 +536,11 @@
       pdf: "",
       topic: "Major Group",
       subtopic: "Meta Reality Labs"
-    },
-    {
-      id: "viser",
-      abbr: "Viser (Imperative, Web-based 3D Visualization in Python)",
-      year: 2025,
-      note: "Tools · 3D Visualization: imperative Python API + web-based viewer (SSH-friendly); supports point clouds, meshes, Gaussian splats, coordinate frames + rich GUI widgets; React/three.js frontend; 2.6k stars, used by nerfstudio/gsplat",
-      path: "subpages/viser.html",
-      arxiv: "https://arxiv.org/abs/2507.22885",
-      pdf: "https://arxiv.org/pdf/2507.22885",
-      topic: "Tools",
-      subtopic: "3D Visualization"
     }
   ];
 
   /* Topic display order */
-  const TOPIC_ORDER = ["Public Datasets", "SMPL-X Body Regression/Generation", "Hand Regression", "Major Group", "Tools"];
+  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Ego-to-Exo SMPLX Regression", "Hand Regression", "Major Group"];
 
   let activePaper = null;
 
@@ -577,7 +611,7 @@
   }
 
   /* ── Dashboard ── */
-  const RELATED_WORK_TOPICS = new Set(["Major Group", "CVPR Trend"]);
+  const RELATED_WORK_TOPICS = new Set(["Major Group", "CVPR Trend", "Future Work"]);
 
   function buildTopicCards(topics, byTopic) {
     let html = "";
