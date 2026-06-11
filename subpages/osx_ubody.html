@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-orange{border-color:rgba(255,180,80,.35);color:#ffb450;background:rgba(255,180,80,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2303.16160 · CVPR 2023</div>
+    <h1>One-Stage 3D Whole-Body Mesh Recovery with Component Aware Transformer</h1>
+    <div class="authors">
+      Jing Lin, Ailing Zeng, Haoqian Wang, Lei Zhang, Yu Li<br>
+      <span style="opacity:.7">International Digital Economy Academy (IDEA) · Tsinghua University SIGS</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Single-View SMPLX regression</span>
+      <span class="tag">OSX</span>
+      <span class="tag">SMPL-X</span>
+      <span class="tag">Whole-Body Mesh</span>
+      <span class="tag">Body + Hands + Face</span>
+      <span class="tag">Component Aware Transformer</span>
+      <span class="tag">UBody</span>
+      <span class="tag tag-blue">CVPR 2023</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2303.16160" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2303.16160" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://osx-ubody.github.io/" target="_blank">Project</a>
+      <a class="link-btn link-g" href="https://github.com/IDEA-Research/OSX" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can we recover expressive SMPL-X body, hands, and face from a single image in one stage, without separate body/hand/face expert networks and late copy-paste fusion?</div>
+      <div class="zh"><b>一句话问题：</b>能否从单张图像一步恢复 SMPL-X 的身体、双手和面部，而不是先分别跑 body/hand/face 专家网络再做后期拼接融合？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> OSX belongs under <b>Single-View SMPLX regression -> One-Stage / Whole-Body</b>. It is a feed-forward SMPL-X regressor for a single monocular image, complementary to SMPLify-X, which is optimization-based fitting.</div>
+      <div class="zh"><b>在本库中的定位：</b>OSX 归入 <b>Single-View SMPLX regression -> One-Stage / Whole-Body</b>。它是单张单目图像的前向 SMPL-X 回归器，和优化式拟合的 SMPLify-X 互补。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>First one-stage whole-body SMPL-X pipeline:</b> OSX predicts body, hands, face, shape, expression, and camera/global translation in one encoder-decoder model, avoiding separate part networks and manual post-processing.</div>
+        <div class="zh"><b>首个 one-stage whole-body SMPL-X 管线：</b>OSX 用一个 encoder-decoder 同时预测身体、双手、面部、体型、表情和相机/全局平移，避免独立部位网络和手工后处理。</div>
+      </li>
+      <li>
+        <div class="en"><b>Component Aware Transformer (CAT):</b> A global body encoder uses body tokens to regress coarse body parameters and produce a strong feature map for local components.</div>
+        <div class="zh"><b>Component Aware Transformer (CAT)：</b>全局 body encoder 使用 body tokens 回归粗粒度身体参数，并为局部部件提供高质量 feature map。</div>
+      </li>
+      <li>
+        <div class="en"><b>High-resolution local decoder:</b> A differentiable feature-level upsample-crop branch extracts higher-resolution hand and face features without running separate hand/face backbones.</div>
+        <div class="zh"><b>高分辨率局部 decoder：</b>通过可微的 feature-level upsample-crop 提取高分辨率手部和面部特征，而不需要额外 hand/face backbone。</div>
+      </li>
+      <li>
+        <div class="en"><b>Keypoint-guided deformable attention:</b> 2D keypoint references initialize component tokens, then deformable attention samples near each keypoint to improve hands and face while keeping cost manageable.</div>
+        <div class="zh"><b>关键点引导的 deformable attention：</b>用 2D keypoint reference 初始化 component tokens，再在每个关键点附近做 deformable attention 采样，提高双手和面部精度并控制计算量。</div>
+      </li>
+      <li>
+        <div class="en"><b>UBody dataset:</b> Builds a 1.051M-frame upper-body dataset with 15 real-life scenes, 2D whole-body keypoints, 3D SMPL-X annotations, frame-valid labels, person boxes, and hand boxes.</div>
+        <div class="zh"><b>UBody 数据集：</b>构建 105.1 万帧 upper-body 数据集，覆盖 15 类真实生活场景，含 2D whole-body keypoints、3D SMPL-X 标注、有效帧标签、人框和手框。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">single RGB image</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">patch tokens + body tokens</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">global CAT encoder</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">feature upsample + RoIAlign crop</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">keypoint-guided local decoder</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">SMPL-X mesh</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Input / output:</b> one human image in, SMPL-X parameters and a whole-body mesh out. The parameter groups include body joint rotations, body shape, global translation, left/right hand rotations, jaw rotation, and facial expression.</p>
+      <p style="margin:0 0 8px;"><b>Global encoder:</b> image patches are encoded with learnable body tokens. The body tokens regress global/body parameters while the image tokens retain feature maps for local decoding.</p>
+      <p style="margin:0 0 8px;"><b>Local component decoder:</b> predicted hand/face boxes crop multi-scale feature maps using differentiable RoIAlign. Component tokens are initialized from predicted 2D keypoints and updated through multi-scale deformable cross-attention.</p>
+      <p style="margin:0;"><b>Losses:</b> end-to-end L1 losses on SMPL-X parameters, 3D whole-body keypoints, projected 2D whole-body keypoints, and left/right hand plus face boxes.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>输入 / 输出：</b>输入一张人体图像，输出 SMPL-X 参数和 whole-body mesh。参数包括身体关节旋转、体型、全局平移、左右手旋转、下颌旋转和面部表情。</p>
+      <p style="margin:0 0 8px;"><b>全局 encoder：</b>图像 patch 与可学习 body tokens 一起编码。body tokens 回归全局/身体参数，image tokens 保留给局部 decoder 使用的 feature maps。</p>
+      <p style="margin:0 0 8px;"><b>局部 component decoder：</b>根据预测的手/脸框，用可微 RoIAlign 裁剪多尺度 feature maps。component tokens 由预测 2D 关键点初始化，并通过多尺度 deformable cross-attention 更新。</p>
+      <p style="margin:0;"><b>损失：</b>端到端 L1 监督 SMPL-X 参数、3D whole-body keypoints、投影 2D whole-body keypoints，以及左右手和面部 boxes。</p>
+    </div>
+  </div>
+
+  <!-- Dataset -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>UBody Dataset</h2>
+    <table>
+      <tr><th>Attribute</th><th>Value</th><th>Why It Matters</th></tr>
+      <tr>
+        <td>Scale</td>
+        <td class="num">1.051M frames</td>
+        <td>Much larger than EHF and more focused on upper-body expressiveness than AGORA.</td>
+      </tr>
+      <tr>
+        <td>Scenes</td>
+        <td>15 real-life scenes: conduct music, conference, entertainment, fitness, interview, live vlog, magic show, movie, Olympic, online class, sign language, singing, speech, TV show, etc.</td>
+        <td>Covers gestures, faces, truncation, shot changes, edited media, and non-lab settings.</td>
+      </tr>
+      <tr>
+        <td>Annotations</td>
+        <td>2D whole-body keypoints, 3D SMPL-X, frame-valid labels, person boxes, hand boxes.</td>
+        <td>Supports both whole-body mesh regression and downstream gesture / expression tasks.</td>
+      </tr>
+      <tr>
+        <td>Dataset gap</td>
+        <td>Upper bodies are closer to the camera; hands and faces are more visible and more important.</td>
+        <td>Addresses a failure mode of AGORA-style full-body distant-person data.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Reported Results</h2>
+    <table>
+      <tr><th>Benchmark</th><th>OSX Number</th><th>Comparison / Takeaway</th></tr>
+      <tr class="ours">
+        <td>AGORA-test</td>
+        <td class="num">All MPVPE 122.8 · N-MPVPE All 130.6 · Body 85.3</td>
+        <td>Beats listed multi-stage whole-body methods; project page reports Top-1 on AGORA SMPL-X leaderboard in March 2023.</td>
+      </tr>
+      <tr class="ours">
+        <td>EHF</td>
+        <td class="num">All MPVPE 70.8 · Hand 53.7 · Face 26.4 · PA All 48.7</td>
+        <td>Better all-component error than Hand4Whole while using a one-stage architecture.</td>
+      </tr>
+      <tr>
+        <td>3DPW body-only</td>
+        <td class="num">MPJPE 74.7 · PA-MPJPE 45.1</td>
+        <td>Shows the whole-body model remains competitive on body-only recovery.</td>
+      </tr>
+      <tr>
+        <td>UBody intra-scene, pretrained</td>
+        <td class="num">All MPVPE 92.4 · Hand 47.7 · Face 24.9 · PA All 42.4</td>
+        <td>OSX generalizes better than ExPose / PIXIE / Hand4Whole on the new upper-body benchmark.</td>
+      </tr>
+      <tr class="ours">
+        <td>UBody intra-scene, finetuned on UBody</td>
+        <td class="num">All MPVPE 81.9 · Hand 41.5 · Face 21.2 · PA All 42.2</td>
+        <td>Finetuning on UBody improves the original pretrained model by 16.1% in the paper narrative.</td>
+      </tr>
+    </table>
+    <p class="mini">Errors are in millimeters. MPVPE is mean per-vertex position error; PA means after Procrustes alignment; N-MPVPE is AGORA's normalized metric.</p>
+  </div>
+
+  <!-- Comparison -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Position vs. Nearby Methods</h2>
+    <table>
+      <tr><th>Method</th><th>Pipeline</th><th>Output</th><th>Main Tradeoff</th></tr>
+      <tr>
+        <td>SMPLify-X</td>
+        <td>Optimization-based fitting from OpenPose keypoints</td>
+        <td>SMPL-X body + hands + face</td>
+        <td>High-quality offline fit, but slow and dependent on 2D detections.</td>
+      </tr>
+      <tr>
+        <td>ExPose / Hand4Whole</td>
+        <td>Multi-stage body/hand/face estimation and fusion</td>
+        <td>SMPL-X or whole-body mesh</td>
+        <td>Good local detail, but late fusion can create inconsistent wrists or unnatural part connections.</td>
+      </tr>
+      <tr class="ours">
+        <td>OSX</td>
+        <td>One-stage component-aware Transformer</td>
+        <td>SMPL-X body + hands + face</td>
+        <td>Simpler end-to-end system with shared context and high-res local decoding; still single-image and not temporal.</td>
+      </tr>
+      <tr>
+        <td>HaMeR / WiLoR</td>
+        <td>Hand-specific feed-forward regression</td>
+        <td>MANO hand mesh</td>
+        <td>Stronger dedicated hand reconstruction, but not a unified body+face SMPL-X system.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Single-image only:</b> OSX does not use temporal consistency, SLAM, IMU, contact, or world-space constraints, so it can jitter on video and cannot recover metric motion by itself.</div>
+        <div class="zh"><b>仅单图：</b>OSX 不使用时序一致性、SLAM、IMU、接触或世界坐标约束，因此在视频上可能抖动，也不能独立恢复公制运动。</div>
+      </li>
+      <li>
+        <div class="en"><b>Single-person crop assumption:</b> The paper focuses on a human image/crop rather than all-in-one multi-person detection and mesh recovery.</div>
+        <div class="zh"><b>单人 crop 假设：</b>论文重点是给定人体图像/crop 的恢复，而不是 all-in-one 多人检测加 mesh recovery。</div>
+      </li>
+      <li>
+        <div class="en"><b>Hands and face remain hard:</b> Even with high-resolution decoding, small, occluded, or motion-blurred hands/faces remain the dominant error source.</div>
+        <div class="zh"><b>手和脸仍然困难：</b>即使有高分辨率 decoder，小尺度、遮挡或运动模糊的手/脸仍是主要误差来源。</div>
+      </li>
+      <li>
+        <div class="en"><b>Parametric body limit:</b> SMPL-X does not explicitly model clothing, hair, props, object contact, or dense surface deformation.</div>
+        <div class="zh"><b>参数人体限制：</b>SMPL-X 不显式建模衣物、头发、道具、物体接触或稠密表面形变。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Takeaway -->
+  <div class="card" style="border-color:rgba(139,255,207,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Bottom Line</h2>
+    <div class="en" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.84);">
+      OSX is the clean one-stage baseline for single-image SMPL-X regression: global body context plus local high-resolution hand/face decoding in one Transformer. For this paper bank, it fills the gap between optimization-based SMPLify-X and later specialized hand/egocentric methods. It is useful as an image-level whole-body regressor, but still needs temporal/world-space extensions for egocentric motion capture.
+    </div>
+    <div class="zh" style="display:none;font-size:13px;line-height:1.7;color:rgba(232,236,255,.84);">
+      OSX 是单图 SMPL-X 回归里很清晰的 one-stage baseline：在一个 Transformer 中同时建模全局身体上下文和局部高分辨率手/脸解码。对本论文库来说，它填补了优化式 SMPLify-X 与后续专用手部/自我中心方法之间的空位。它适合作为图像级 whole-body regressor，但若用于 egocentric motion capture，还需要时序和世界坐标扩展。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

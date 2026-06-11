@@ -11,7 +11,7 @@ An interactive paper-reading dashboard for egocentric computer vision research, 
 | Topic | Papers |
 |---|---|
 | **Public Datasets** | NymeriaPlus, Nymeria, EPIC-KITCHENS, Ego-Exo4D v1/v2 |
-| **Single-View SMPLX regression** | SMPLify-X, VPoser / human_body_prior |
+| **Single-View SMPLX regression** | SMPLify-X, VPoser / human_body_prior, OSX / UBody |
 | **Ego-to-Exo SMPLX Regression** | HMD-Poser, AvatarPoser, EgoEgo, EgoAllo, EgoPoseFormer v2 |
 | **Hand Regression (MANO)** | HaMeR, WiLoR, HaWoR, Dyn-HaMR |
 | **CVPR Trends** | Ego Full-Body Estimation (CVPR 2026+), Works Using Ego-Exo4D, DETR-style / DETR / D4RT |
