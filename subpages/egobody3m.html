@@ -1,0 +1,330 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  p{margin:0 0 8px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-p{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-p:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.two-col{grid-template-columns:1fr;}}
+  .sub-box{background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px;}
+  .sub-box h3{margin:0 0 8px;font-size:13px;color:var(--accent2);}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.48);margin:7px 0 0;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · ECCV 2024 · LNCS 15137 · doi:10.1007/978-3-031-72986-7_22</div>
+    <h1>EgoBody3M: Egocentric Body Tracking on a VR Headset using a Diverse Dataset</h1>
+    <div class="authors">
+      Amy Zhao*, Chengcheng Tang*, Lezi Wang, Yijing Li, Mihika Dave, Lingling Tao, Christopher D. Twigg, Robert Y. Wang<br>
+      <span style="opacity:.7">Meta Platforms Inc.</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Egocentric Body Tracking</span>
+      <span class="tag">VR Headset</span>
+      <span class="tag">Multi-view Mono Cameras</span>
+      <span class="tag">Temporal Latent Features</span>
+      <span class="tag tag-blue">ECCV 2024</span>
+      <span class="tag tag-warn">Meta</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/10261_ECCV_2024_paper.php" target="_blank">ECVA</a>
+      <a class="link-btn link-a" href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10261.pdf" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/10261-supp.pdf" target="_blank">Supplement</a>
+      <a class="link-btn link-p" href="https://doi.org/10.1007/978-3-031-72986-7_22" target="_blank">DOI</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can a practical VR headset track the wearer's full body without controllers or extra body sensors, using only the same flush-mounted monochrome cameras already needed for inside-out SLAM?</div>
+      <div class="zh"><b>一句话问题：</b>一个实际 VR 头显能否不依赖手柄或额外身体传感器，只用机身上用于 inside-out SLAM 的贴面单色相机，实时追踪佩戴者全身？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> This is primarily a <b>Public Dataset / Egocentric</b> entry because EgoBody3M is a large real headset dataset. It also belongs to the ego body-estimation line: EgoPoseFormer v2 later uses EgoBody3M as its main benchmark.</div>
+      <div class="zh"><b>在本库中的定位：</b>这里优先归到 <b>Public Dataset / Egocentric</b>，因为 EgoBody3M 的核心价值是大规模真实头显数据集；同时它也是 egocentric body estimation 路线的重要前置基准，EgoPoseFormer v2 后续主要在这个 benchmark 上报告结果。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>First practical controller-less VR body tracker:</b> The method runs on an actual VR headset and uses the same four surface-mounted monochrome cameras used for SLAM, avoiding rods, room-scale external cameras, controllers, and body-worn IMUs at test time.</div>
+        <div class="zh"><b>首个实用 controller-less VR body tracker：</b>方法运行在真实 VR 头显上，只使用头显上四个贴面单色 SLAM 相机，测试时不需要外伸支架、房间外部相机、手柄或身体 IMU。</div>
+      </li>
+      <li>
+        <div class="en"><b>EgoBody3M dataset:</b> 31.8 hours of real capture, 3.4M quality-filtered frames, 13.7M headset images, 2,688 sequences, 120 subjects, and 30 motion protocols spanning social, productivity, sports/fitness, gaming, and miscellaneous motions.</div>
+        <div class="zh"><b>EgoBody3M 数据集：</b>31.8 小时真实采集、340 万质量过滤后的帧、1370 万头显图像、2688 条序列、120 名受试者，覆盖 social、productivity、sports/fitness、gaming 等 30 类动作协议。</div>
+      </li>
+      <li>
+        <div class="en"><b>Realistic headset geometry:</b> Four synchronized monochrome global-shutter cameras are mounted close to the headset surface; this is much closer to product form factors than earlier egocentric rigs that put cameras far from the user's face.</div>
+        <div class="zh"><b>真实头显几何：</b>四个同步单色 global-shutter 相机贴近头显表面安装，比早期把相机伸到脸前很远的 egocentric rig 更接近真实产品形态。</div>
+      </li>
+      <li>
+        <div class="en"><b>Temporal latent-feature architecture:</b> Instead of lifting 2D keypoints only, the model encodes all four camera views into latent image features, applies a causal TCN and an LSTM, and predicts 26 world-space 3D keypoints.</div>
+        <div class="zh"><b>时序 latent-feature 架构：</b>模型不是只 lift 2D 关键点，而是把四个相机视角编码成 latent image features，再用因果 TCN + LSTM 输出 26 个世界坐标 3D keypoints。</div>
+      </li>
+      <li>
+        <div class="en"><b>Strong benchmark gains:</b> On EgoBody3M, the proposed latent+temporal E2E model reaches 5.18cm MPJPE and 0.54cm/frame MPJVE, outperforming UnrealEgo's 7.41cm and 1.27cm/frame under the paper's training protocol.</div>
+        <div class="zh"><b>明显 benchmark 提升：</b>在 EgoBody3M 上，latent+temporal E2E 模型达到 5.18cm MPJPE 和 0.54cm/frame MPJVE，优于 UnrealEgo 的 7.41cm 和 1.27cm/frame。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dataset Statistics -->
+  <div class="card">
+    <h2>Dataset Statistics</h2>
+    <table>
+      <tr><th>Attribute</th><th>EgoBody3M</th></tr>
+      <tr><td>Total duration</td><td>31.8 hours of real headset capture</td></tr>
+      <tr><td>Scale</td><td>3.4M quality-filtered frames at 30fps · 13.7M headset images from four cameras</td></tr>
+      <tr><td>Sequences / subjects</td><td>2,688 sequences from 120 subjects</td></tr>
+      <tr><td>Headset cameras</td><td>4 synchronized monochrome global-shutter cameras: two side VGA 640×480 cameras and two front 1280×1024 cameras</td></tr>
+      <tr><td>Camera placement</td><td>Approximately 1.5cm from the head; designed to match realistic VR headset ergonomics</td></tr>
+      <tr><td>Output labels</td><td>26 3D body keypoints in world space for benchmarking; no hand keypoints in the body dataset</td></tr>
+      <tr><td>Motion coverage</td><td>30 protocols covering social gestures, virtual meetings/productivity, sports/fitness, gaming, and miscellaneous motions</td></tr>
+      <tr><td>Environment coverage</td><td>Indoor VR settings: office, bedroom, living room, dining room, studio apartment; furniture and decor changed daily</td></tr>
+      <tr><td>Subject diversity</td><td>Paper reports balanced gender, skin tone, height, BMI, clothing type/fit/pattern, accessories, and footwear diversity</td></tr>
+      <tr><td>Ground-truth rig</td><td>8 synchronized outside-in Azure Kinect RGB-D cameras + OptiTrack headset pose tracking</td></tr>
+    </table>
+  </div>
+
+  <!-- Annotation Pipeline -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Annotation / Ground Truth Pipeline</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">8 Azure Kinect RGB-D views + OptiTrack HMD pose</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">2D keypoints from two detectors</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">outlier rejection + triangulation</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">deformable ICP body tracking</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">manual QA filter</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p><b>Body model:</b> The annotation tracker uses an anatomically inspired model with 159 joints, 67 degrees of freedom, a 7,324-vertex mesh, linear blend skinning, and a 128D shape basis where the first 10 dimensions are used for shape solving.</p>
+      <p><b>Tracking:</b> Multi-view 2D keypoints are triangulated after iterative outlier rejection, then a frame-to-frame deformable ICP fit aligns the skinned body mesh to the fused depth point cloud.</p>
+      <p><b>Quality filtering:</b> Annotators review frames at 2fps and assign four labels: Perfect, Slightly inaccurate, Very inaccurate, and Wrong. Only Perfect and Slightly inaccurate frames are kept for training and metrics.</p>
+    </div>
+    <div class="zh" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p><b>人体模型：</b>标注 tracker 使用解剖启发的人体模型，包含 159 个 joints、67 个自由度、7324 个 mesh vertices、linear blend skinning，以及 128D shape basis，其中前 10 维用于 shape solving。</p>
+      <p><b>追踪流程：</b>多视角 2D keypoints 经过迭代 outlier rejection 后三角化，再用 frame-to-frame deformable ICP 把 skinned body mesh 对齐到融合深度点云。</p>
+      <p><b>质量过滤：</b>标注员以 2fps 审核帧，分为 Perfect、Slightly inaccurate、Very inaccurate、Wrong 四档；训练和评测只保留前两档。</p>
+    </div>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">4 headset mono views</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> resized to 160×128</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">shared multi-view encoder</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> 2D heatmap pretrain</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">latent feature concat</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">causal 1-layer TCN</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> 3-frame receptive field</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">LSTM</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> 256 hidden dim</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">26 3D body keypoints</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p><b>Why latent features?</b> Egocentric body tracking has frequent occlusion and out-of-view joints. A pure 2D-keypoint representation collapses uncertainty too early; latent image features retain cues such as limb fragments, clothing contours, and motion history.</p>
+      <p><b>Temporal design:</b> The TCN is fully causal, so runtime does not wait for future frames. The LSTM runs recurrently and updates from the latest frame at inference, making it compatible with low-latency VR.</p>
+      <p><b>Training:</b> Each sample is a 31-frame chunk. The first 27 frames warm up the LSTM state and only the last 5 frames are supervised. The loss combines L2 pose loss, L2 hidden-state regularization, and fourth-order pose-jerk regularization for smoothness.</p>
+      <p><b>Avatar output:</b> The network predicts body keypoints, not SMPL/SMPL-X. For the headset demo, the paper retargets keypoints to an internal skinned body model with Gauss-Newton IK, fuses a separate hand tracker, and allows temporally regularized limb-scale changes.</p>
+    </div>
+    <div class="zh" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p><b>为什么用 latent features：</b>自我中心身体追踪经常有遮挡和 out-of-view joints。只用 2D keypoints 会过早丢掉不确定性；latent image features 能保留肢体片段、衣物轮廓和历史运动等线索。</p>
+      <p><b>时序设计：</b>TCN 完全因果，不需要等待未来帧；LSTM 推理时递归运行，只用最新帧更新，适合低延迟 VR。</p>
+      <p><b>训练方式：</b>每个样本是 31 帧序列，前 27 帧用于 warm up LSTM hidden state，只监督最后 5 帧。损失包含 L2 pose、L2 hidden-state regularization 和四阶 pose jerk 正则以提升平滑性。</p>
+      <p><b>Avatar 输出：</b>网络本身预测 body keypoints，不是 SMPL/SMPL-X。头显 demo 中，论文把 keypoints 通过 Gauss-Newton IK retarget 到内部 skinned body model，并融合单独 hand tracker，同时允许带时序正则的 limb-scale 调整。</p>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results — EgoBody3M Benchmark</h2>
+    <table style="margin-bottom:8px;">
+      <tr><th>Model</th><th>Training</th><th>Overall MPJPE↓</th><th>OOV Wrist MPJPE↓</th><th>Overall MPJVE↓</th></tr>
+      <tr><td>UnrealEgo</td><td>2-stage</td><td class="num">7.41 cm</td><td class="num">23.7 cm</td><td class="num">1.27 cm/frame</td></tr>
+      <tr><td>2D keypoints + MLP lifting</td><td>2-stage</td><td class="num">17.5 cm</td><td class="num">62.5 cm</td><td class="num">0.80 cm/frame</td></tr>
+      <tr><td>Latent + MLP</td><td>E2E</td><td class="num">5.49 cm</td><td class="num">14.1 cm</td><td class="num">0.97 cm/frame</td></tr>
+      <tr><td>Latent + temporal</td><td>2-stage</td><td class="num">6.54 cm</td><td class="num">20.9 cm</td><td class="num">0.57 cm/frame</td></tr>
+      <tr class="ours best"><td><b>Latent + temporal (ours)</b></td><td><b>E2E</b></td><td class="num"><b>5.18 cm</b></td><td class="num"><b>12.2 cm</b></td><td class="num"><b>0.54 cm/frame</b></td></tr>
+    </table>
+    <p class="mini">MPJPE is 3D Euclidean joint error in world space; MPJVE is velocity error. Lower is better.</p>
+
+    <h2 style="margin-top:16px;">Generalization Check — UnrealEgo Dataset</h2>
+    <table>
+      <tr><th>Method</th><th>Overall MPJPE↓</th></tr>
+      <tr><td>xR-EgoPose (w/o pretrain)</td><td class="num">12.32 cm</td></tr>
+      <tr><td>xR-EgoPose (w/ pretrain)</td><td class="num">11.29 cm</td></tr>
+      <tr><td>EgoGlass (w/o pretrain)</td><td class="num">10.77 cm</td></tr>
+      <tr><td>EgoGlass (w/ pretrain)</td><td class="num">9.14 cm</td></tr>
+      <tr><td>UnrealEgo (w/o pretrain)</td><td class="num">8.73 cm</td></tr>
+      <tr><td>UnrealEgo (w/ pretrain)</td><td class="num">7.91 cm</td></tr>
+      <tr class="ours best"><td><b>Ours</b></td><td class="num"><b>6.70 cm</b></td></tr>
+    </table>
+  </div>
+
+  <!-- Design Insight -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation / Design Insight</h2>
+    <div class="two-col">
+      <div class="sub-box">
+        <h3>Latent Image Features Beat Keypoint Lifting</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">2D keypoints + MLP gives 17.5cm MPJPE, while latent + MLP gives 5.49cm. For egocentric body tracking, visual evidence outside sparse keypoint heatmaps is essential when limbs are partially visible or fully out of view.</div>
+        <div class="zh" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">2D keypoints + MLP 是 17.5cm MPJPE，而 latent + MLP 是 5.49cm。对于 egocentric body tracking，当肢体部分可见或完全出视野时，heatmap 之外的视觉线索非常关键。</div>
+      </div>
+      <div class="sub-box">
+        <h3>Temporal Model Mainly Improves Smoothness</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">Latent + temporal E2E reduces MPJVE to 0.54cm/frame versus 0.97 for latent + MLP. The MPJPE gain is smaller, but perceived VR embodiment depends heavily on jitter and plausible motion continuity.</div>
+        <div class="zh" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">latent + temporal E2E 把 MPJVE 从 latent + MLP 的 0.97 降到 0.54cm/frame。MPJPE 提升较小，但 VR 里的身体存在感非常依赖 jitter 和运动连续性。</div>
+      </div>
+      <div class="sub-box">
+        <h3>E2E Training Matters</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">Latent + temporal E2E reaches 5.18cm MPJPE, while the 2-stage frozen-encoder variant is 6.54cm. End-to-end gradients let the encoder adapt from 2D heatmap pretraining toward hidden body-state inference.</div>
+        <div class="zh" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">latent + temporal E2E 是 5.18cm MPJPE，而冻结 encoder 的两阶段版本是 6.54cm。端到端梯度让 encoder 从 2D heatmap 预训练进一步适配隐藏身体状态推理。</div>
+      </div>
+      <div class="sub-box">
+        <h3>Real-Data Scale Changes the Baseline</h3>
+        <div class="en" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">EgoBody3M is much larger than earlier real headset datasets and uses product-like camera placement. This makes it a better precursor for AR/VR deployment than synthetic-only or rod-mounted camera benchmarks.</div>
+        <div class="zh" style="font-size:12.5px;color:rgba(232,236,255,.78);line-height:1.6;">EgoBody3M 比早期真实头显数据集大得多，并使用更接近产品的相机布局。它比纯合成或外伸相机 rig 的 benchmark 更适合作为 AR/VR 部署前置数据。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Not SMPL-X / not full avatar geometry:</b> The benchmark output is 26 3D body keypoints. Mesh/avatar output requires a separate retargeting and IK stage with an internal body model.</div>
+        <div class="zh"><b>不是 SMPL-X / 不是完整 avatar geometry：</b>benchmark 输出是 26 个 3D body keypoints。mesh/avatar 输出需要额外 retargeting 和 IK，并使用内部人体模型。</div>
+      </li>
+      <li>
+        <div class="en"><b>No hand pose in the body network:</b> The paper explicitly relies on a separate hand tracker for the headset demo; it does not jointly solve body + hands + face.</div>
+        <div class="zh"><b>body network 不预测手部姿态：</b>论文 demo 中显式依赖单独 hand tracker；它没有联合解决 body + hands + face。</div>
+      </li>
+      <li>
+        <div class="en"><b>Hardware-specific input:</b> The method assumes four synchronized headset monochrome cameras. It is not a single RGB, Project Aria, or arbitrary ego-camera method without adaptation.</div>
+        <div class="zh"><b>输入硬件特定：</b>方法假设四个同步头显单色相机。未经适配时，它不是单 RGB、Project Aria 或任意 ego camera 方法。</div>
+      </li>
+      <li>
+        <div class="en"><b>Indoor VR distribution:</b> The dataset targets indoor VR use cases. It is less directly representative of outdoor egocentric activities, social partner capture, object interaction, or long in-the-wild daily motion.</div>
+        <div class="zh"><b>室内 VR 分布：</b>数据集主要面向室内 VR 场景，对户外第一人称活动、社交对象捕捉、物体交互和长时间日常运动的代表性较弱。</div>
+      </li>
+      <li>
+        <div class="en"><b>Failure cases remain severe:</b> The authors note issues with near-field hair/hats occluding tracking cameras and table-top occlusions covering both legs; they suggest more varied training data, large motion priors, and headset trajectory signals as future work.</div>
+        <div class="zh"><b>严重失败模式仍存在：</b>作者指出近场长发/帽子遮挡相机、桌面完全挡住双腿都会显著增大误差；未来可用更多样训练数据、大规模运动先验和头显轨迹信号改进。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Existing Page</th><th>Relationship</th></tr>
+      <tr>
+        <td><b>EgoPoseFormer v2</b></td>
+        <td><span class="en">Direct successor benchmark line. EPFv2 reports on EgoBody3M and improves over the EgoBody3M/EgoPoseFormer v1-style baseline with transformer query design and semi-supervised auto-labeling.</span><span class="zh">直接后续 benchmark 线。EPFv2 在 EgoBody3M 上报告结果，并用 transformer query 和半监督自动标注进一步超过 EgoBody3M / EgoPoseFormer v1 风格基线。</span></td>
+      </tr>
+      <tr>
+        <td><b>HMD-Poser / AvatarPoser / EgoPoser</b></td>
+        <td><span class="en">These use sparse headset/controller/IMU signals. EgoBody3M shows the complementary camera-based direction: richer visual evidence but stronger hardware/camera-placement assumptions.</span><span class="zh">这些方法主要用 sparse headset/controller/IMU 信号。EgoBody3M 展示了互补的 camera-based 路线：视觉证据更丰富，但对硬件和相机布局假设更强。</span></td>
+      </tr>
+      <tr>
+        <td><b>EgoAllo / EgoEgo</b></td>
+        <td><span class="en">EgoAllo/EgoEgo infer body motion from egocentric SLAM/head trajectory and RGB context. EgoBody3M instead predicts directly from multiple headset camera streams and does not use head trajectory as a model input in the main architecture.</span><span class="zh">EgoAllo/EgoEgo 从 egocentric SLAM/head trajectory 和 RGB context 推理身体运动。EgoBody3M 则直接从多头显相机流预测，主架构没有把 head trajectory 作为输入。</span></td>
+      </tr>
+      <tr>
+        <td><b>Future EgoSMPL-X direction</b></td>
+        <td><span class="en">The key transferable lesson is data and representation: realistic headset camera placement plus temporal latent features are valuable, but the next step needs SMPL-X body+hands+face, world-space consistency, and broader in-the-wild data.</span><span class="zh">可迁移启发是数据和表示：真实头显相机布局 + temporal latent features 很有价值；但下一步需要 SMPL-X body+hands+face、world-space consistency 和更广泛 in-the-wild 数据。</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TLDR -->
+  <div class="card" style="border-color:rgba(139,255,207,.30);background:rgba(139,255,207,.05);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>TL;DR</h2>
+    <div class="en" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.86);">
+      EgoBody3M is a practical VR egocentric body-tracking dataset and baseline: four flush-mounted monochrome headset cameras, 31.8h of real capture, 3.4M filtered frames, 120 subjects, and 26 world-space body keypoints. Its model uses multi-view latent image features plus causal TCN/LSTM temporal reasoning and reaches 5.18cm MPJPE on EgoBody3M, much better and smoother than UnrealEgo under the paper's protocol. For this bank, its main value is as the real-data bridge between product-like VR camera geometry and later egocentric body benchmarks such as EgoPoseFormer v2; its main gap is that it stops at body keypoints rather than unified world-space SMPL-X body+hands+face.
+    </div>
+    <div class="zh" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.86);">
+      EgoBody3M 是一个面向真实 VR 头显的 egocentric body-tracking 数据集和 baseline：四个贴面单色头显相机、31.8 小时真实采集、340 万过滤后帧、120 名受试者，以及 26 个世界坐标 body keypoints。方法用 multi-view latent image features + 因果 TCN/LSTM 做时序推理，在 EgoBody3M 上达到 5.18cm MPJPE，比论文协议下的 UnrealEgo 更准也更平滑。对本库而言，它的核心价值是连接真实产品化 VR 相机布局和后续 EgoPoseFormer v2 等 benchmark；主要缺口是输出停留在 body keypoints，而不是统一 world-space SMPL-X body+hands+face。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

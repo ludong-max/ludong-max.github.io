@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  p{margin:0 0 8px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-p{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-p:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.two-col{grid-template-columns:1fr;}}
+  .sub-box{background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px;}
+  .sub-box h3{margin:0 0 8px;font-size:13px;color:var(--accent2);}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.48);margin:7px 0 0;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · ECCV 2022 · arXiv 2208.01633 · doi:10.1007/978-3-031-20068-7_1</div>
+    <h1>UnrealEgo: A New Dataset for Robust Egocentric 3D Human Motion Capture</h1>
+    <div class="authors">
+      Hiroyasu Akada, Jian Wang, Soshi Shimada, Masaki Takahashi, Christian Theobalt, Vladislav Golyanik<br>
+      <span style="opacity:.7">Max Planck Institute for Informatics / Saarland Informatics Campus · Keio University</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Public Dataset</span>
+      <span class="tag">Synthetic Egocentric</span>
+      <span class="tag">Stereo Fisheye</span>
+      <span class="tag">Eyeglasses Setup</span>
+      <span class="tag">3D Body Keypoints</span>
+      <span class="tag tag-purple">Unreal Engine</span>
+      <span class="tag tag-blue">ECCV 2022</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2208.01633" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136660001.pdf" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://4dqv.mpi-inf.mpg.de/UnrealEgo/" target="_blank">Project</a>
+      <a class="link-btn link-p" href="https://github.com/hiroyasuakada/UnrealEgo" target="_blank">GitHub</a>
+      <a class="link-btn link-a" href="https://doi.org/10.1007/978-3-031-20068-7_1" target="_blank">DOI</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we train and evaluate egocentric 3D human pose estimators for compact eyeglasses-style stereo fisheye cameras when real large-scale paired 3D supervision is scarce?</div>
+      <div class="zh"><b>一句话问题：</b>当真实大规模 3D 监督很稀缺时，如何为紧凑眼镜式 stereo fisheye camera 训练和评测 egocentric 3D human pose estimator？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> UnrealEgo is a <b>Public Dataset / Synthetic Egocentric</b> entry. It is not SMPL-X and not real headset capture, but it became an important synthetic benchmark and baseline for later practical VR body-tracking datasets such as EgoBody3M.</div>
+      <div class="zh"><b>在本库中的定位：</b>UnrealEgo 属于 <b>Public Dataset / Synthetic Egocentric</b>。它不是 SMPL-X，也不是真实头显采集，但它是后续 EgoBody3M 这类真实 VR body tracking 数据集的重要合成 benchmark 和 baseline。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Large synthetic egocentric stereo dataset:</b> 450K in-the-wild stereo views / 900K images rendered from an eyeglasses-style rig with two fisheye cameras, covering indoor and outdoor 3D environments.</div>
+        <div class="zh"><b>大规模合成 egocentric stereo 数据集：</b>使用眼镜式双 fisheye camera rig 渲染 45 万个 in-the-wild stereo views / 90 万张图像，覆盖室内和室外 3D 环境。</div>
+      </li>
+      <li>
+        <div class="en"><b>Motion diversity as the core design:</b> The authors create 45,520 motions from Mixamo, manually repair implausible/self-penetrating motions, and modify speed, arm motion, foot stance, and head rotation to cover complex actions such as breakdance, backflip, crouching, boxing, and sports.</div>
+        <div class="zh"><b>以动作多样性为核心：</b>作者从 Mixamo 构建 45,520 个 motions，手动修复不合理/自穿插动作，并修改速度、手臂、脚步和头部旋转，覆盖 breakdance、backflip、crouching、boxing 和 sports 等复杂动作。</div>
+      </li>
+      <li>
+        <div class="en"><b>Realistic synthetic generation pipeline:</b> 17 RenderPeople characters are placed in 14 Unreal Engine environments with dynamic lighting, ray tracing where available, depth maps, camera metadata, 2D reprojections, and 3D joint labels.</div>
+        <div class="zh"><b>更真实的合成生成管线：</b>17 个 RenderPeople 人体模型被放入 14 个 Unreal Engine 环境，包含动态光照、可用时的 ray tracing、depth maps、camera metadata、2D reprojection 和 3D joints。</div>
+      </li>
+      <li>
+        <div class="en"><b>Stereo-aware baseline:</b> The method improves over EgoGlass by using two weight-sharing encoders and a decoder with unified stereo skip connections for 2D heatmap prediction, followed by a multi-branch 3D autoencoder.</div>
+        <div class="zh"><b>stereo-aware baseline：</b>方法相比 EgoGlass 的两个独立视角分支，使用双 weight-sharing encoder + 统一 stereo skip connection decoder 做 2D heatmap，再接 multi-branch 3D autoencoder。</div>
+      </li>
+      <li>
+        <div class="en"><b>Code and data release:</b> The project page and GitHub repository provide dataset downloads, preprocessing structure, trained weights, and scripts for training/testing the baseline.</div>
+        <div class="zh"><b>代码和数据开放：</b>项目页和 GitHub 提供数据下载、预处理结构、训练权重，以及训练/测试 baseline 的脚本。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Dataset Statistics -->
+  <div class="card">
+    <h2>Dataset Statistics</h2>
+    <table>
+      <tr><th>Attribute</th><th>UnrealEgo</th></tr>
+      <tr><td>Capture type</td><td>Synthetic rendering in Unreal Engine, designed to mimic compact eyeglasses with stereo fisheye cameras</td></tr>
+      <tr><td>Camera setup</td><td>Two fisheye cameras attached symmetrically to the glasses frame · 12cm baseline · 170° field of view</td></tr>
+      <tr><td>Rendered scale</td><td>450K stereo views · 900K images total · 1024×1024 RGB/depth at 25fps</td></tr>
+      <tr><td>Motion corpus</td><td>45,520 natural motions · 3,174.63 minutes · approximately 2,700 motions per character</td></tr>
+      <tr><td>Characters</td><td>17 RenderPeople models: 9 female, 8 male; varied skin tones, clothing types, shoes, and silhouettes</td></tr>
+      <tr><td>Environments</td><td>14 realistic 3D environments with indoor/outdoor scenes including parks, roads, offices, gardens, trains, sports fields, laboratories, cafeterias, Kyoto town, and restaurants</td></tr>
+      <tr><td>Scene population</td><td>Approximately five human models spawned on average; some ego views include multiple people</td></tr>
+      <tr><td>Annotations</td><td>Per-frame 3D joint positions, camera positions, depth maps, and 2D joint coordinates reprojected into fisheye views</td></tr>
+      <tr><td>Benchmark split</td><td>3,821 motions / 357,317 stereo views for train; 494 motions / 46,207 for validation; 526 motions / 48,080 for test</td></tr>
+      <tr><td>Released implementation data</td><td>Preprocessed 256×256 RGB, 64×64 heatmaps, and pelvis-relative 16-keypoint 3D poses; repository also documents device-relative pose conversion</td></tr>
+    </table>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">left/right fisheye RGB</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> 256×256×3</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">shared ResNet18 encoders</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">stereo feature concat + U-Net-style decoder</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">left/right 2D heatmaps</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> 64×64×15</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--accent2);">multi-branch 3D autoencoder</span>
+      <span class="arrow">-></span>
+      <span style="color:var(--warn);">16×3 pelvis-relative 3D pose</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p><b>2D module:</b> Unlike EgoGlass, which uses two separate UNets for two views, UnrealEgo shares encoder weights between left and right images and concatenates features from corresponding encoder layers into one decoder. The goal is to make 2D heatmap estimation stereo-aware before 3D lifting.</p>
+      <p><b>3D module:</b> The method follows EgoGlass with a multi-branch autoencoder. One branch predicts the 16-joint 3D pose; the other reconstructs 2D heatmaps so the network can preserve heatmap uncertainty.</p>
+      <p><b>Training:</b> The paper trains the 2D and 3D modules separately on a Quadro RTX 8000, batch size 16, Adam optimizer, and reports average scores over three runs. ImageNet pretraining is evaluated separately.</p>
+      <p><b>Coordinate/output note:</b> The ECCV implementation reports pelvis-relative 3D pose; the GitHub repository later documents how to derive device-relative poses from original camera-left/right 3D keypoints.</p>
+    </div>
+    <div class="zh" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p><b>2D module：</b>不同于 EgoGlass 为两个视角使用两个独立 UNet，UnrealEgo 在左右图像之间共享 encoder 权重，并把对应层 feature concat 到同一个 decoder，让 2D heatmap estimation 在 3D lifting 之前就利用 stereo 信息。</p>
+      <p><b>3D module：</b>沿用 EgoGlass 的 multi-branch autoencoder。一条分支预测 16-joint 3D pose，另一条分支重建 2D heatmaps，从而保留 heatmap uncertainty。</p>
+      <p><b>训练：</b>论文在 Quadro RTX 8000 上分别训练 2D 和 3D module，batch size 16，Adam optimizer，并报告三次实验平均值。ImageNet pretraining 单独评估。</p>
+      <p><b>坐标/输出说明：</b>ECCV implementation 报告 pelvis-relative 3D pose；GitHub 后续文档说明了如何从原始 left/right camera 3D keypoints 推出 device-relative poses。</p>
+    </div>
+  </div>
+
+  <!-- Quantitative Results -->
+  <div class="card">
+    <h2>Quantitative Results — UnrealEgo Test Set</h2>
+    <table style="margin-bottom:8px;">
+      <tr><th>Method</th><th>Input</th><th>MPJPE↓ with / without ImageNet</th><th>PA-MPJPE↓ with / without ImageNet</th></tr>
+      <tr><td>xR-EgoPose</td><td>Monocular</td><td class="num">112.86 / 123.15 mm</td><td class="num">88.71 / 96.56 mm</td></tr>
+      <tr><td>EgoGlass</td><td>Stereo</td><td class="num">91.44 / 107.70 mm</td><td class="num">70.21 / 84.22 mm</td></tr>
+      <tr class="ours best"><td><b>UnrealEgo baseline</b></td><td><b>Stereo</b></td><td class="num"><b>79.06 / 87.31 mm</b></td><td class="num"><b>59.95 / 64.65 mm</b></td></tr>
+    </table>
+    <p class="mini">The first value uses ImageNet pretraining; the second is without ImageNet pretraining. Lower is better. The paper reports standard deviations in parentheses; the digest keeps the main means for readability.</p>
+
+    <h2 style="margin-top:16px;">Motion-Type Breakdown (MPJPE, mm)</h2>
+    <table>
+      <tr><th>Group</th><th>xR-EgoPose</th><th>EgoGlass</th><th>UnrealEgo baseline</th><th>Interpretation</th></tr>
+      <tr><td>General motions, all</td><td class="num">112.61</td><td class="num">91.27</td><td class="num">79.57</td><td>Baseline improves across everyday motions and crouching/standing variants.</td></tr>
+      <tr><td>Sports motions, all</td><td class="num">113.28</td><td class="num">91.71</td><td class="num">78.19</td><td>Gains hold on dancing, boxing, wrestling, soccer, baseball, basketball, football, and golf.</td></tr>
+      <tr><td>Hard failure example: sitting on ground</td><td class="num">274.99</td><td class="num">216.52</td><td class="num">195.28</td><td>All methods remain weak when lower body is heavily occluded by the upper body.</td></tr>
+    </table>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation / Design Insight</h2>
+    <div class="two-col">
+      <div class="sub-box">
+        <h3>ResNet18 Is Enough</h3>
+        <table>
+          <tr><th>Backbone</th><th>MPJPE↓</th><th>PA↓</th></tr>
+          <tr class="ours best"><td>ResNet18</td><td class="num">79.06</td><td class="num">59.95</td></tr>
+          <tr><td>ResNet34</td><td class="num">80.50</td><td class="num">60.04</td></tr>
+          <tr><td>ResNet50</td><td class="num">80.07</td><td class="num">60.08</td></tr>
+          <tr><td>ResNet101</td><td class="num">80.15</td><td class="num">60.57</td></tr>
+        </table>
+      </div>
+      <div class="sub-box">
+        <h3>Weight Sharing Helps Stereo</h3>
+        <table>
+          <tr><th>Encoder</th><th>MPJPE↓</th><th>PA↓</th></tr>
+          <tr class="ours best"><td>weight sharing</td><td class="num">79.06</td><td class="num">59.95</td></tr>
+          <tr><td>no weight sharing</td><td class="num">83.54</td><td class="num">62.29</td></tr>
+        </table>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <table>
+        <tr><th>Training Strategy</th><th>MPJPE↓</th><th>PA-MPJPE↓</th><th>Takeaway</th></tr>
+        <tr class="ours best"><td>Separate 2D / 3D training</td><td class="num">79.06</td><td class="num">59.95</td><td>Cleaner heatmaps under their chosen hyperparameters.</td></tr>
+        <tr><td>End-to-end training</td><td class="num">80.67</td><td class="num">61.72</td><td>Slightly worse; the paper keeps separate training for all main experiments.</td></tr>
+      </table>
+    </div>
+    <div style="margin-top:10px;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <div class="en"><b>Main transferable insight:</b> for stereo egocentric body pose, architectural use of stereo correspondence matters more than simply scaling the encoder. Shared encoders also expose the feature extractor to both views and improve generalization.</div>
+      <div class="zh"><b>主要可迁移洞察：</b>对于 stereo egocentric body pose，如何在结构上利用 stereo correspondence 比简单加大 encoder 更重要。共享 encoder 也让 feature extractor 在训练中看到两个视角，提升泛化。</div>
+    </div>
+  </div>
+
+  <!-- Access -->
+  <div class="card">
+    <h2>Access / Data Format / License</h2>
+    <table>
+      <tr><th>Item</th><th>Details</th></tr>
+      <tr><td>Original data</td><td>Project/GitHub describe six original dataset parts totaling about 1.1TB.</td></tr>
+      <tr><td>Implementation data</td><td>Preprocessed UnrealEgo implementation set is about 1TB and is intended for faster pelvis-relative pose experiments.</td></tr>
+      <tr><td>File structure</td><td>RGB fisheye images, depth images, JSON metadata, and preprocessed numpy files with RGB, heatmaps, and 3D keypoints.</td></tr>
+      <tr><td>Code</td><td>Official PyTorch implementation includes dataloaders, train/test scripts, evaluation, and visualization utilities.</td></tr>
+      <tr><td>License</td><td>Dataset is released for non-commercial use; redistribution/reselling/commercial use are restricted according to the repository license terms.</td></tr>
+    </table>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Synthetic-to-real gap:</b> UnrealEgo is more naturalistic than simple compositing, but it is still rendered. Clothing deformation, camera noise, motion blur, skin/cloth appearance, and real headset calibration errors are not fully captured.</div>
+        <div class="zh"><b>synthetic-to-real gap：</b>UnrealEgo 比简单贴图合成更自然，但仍是渲染数据。衣物形变、相机噪声、运动模糊、皮肤/布料外观和真实头显标定误差并不能完全覆盖。</div>
+      </li>
+      <li>
+        <div class="en"><b>No SMPL / SMPL-X output:</b> The benchmark targets 3D keypoints, not parametric body mesh, hands, face, shape, contact, or physically constrained avatar motion.</div>
+        <div class="zh"><b>没有 SMPL / SMPL-X 输出：</b>benchmark 目标是 3D keypoints，而不是参数化 body mesh、hands、face、shape、contact 或物理约束 avatar motion。</div>
+      </li>
+      <li>
+        <div class="en"><b>Eyeglasses stereo assumption:</b> The camera rig is a two-fisheye eyeglasses prototype. Results do not directly transfer to single RGB, Project Aria RGB, Quest-like four monochrome cameras, or sparse HMD/controller settings.</div>
+        <div class="zh"><b>眼镜式 stereo 假设：</b>相机 rig 是双 fisheye 眼镜原型。结果不能直接迁移到单 RGB、Project Aria RGB、Quest 类四单色相机或 sparse HMD/controller 设置。</div>
+      </li>
+      <li>
+        <div class="en"><b>Hard occlusions remain unsolved:</b> The paper reports worse reconstruction for bending motions such as sitting on the ground or crouching because the upper body occludes lower-body parts, even with stereo inputs.</div>
+        <div class="zh"><b>严重遮挡仍未解决：</b>论文指出 sitting on the ground、crouching 等 bending motions 仍较难，因为上半身遮挡下半身；即使有 stereo input 也没有完全解决。</div>
+      </li>
+      <li>
+        <div class="en"><b>Limited temporal modeling in the baseline:</b> The dataset can evaluate temporal/global motion, but the reported baseline is primarily frame/heatmap based and does not use modern causal temporal transformers or diffusion priors.</div>
+        <div class="zh"><b>baseline 时序建模有限：</b>数据集可以支持 temporal/global motion 评测，但论文 baseline 主要是 frame/heatmap-based，没有使用现代 causal temporal transformer 或 diffusion prior。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Existing Page</th><th>Relationship</th></tr>
+      <tr>
+        <td><b>EgoBody3M</b></td>
+        <td><span class="en">Direct reference baseline. EgoBody3M compares against UnrealEgo and shows that real VR-headset data plus temporal latent features can outperform this synthetic stereo baseline on product-like cameras.</span><span class="zh">直接 baseline 关系。EgoBody3M 用 UnrealEgo 做对比，并展示真实 VR 头显数据 + temporal latent features 能在更接近产品的相机上超过这个合成 stereo baseline。</span></td>
+      </tr>
+      <tr>
+        <td><b>EgoPoseFormer v2</b></td>
+        <td><span class="en">Later model family on the EgoBody3M line. Compared with UnrealEgo, EPFv2 moves toward real data, causal temporal attention, identity-conditioned queries, and semi-supervised scaling.</span><span class="zh">后续 EgoBody3M 路线模型。相比 UnrealEgo，EPFv2 转向真实数据、causal temporal attention、identity-conditioned queries 和半监督数据扩展。</span></td>
+      </tr>
+      <tr>
+        <td><b>HMD-Poser / AvatarPoser / EgoPoser</b></td>
+        <td><span class="en">Different input family. UnrealEgo is camera-only stereo visual tracking; sparse-HMD methods rely on headset/controller/IMU trajectories and usually avoid rendering full egocentric images.</span><span class="zh">输入族不同。UnrealEgo 是 camera-only stereo visual tracking；sparse-HMD 方法依赖 headset/controller/IMU trajectory，通常不处理完整第一人称图像。</span></td>
+      </tr>
+      <tr>
+        <td><b>Future EgoSMPL-X direction</b></td>
+        <td><span class="en">Useful as a synthetic pretraining or stress-test source for extreme motions, but the desired target should combine real ego videos, world-space body+hand+face SMPL-X, and stronger temporal/kinematic priors.</span><span class="zh">可作为极端动作的合成预训练或 stress-test 数据源，但目标方向应结合真实 ego videos、world-space body+hand+face SMPL-X，以及更强的时序/运动学先验。</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TLDR -->
+  <div class="card" style="border-color:rgba(139,255,207,.30);background:rgba(139,255,207,.05);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>TL;DR</h2>
+    <div class="en" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.86);">
+      UnrealEgo is an ECCV 2022 synthetic egocentric 3D pose dataset for eyeglasses-style stereo fisheye cameras. It renders 450K stereo views from 17 RenderPeople characters, 45,520 modified Mixamo motions, and 14 Unreal Engine environments, with depth, camera metadata, 2D reprojections, and 3D keypoints. Its baseline improves over EgoGlass by making the 2D heatmap module stereo-aware through shared encoders and unified skip connections, reaching 79.06mm MPJPE / 59.95mm PA-MPJPE with ImageNet pretraining. For this bank, UnrealEgo is a useful synthetic predecessor to EgoBody3M and EgoPoseFormer-style work, but it does not solve real-data robustness or unified world-space SMPL-X body+hands+face.
+    </div>
+    <div class="zh" style="font-size:13px;line-height:1.7;color:rgba(232,236,255,.86);">
+      UnrealEgo 是 ECCV 2022 的合成 egocentric 3D pose 数据集，面向眼镜式 stereo fisheye cameras。它从 17 个 RenderPeople 角色、45,520 个修改后的 Mixamo motions 和 14 个 Unreal Engine 环境中渲染 45 万个 stereo views，并提供 depth、camera metadata、2D reprojection 和 3D keypoints。它的 baseline 通过 shared encoders + unified skip connections 让 2D heatmap module 利用 stereo 信息，达到 79.06mm MPJPE / 59.95mm PA-MPJPE。对本库来说，它是 EgoBody3M 和 EgoPoseFormer 路线的重要合成前置数据，但还没有解决真实数据鲁棒性，也不是统一 world-space SMPL-X body+hands+face。
+    </div>
+  </div>
+
+</section>
+</body>
+</html>
