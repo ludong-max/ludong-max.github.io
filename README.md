@@ -38,3 +38,4 @@ pdfs/               # Local PDF copies
 在 Claude 或 Codex 中直接说：
 
 > 根据以上模版，给我增加以下论文总结：`<论文名称 / arXiv 链接>`
+
