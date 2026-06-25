@@ -271,6 +271,247 @@
         <div style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(255,255,255,.15);color:rgba(232,236,255,.55);font-size:12px;">
           Select a paper from the left list or click a title above to view details.
         </div>
+
+        <!-- ── Milestone Progress ── -->
+        <div class="milestones-section">
+          <div class="milestones-header">
+            <span class="milestones-title">Milestone Progress</span>
+          </div>
+
+          <!-- Timeline body -->
+          <div class="ms-timeline">
+
+            <!-- vertical rail on the left -->
+            <div class="ms-rail">
+              <div class="ms-rail-line"></div>
+              <div class="ms-rail-arrow">▼</div>
+            </div>
+
+            <!-- rows -->
+            <div class="ms-rows">
+
+              <!-- Milestone 1 -->
+              <div class="ms-row">
+                <div class="ms-dot-col">
+                  <div class="ms-dot"></div>
+                </div>
+                <div class="ms-right">
+                  <div class="ms-h-track">
+                    <span class="ms-label">M1</span>
+                    <div class="ms-h-line"></div>
+                    <div class="ms-h-head">▶</div>
+                  </div>
+                  <div class="ms-card">
+                    <div class="ms-target">
+                      <span class="ms-tag">Target</span>
+                      Reproduce EgoBody baseline — get body mesh overlay on egocentric video, FPS &gt; 15 on RTX 3090.
+                    </div>
+                    <div class="ms-video-wrap">
+                      <iframe
+                        src="https://drive.google.com/file/d/YOUR_FILE_ID/preview"
+                        class="ms-video"
+                        allow="autoplay"
+                        allowfullscreen
+                      ></iframe>
+                      <div class="ms-video-ph">🎬 Video will appear here — paste your Google Drive link</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /ms-rows -->
+          </div><!-- /ms-timeline -->
+        </div>
+
+        <style>
+          /* ── Milestone section ── */
+          .milestones-section {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(122,162,255,.20);
+          }
+          .milestones-header {
+            margin-bottom: 18px;
+          }
+          .milestones-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            color: var(--accent);
+          }
+
+          /* ── Timeline layout ── */
+          .ms-timeline {
+            display: flex;
+            gap: 0;
+          }
+
+          /* vertical rail */
+          .ms-rail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 24px;
+            flex-shrink: 0;
+            padding-top: 6px;
+          }
+          .ms-rail-line {
+            width: 2px;
+            flex: 1;
+            background: linear-gradient(180deg, var(--accent), var(--accent2));
+            border-radius: 2px;
+            min-height: 20px;
+          }
+          .ms-rail-arrow {
+            color: var(--accent2);
+            font-size: 12px;
+            margin-top: 2px;
+            animation: bounce-down 1.6s ease-in-out infinite;
+          }
+          @keyframes bounce-down {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(4px); }
+          }
+
+          /* rows column */
+          .ms-rows {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+          }
+
+          /* single row */
+          .ms-row {
+            display: flex;
+            gap: 0;
+            margin-bottom: 28px;
+          }
+
+          /* dot connector */
+          .ms-dot-col {
+            display: flex;
+            align-items: flex-start;
+            padding-top: 8px;
+            width: 20px;
+            flex-shrink: 0;
+          }
+          .ms-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent2);
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 8px rgba(139,255,207,.45);
+            flex-shrink: 0;
+          }
+
+          /* right side: h-arrow + card */
+          .ms-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 10px;
+          }
+
+          /* horizontal arrow */
+          .ms-h-track {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+          }
+          .ms-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            background: rgba(122,162,255,.12);
+            border: 1px solid rgba(122,162,255,.30);
+            border-radius: 999px;
+            padding: 2px 8px;
+            margin-right: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+          }
+          .ms-h-line {
+            height: 2px;
+            flex: 1;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 2px;
+            transform-origin: left center;
+            animation: slide-h 0.65s cubic-bezier(.22,.68,0,1.2) both;
+          }
+          .ms-h-head {
+            color: var(--accent2);
+            font-size: 13px;
+            margin-left: 2px;
+            flex-shrink: 0;
+            animation: slide-h 0.65s cubic-bezier(.22,.68,0,1.2) both;
+          }
+          @keyframes slide-h {
+            from { transform: scaleX(0); opacity: 0; }
+            to   { transform: scaleX(1); opacity: 1; }
+          }
+
+          /* card */
+          .ms-card {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(122,162,255,.18);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+          .ms-target {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.6;
+          }
+          .ms-tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--accent2);
+            background: rgba(139,255,207,.10);
+            border: 1px solid rgba(139,255,207,.25);
+            border-radius: 4px;
+            padding: 1px 6px;
+            margin-right: 6px;
+            vertical-align: middle;
+          }
+
+          /* video */
+          .ms-video-wrap {
+            position: relative;
+            width: 52%;
+            padding-top: 29.25%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0,0,0,.30);
+          }
+          .ms-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            display: none;
+          }
+          .ms-video-ph {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(232,236,255,.35);
+            font-size: 12px;
+          }
+        </style>
       </div>
       <iframe id="paperFrame" style="width:100%;height:100%;border:none;display:none;"></iframe>
     </div>
@@ -591,11 +832,77 @@
       pdf: "",
       topic: "Major Group",
       subtopic: "Meta Reality Labs"
+    },
+    {
+      id: "wonderjourney",
+      abbr: "WonderJourney (Perpetual 3D Scene Generation)",
+      year: 2024,
+      note: "3D Scene Reconstruction · Predecessor of WonderWorld: LLM-driven narrative planning + text-driven point cloud pipeline + VLM verification; generates open-ended 3D journeys from any text/image starting point; >700s/step — bottleneck that motivated WonderWorld redesign",
+      path: "subpages/wonderjourney.html",
+      arxiv: "https://arxiv.org/abs/2312.03884",
+      pdf: "https://arxiv.org/pdf/2312.03884",
+      topic: "3D Scene Reconstruction",
+      subtopic: "Single-Image Generation"
+    },
+    {
+      id: "wonderworld",
+      abbr: "WonderWorld (Interactive 3D Scene Generation)",
+      year: 2025,
+      note: "3D Scene Reconstruction · Single-Image: interactive 3D scene generation from a single image; layered Gaussian surfels (FLAGS) + guided depth diffusion; ~10s/step; CVPR 2025; direct upgrade from WonderJourney",
+      path: "subpages/wonderworld.html",
+      arxiv: "https://arxiv.org/abs/2406.09394",
+      pdf: "https://arxiv.org/pdf/2406.09394",
+      topic: "3D Scene Reconstruction",
+      subtopic: "Single-Image Generation"
+    },
+    {
+      id: "wonderplay",
+      abbr: "WonderPlay (Dynamic 3D Scene + Physics)",
+      year: 2025,
+      note: "3D Scene Reconstruction · Dynamic: ICCV 2025 Highlight; extends WonderWorld with hybrid generative simulator — physics solver (coarse 3D dynamics) + video diffusion (fine motion) in closed loop; supports rigid/elastic/liquid/gas/strand materials from single image + user action",
+      path: "subpages/wonderplay.html",
+      arxiv: "https://arxiv.org/abs/2505.18151",
+      pdf: "https://arxiv.org/pdf/2505.18151",
+      topic: "3D Scene Reconstruction",
+      subtopic: "Dynamic Scene"
+    },
+    {
+      id: "wonderturbo",
+      abbr: "WonderTurbo (Real-Time 3D Scene in 0.72s)",
+      year: 2025,
+      note: "3D Scene Reconstruction · Real-Time: ICCV 2025; 15× faster than WonderWorld (0.72s/step); StepSplat (incremental Gaussian update 0.26s) + QuickDepth (lightweight depth completion) + FastPaint (2-step distilled diffusion); first real-time interactive 3D scene generation",
+      path: "subpages/wonderturbo.html",
+      arxiv: "https://arxiv.org/abs/2504.02261",
+      pdf: "https://arxiv.org/pdf/2504.02261",
+      topic: "3D Scene Reconstruction",
+      subtopic: "Real-Time Generation"
+    },
+    {
+      id: "worldexplorer",
+      abbr: "WorldExplorer (Fully Navigable 3D Scenes)",
+      year: 2025,
+      note: "3D Scene Reconstruction · Different Route: SIGGRAPH Asia 2025 (TU Munich); text → 360° panorama init → autoregressive video diffusion along multi-trajectory → scene memory conditioning → 3DGS fusion; stable under large camera motion; batch (minutes), not interactive",
+      path: "subpages/worldexplorer.html",
+      arxiv: "https://arxiv.org/abs/2506.01799",
+      pdf: "https://arxiv.org/pdf/2506.01799",
+      topic: "3D Scene Reconstruction",
+      subtopic: "Video Diffusion"
+    },
+    {
+      id: "vggt_omega",
+      abbr: "VGGT-Ω (Scaling Feed-Forward 3D Reconstruction)",
+      year: 2026,
+      note: "3D Scene Reconstruction · Feed-Forward: CVPR 2026 Oral (Oxford VGG + Meta AI); successor to VGGT (CVPR 2025 Best Paper); single dense head + register attention → 30% GPU memory → 15× more training data + self-supervised video; static + dynamic (4D) scene reconstruction; +77% Sintel camera estimation",
+      path: "subpages/vggt_omega.html",
+      arxiv: "https://arxiv.org/abs/2605.15195",
+      pdf: "https://arxiv.org/pdf/2605.15195",
+      topic: "3D Scene Reconstruction",
+      subtopic: "Feed-Forward Reconstruction"
     }
   ];
 
   /* Topic display order */
-  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Ego-to-Exo SMPLX Regression", "Hand Regression", "Major Group"];
+  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Ego-to-Exo SMPLX Regression", "Hand Regression", "3D Scene Reconstruction", "Major Group"];
 
   let activePaper = null;
 

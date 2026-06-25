@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2406.09394 · Stanford · ECCV 2024</div>
+    <h1>WonderWorld: Interactive 3D Scene Generation from a Single Image</h1>
+    <div class="authors">
+      Hong-Xing Yu, Haoyi Duan, Charles Herrmann, William T. Freeman, Jiajun Wu<br>
+      <span style="opacity:.7">Stanford University · Google DeepMind</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Scene Reconstruction</span>
+      <span class="tag">Single-Image</span>
+      <span class="tag">Gaussian Splatting</span>
+      <span class="tag">Depth Diffusion</span>
+      <span class="tag">Interactive Generation</span>
+      <span class="tag tag-blue">ECCV 2024</span>
+      <span class="tag tag-purple">Scene Understanding</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2406.09394" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2406.09394" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://kovenyu.com/WonderWorld/" target="_blank">Project Page</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Given a single RGB image, can we interactively generate a geometrically consistent and navigable 3D scene at low latency, without requiring multi-view captures or long optimization?</div>
+      <div class="zh"><b>一句话问题：</b>仅给定一张 RGB 图像，能否以低延迟、交互式地生成几何一致、可导航的 3D 场景，而无需多视角采集或漫长优化？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Core idea:</b> WonderWorld decomposes the scene into <b>layered Gaussian surfels</b> and uses a <b>guided depth diffusion</b> model to inpaint unseen regions as the user navigates, achieving fast single-image 3D scene creation where each step takes only seconds.</div>
+      <div class="zh"><b>核心思想：</b>WonderWorld 将场景分解为<b>分层 Gaussian surfels</b>，并利用<b>引导式深度扩散</b>模型在用户导航时对未见区域进行 inpaint，实现快速单图 3D 场景创建，每步仅需几秒。</div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Layered Gaussian surfels representation:</b> Scenes are represented as layered 2D Gaussian surfels rather than a single point cloud or NeRF volume, enabling efficient differentiable rendering and clean layer-wise compositing as new content is added.</div>
+        <div class="zh"><b>分层 Gaussian surfels 表示：</b>场景以分层 2D Gaussian surfels 表示，而非单一点云或 NeRF 体积，支持高效可微渲染和逐层合成。</div>
+      </li>
+      <li>
+        <div class="en"><b>Guided depth diffusion for consistent inpainting:</b> When the camera moves to reveal unseen areas, a depth diffusion model conditioned on the known geometry generates geometrically plausible depth for the new regions, avoiding depth discontinuities or floating artifacts.</div>
+        <div class="zh"><b>引导式深度扩散实现一致 inpainting：</b>摄像机移动暴露未见区域时，以已知几何为条件的深度扩散模型生成新区域的几何合理深度，避免深度断层或悬浮 artifact。</div>
+      </li>
+      <li>
+        <div class="en"><b>Low-latency interactive loop:</b> Unlike prior scene generation approaches that require hundreds of iterations of optimization, WonderWorld generates each new scene layer in seconds, enabling a responsive user-driven authoring workflow.</div>
+        <div class="zh"><b>低延迟交互闭环：</b>与需要数百次迭代优化的早期方法不同，WonderWorld 每层新内容仅需几秒，实现响应式的用户驱动创作流程。</div>
+      </li>
+      <li>
+        <div class="en"><b>User-specified content and layout:</b> Users can interactively specify what objects and scene elements appear and where, with the system filling in 3D geometry and appearance via the diffusion-based inpainting pipeline.</div>
+        <div class="zh"><b>用户指定内容和布局：</b>用户可交互式指定场景中出现的物体和元素及其位置，系统通过扩散 inpainting 管线填充 3D 几何和外观。</div>
+      </li>
+      <li>
+        <div class="en"><b>Connected scene topology:</b> The layered representation ensures newly inpainted regions connect seamlessly to the existing scene geometry, producing scenes that can be navigated without visible seams or gaps.</div>
+        <div class="zh"><b>连通的场景拓扑：</b>分层表示确保新 inpaint 的区域与已有场景几何无缝连接，导航时不出现可见接缝或缺口。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Single RGB image</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Monocular depth estimation</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Layer-0 Gaussian surfels</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">User navigation / content spec</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Guided depth diffusion inpainting</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">New Gaussian surfel layer</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Navigable 3D scene</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Initialization:</b> A monocular depth model lifts the input image into an initial Gaussian surfel layer. Surfels are 2D Gaussian primitives aligned to local surface normals, enabling fast alpha-compositing renders from novel views.</p>
+      <p style="margin:0 0 8px;"><b>Guided depth diffusion:</b> When the user moves the camera, the renderer reveals disocclusion holes. A depth diffusion model conditioned on the rendered partial depth generates complete depth for the inpainted RGB regions, ensuring that new geometry is metrically consistent with the existing layers.</p>
+      <p style="margin:0 0 8px;"><b>Layer compositing:</b> Each inpainting step adds a new Gaussian surfel layer. Layers are composited in depth order. The separation avoids re-optimizing old layers and keeps inference fast.</p>
+      <p style="margin:0;"><b>Appearance inpainting:</b> A 2D inpainting diffusion model fills RGB content in disoccluded regions, conditioned on the surrounding context. Depth and appearance inpainting are tightly coupled to maintain geometric plausibility.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>初始化：</b>单目深度模型将输入图像提升为初始 Gaussian surfel 层。Surfels 是对齐局部法线的 2D Gaussian 基元，支持从新视角快速 alpha 合成渲染。</p>
+      <p style="margin:0 0 8px;"><b>引导式深度扩散：</b>用户移动摄像机时，渲染器暴露去遮挡空洞。以已渲染部分深度为条件的深度扩散模型为 inpaint RGB 区域生成完整深度，确保新几何与已有层在度量上一致。</p>
+      <p style="margin:0 0 8px;"><b>分层合成：</b>每次 inpainting 步骤添加新的 Gaussian surfel 层，按深度顺序合成。分层结构避免重新优化旧层，保持推理速度。</p>
+      <p style="margin:0;"><b>外观 inpainting：</b>2D inpainting 扩散模型以周围上下文为条件，填充去遮挡区域的 RGB 内容。深度和外观 inpainting 紧密耦合以维持几何合理性。</p>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Results</h2>
+    <table style="margin-bottom:14px;">
+      <tr><th>Aspect</th><th>Result / Claim</th><th>Interpretation</th></tr>
+      <tr class="ours">
+        <td>Generation speed</td>
+        <td class="num">~10 seconds per new layer</td>
+        <td>Orders of magnitude faster than optimization-based scene generation methods (e.g., SceneWiz3D, Set-the-Scene) that take minutes to hours.</td>
+      </tr>
+      <tr>
+        <td>Scene quality</td>
+        <td>User study: preferred over Text2Room, LucidDreamer, WonderJourney</td>
+        <td>Human evaluators rate WonderWorld scenes as more geometrically consistent and visually coherent.</td>
+      </tr>
+      <tr class="ours">
+        <td>Geometry consistency</td>
+        <td>FID / KID on rendered novel views competitive with baselines</td>
+        <td>Quantitative image quality of novel-view renderings validates that depth diffusion produces plausible geometry.</td>
+      </tr>
+      <tr>
+        <td>Interactivity</td>
+        <td>User can iteratively add/modify regions with immediate visual feedback</td>
+        <td>The layered design enables incremental edits without regenerating the full scene.</td>
+      </tr>
+    </table>
+    <p class="mini">Exact FID/KID numbers vary by scene category; refer to the paper's Table 1 and supplementary for per-scene breakdown.</p>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>No temporal video input:</b> WonderWorld takes a single static image as input. It does not support continuous egocentric video streams or dynamic object tracking across frames.</div>
+        <div class="zh"><b>无时序视频输入：</b>WonderWorld 以单张静态图像为输入，不支持连续自我中心视频流或跨帧动态物体跟踪。</div>
+      </li>
+      <li>
+        <div class="en"><b>Bounded navigation range:</b> As the camera moves far from the initial viewpoint, diffusion inpainting quality degrades and accumulated depth errors can cause visual drift.</div>
+        <div class="zh"><b>导航范围有限：</b>摄像机远离初始视点时，扩散 inpainting 质量下降，累积深度误差可能导致视觉漂移。</div>
+      </li>
+      <li>
+        <div class="en"><b>No metric scale guarantee:</b> The depth estimates are up-to-scale. For AR or robotics applications requiring metric world coordinates, an additional scale calibration step would be needed.</div>
+        <div class="zh"><b>无度量尺度保证：</b>深度估计是 up-to-scale 的。对于需要度量世界坐标的 AR 或机器人应用，需要额外的尺度标定步骤。</div>
+      </li>
+      <li>
+        <div class="en"><b>Static scenes only:</b> The Gaussian surfel representation does not model dynamic objects. Moving people, hands, or deformable objects are not handled.</div>
+        <div class="zh"><b>仅限静态场景：</b>Gaussian surfel 表示不对动态物体建模，无法处理运动的人、手或可变形物体。</div>
+      </li>
+      <li>
+        <div class="en"><b>Diffusion inpainting artifacts:</b> Hallucinated content in inpainted regions may be semantically inconsistent with the original image when the disoccluded area is large or structurally ambiguous.</div>
+        <div class="zh"><b>扩散 inpainting artifact：</b>当去遮挡区域较大或结构模糊时，inpaint 区域的幻化内容可能与原图语义不一致。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Bank Direction</th><th>How WonderWorld Helps</th><th>Remaining Gap</th></tr>
+      <tr>
+        <td>EgoSMPL-X / egocentric AR</td>
+        <td>Scene environment generated from a single ego-frame image could serve as a lightweight 3D background for placing avatars or anchoring body pose estimates.</td>
+        <td>Need dynamic bodies, metric scale, SMPL-X avatar compositing, and temporal stability across frames.</td>
+      </tr>
+      <tr>
+        <td>Project Aria / NymeriaPlus</td>
+        <td>Single-image scene initialization could bootstrap 3D context when dense SLAM maps are unavailable or too slow to compute.</td>
+        <td>Need calibration to Aria's fisheye/SLAM coordinate frame, long-sequence consistency, and multi-session scene merging.</td>
+      </tr>
+      <tr>
+        <td>Hand-object / HOT3D</td>
+        <td>Background scene reconstruction can separate the environment from hand-object interaction foreground, simplifying segmentation and context modeling.</td>
+        <td>Need contact geometry, object instance tracking, and metric depth rather than relative depth.</td>
+      </tr>
+      <tr>
+        <td>Scene understanding baseline</td>
+        <td>Provides a strong interactive 3D scene prior that outperforms Text2Room and LucidDreamer, useful as a baseline for future egocentric scene reconstruction papers.</td>
+        <td>Need temporal video input, metric reconstruction, and person / object identity persistence.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      WonderWorld (Stanford / Google DeepMind, ECCV 2024, arXiv 2406.09394) generates an interactive navigable 3D scene from a <b>single image</b> in seconds. It uses <b>layered Gaussian surfels</b> as the scene representation and a <b>guided depth diffusion</b> model to inpaint geometrically consistent content as the user moves the camera. The system is orders of magnitude faster than prior scene generation methods and outperforms Text2Room, LucidDreamer, and WonderJourney in user studies. For this paper bank, its value is as a fast <b>scene prior for single-image 3D environment reconstruction</b>; the missing pieces for egocentric AR are metric scale, temporal video input, dynamic object/person handling, and SMPL-X avatar integration.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

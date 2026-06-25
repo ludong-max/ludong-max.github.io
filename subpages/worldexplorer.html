@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+  .diff-box{background:rgba(192,132,252,.04);border:1px solid rgba(192,132,252,.20);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;margin-top:10px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2506.01799 · TU Munich · SIGGRAPH Asia 2025</div>
+    <h1>WorldExplorer: Towards Generating Fully Navigable 3D Scenes</h1>
+    <div class="authors">
+      Manuel-Andreas Schneider, Lukas Höllein, Matthias Nießner<br>
+      <span style="opacity:.7">Technical University of Munich (TUM) · Visual Computing &amp; AI Group</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Scene Reconstruction</span>
+      <span class="tag">Video Diffusion</span>
+      <span class="tag">360° Panorama</span>
+      <span class="tag">Scene Memory</span>
+      <span class="tag">Gaussian Splatting</span>
+      <span class="tag tag-purple">SIGGRAPH Asia 2025</span>
+      <span class="tag tag-blue">Different Route</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2506.01799" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2506.01799" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://mschneider456.github.io/world-explorer/" target="_blank">Project Page</a>
+      <a class="link-btn link-g" href="https://github.com/mschneider456/worldexplorer" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Existing 3D scene generation methods break down under large camera movements — can we build scenes that remain stable and visually consistent when the user truly navigates freely, including going around objects and large translations?</div>
+      <div class="zh"><b>一句话问题：</b>现有 3D 场景生成方法在大幅摄像机运动下会崩溃 — 能否构建在用户真正自由导航（包括绕物体运动和大范围平移）时仍保持稳定和视觉一致的场景？</div>
+    </div>
+    <div class="diff-box">
+      <b>与 WonderWorld 系列的核心差异：</b><br>
+      WonderWorld 系列：单图 → 深度扩散 inpainting → 分层 Gaussian surfels（每步逐渐外推）<br>
+      WorldExplorer：文本 → 360° 全景初始化 → 视频扩散多轨迹探索 → 场景记忆条件 → 3DGS 融合<br>
+      前者快、交互性强；WorldExplorer 更注重大视角范围内的一致性，适合完整场景浏览。
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>360° panorama initialization:</b> Instead of starting from a single perspective view, WorldExplorer first generates a multi-view-consistent 360° panoramic scaffold of the scene, providing a complete coverage anchor before detail is added.</div>
+        <div class="zh"><b>360° 全景初始化：</b>与从单视角出发不同，WorldExplorer 首先生成多视角一致的 360° 全景场景支架，在添加细节前提供完整的覆盖锚点。</div>
+      </li>
+      <li>
+        <div class="en"><b>Autoregressive video trajectory generation:</b> Scene content is expanded iteratively along short pre-defined camera trajectories using a video diffusion model, generating multiple short video clips that progressively explore the scene in depth — including motions around objects.</div>
+        <div class="zh"><b>自回归视频轨迹生成：</b>场景内容沿预定义的短摄像机轨迹通过视频扩散模型迭代扩展，生成多个短视频片段，逐步深入探索场景（含绕物体运动）。</div>
+      </li>
+      <li>
+        <div class="en"><b>Scene memory mechanism:</b> Each new video clip is conditioned not only on the current view but also on the most relevant prior views retrieved from a scene memory store. This prevents the model from "forgetting" previously generated content and maintains long-range consistency.</div>
+        <div class="zh"><b>场景记忆机制：</b>每个新视频片段不仅以当前视图为条件，还以从场景记忆库检索的最相关历史视图为条件，防止模型"遗忘"已生成内容，维持长程一致性。</div>
+      </li>
+      <li>
+        <div class="en"><b>Collision-detection for trajectory planning:</b> A collision-detection mechanism prevents the camera trajectory planner from moving into already-generated geometry, avoiding degenerate cases (e.g., camera flying through walls or floors).</div>
+        <div class="zh"><b>碰撞检测轨迹规划：</b>碰撞检测机制防止摄像机轨迹规划器穿入已生成几何体，避免退化情况（如摄像机穿墙或穿地板）。</div>
+      </li>
+      <li>
+        <div class="en"><b>3DGS fusion from multi-video views:</b> All generated video frames across trajectories are fused into a unified 3D Gaussian Splatting representation via optimization, producing a single navigable 3D asset from the entire set of generated views.</div>
+        <div class="zh"><b>多视频视图融合为 3DGS：</b>所有轨迹生成的视频帧通过优化融合为统一的 3D Gaussian Splatting 表示，从全部生成视图产生单一可导航的 3D 资产。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Text prompt</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">360° panorama generation (multi-view consistent)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Trajectory planner + collision detection</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Video diffusion: short clip along trajectory</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Scene memory: condition on relevant prior views</span>
+      <span class="arrow">→</span>
+      <span style="color:rgba(232,236,255,.5);">repeat for next trajectory …</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">3DGS optimization (all frames fused)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Fully navigable 3D scene</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Panorama initialization:</b> A 360° image is generated from the text prompt using a panoramic diffusion model (or text-to-panorama pipeline). This provides a coarse but globally consistent scene layout covering all directions before any trajectory is explored.</p>
+      <p style="margin:0 0 8px;"><b>Video diffusion per trajectory:</b> For each pre-defined short camera trajectory (e.g., a forward push, a lateral sweep, or an orbit around an object), a video diffusion model generates a temporally consistent clip. The model is conditioned on the rendered partial scene plus the scene memory retrieval.</p>
+      <p style="margin:0 0 8px;"><b>Scene memory:</b> A key-value store of previously generated views, indexed by camera pose. When generating a new clip, the most similar prior views (by pose distance) are retrieved and injected as context into the video diffusion model, acting as long-range visual anchors.</p>
+      <p style="margin:0;"><b>3DGS fusion:</b> After all trajectories are generated, all frame sets are combined and a 3D Gaussian Splatting optimization (similar to standard 3DGS training) is run over all views simultaneously. This produces a single unified 3D representation that can be rendered from arbitrary novel viewpoints.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>全景初始化：</b>用全景扩散模型（或 text-to-panorama 管线）从文字提示生成 360° 图像，在探索任何轨迹前提供粗略但全局一致的场景布局。</p>
+      <p style="margin:0 0 8px;"><b>逐轨迹视频扩散：</b>对每条预定义短摄像机轨迹（前推、侧扫或绕物体轨道），视频扩散模型生成时序一致的视频片段，以已渲染部分场景和场景记忆检索结果为条件。</p>
+      <p style="margin:0 0 8px;"><b>场景记忆：</b>以摄像机位姿为索引的历史视图键值存储；生成新片段时检索最相似的历史视图（按位姿距离），注入视频扩散模型作为长程视觉锚点。</p>
+      <p style="margin:0;"><b>3DGS 融合：</b>所有轨迹生成完毕后，对全部帧集合同时运行 3D Gaussian Splatting 优化（类似标准 3DGS 训练），产生单一统一的 3D 表示，可从任意新视角渲染。</p>
+    </div>
+  </div>
+
+  <!-- Comparison with Wonder series -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>WorldExplorer vs WonderWorld — 技术路线对比</h2>
+    <table>
+      <tr><th>维度</th><th>WonderWorld / WonderTurbo</th><th>WorldExplorer</th></tr>
+      <tr><td>起点</td><td>单张图像</td><td>文字提示（→ 360° 全景）</td></tr>
+      <tr><td>场景构建方式</td><td>增量 inpainting（逐步外推）</td><td>多轨迹视频扩散 + 统一 3DGS 优化</td></tr>
+      <tr><td>一致性策略</td><td>引导深度扩散（局部几何）</td><td>场景记忆（长程视觉锚点）</td></tr>
+      <tr><td>大视角稳定性</td><td>随距离衰减</td><td>核心优势，碰撞检测防退化</td></tr>
+      <tr><td>交互延迟</td><td class="num">0.72s (Turbo) / ~10s (WW)</td><td>分钟级（批处理）</td></tr>
+      <tr><td>输出</td><td>实时可导航 FLAGS / 3DGS</td><td>后处理统一 3DGS</td></tr>
+      <tr><td>动态支持</td><td>WonderPlay 扩展</td><td>无（静态）</td></tr>
+    </table>
+    <div class="en" style="margin-top:10px;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <b>When to cite each:</b> WonderWorld/Turbo is the right citation for <em>interactive low-latency scene generation</em>; WorldExplorer is the right citation for <em>quality under large viewpoint change</em> and <em>360° scene completeness</em>.
+    </div>
+    <div class="zh" style="display:none;margin-top:10px;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <b>引用时机：</b>WonderWorld/Turbo 适合引用<em>交互式低延迟场景生成</em>；WorldExplorer 适合引用<em>大视角变化下的质量</em>和<em>360° 场景完整性</em>。
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>No single-image input:</b> WorldExplorer starts from a text prompt and panorama, not an existing photo. Adapting it to extend a user-provided photograph requires additional conditioning not present in the current design.</div>
+        <div class="zh"><b>不支持单图输入：</b>WorldExplorer 从文字提示和全景图出发，而非已有照片。适配用户提供的照片需要额外的条件机制。</div>
+      </li>
+      <li>
+        <div class="en"><b>Slow — not interactive:</b> Multi-trajectory video generation + 3DGS optimization takes minutes, making real-time user steering impossible. It is a batch process, not an interactive tool like WonderWorld.</div>
+        <div class="zh"><b>慢 — 非交互：</b>多轨迹视频生成 + 3DGS 优化耗时数分钟，不支持实时用户引导，是批处理流程而非 WonderWorld 那样的交互工具。</div>
+      </li>
+      <li>
+        <div class="en"><b>Text-driven only — limited precise control:</b> Scene content is determined by text prompts. Fine-grained object placement, layout control, or user-specified structures require prompt engineering with no direct spatial manipulation.</div>
+        <div class="zh"><b>仅文字驱动 — 精确控制有限：</b>场景内容由文字提示决定，精细物体放置、布局控制或用户指定结构需要提示工程，无法直接空间操作。</div>
+      </li>
+      <li>
+        <div class="en"><b>Memory retrieval quality bottleneck:</b> The scene memory relies on pose-based retrieval; in scenes with repeated structures (hallways, forests), retrieval errors can cause inconsistent conditioning and visible artifacts.</div>
+        <div class="zh"><b>记忆检索质量瓶颈：</b>场景记忆依赖位姿检索；在有重复结构的场景（走廊、森林）中，检索错误可能导致不一致的条件和可见 artifact。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      WorldExplorer (TU Munich, SIGGRAPH Asia 2025, arXiv 2506.01799) takes a fundamentally different route from the WonderWorld family: it generates fully navigable 3D scenes from <b>text prompts</b> via <b>360° panorama initialization → autoregressive video diffusion along multiple trajectories → scene memory conditioning → unified 3DGS fusion</b>. Its key advantage is stability under large camera motion and 360° scene coverage; its key disadvantage is batch-processing latency (minutes, not seconds) and no single-image input support. For related-work sections, cite WorldExplorer when discussing <em>scene completeness and large-viewpoint consistency</em>, and WonderWorld/Turbo for <em>interactive single-image generation</em>.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

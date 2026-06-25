@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2504.02261 · ICCV 2025</div>
+    <h1>WonderTurbo: Generating Interactive 3D World in 0.72 Seconds</h1>
+    <div class="authors">
+      Chaojun Ni, et al.<br>
+      <span style="opacity:.7">ICCV 2025</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Scene Reconstruction</span>
+      <span class="tag">Real-Time Generation</span>
+      <span class="tag">Gaussian Splatting</span>
+      <span class="tag">Depth Completion</span>
+      <span class="tag">Fast Inpainting</span>
+      <span class="tag tag-blue">ICCV 2025</span>
+      <span class="tag tag-warn">15× WonderWorld speedup</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2504.02261" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2504.02261" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://wonderturbo.github.io/" target="_blank">Project Page</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> WonderWorld generates interactive 3D scenes in ~10 seconds — can we push this to real-time (&lt;1 second) while maintaining geometric consistency and visual quality?</div>
+      <div class="zh"><b>一句话问题：</b>WonderWorld 需要约 10 秒生成一次交互 3D 场景 — 能否在保持几何一致性和视觉质量的同时，把延迟压缩到实时（&lt;1 秒）？</div>
+    </div>
+    <div class="stat-row" style="margin-top:14px;">
+      <div class="stat"><span class="stat-n">0.72s</span><span class="stat-l">per scene step</span></div>
+      <div class="stat"><span class="stat-n">15×</span><span class="stat-l">faster than baseline</span></div>
+      <div class="stat"><span class="stat-n">0.26s</span><span class="stat-l">StepSplat (geometry)</span></div>
+      <div class="stat"><span class="stat-n">2-step</span><span class="stat-l">FastPaint diffusion</span></div>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>StepSplat — incremental Gaussian update (0.26s):</b> Instead of rebuilding the full Gaussian scene from scratch at each step, StepSplat dynamically updates only the newly revealed Gaussian splats, reusing prior geometry and drastically reducing per-step cost.</div>
+        <div class="zh"><b>StepSplat — 增量 Gaussian 更新（0.26s）：</b>不在每步重建完整 Gaussian 场景，StepSplat 仅动态更新新暴露的 Gaussian splats，复用已有几何，大幅降低逐步开销。</div>
+      </li>
+      <li>
+        <div class="en"><b>QuickDepth — lightweight depth completion module:</b> A fast, lightweight network that provides geometrically consistent depth estimates for newly inpainted regions, replacing the expensive guided depth diffusion in WonderWorld without sacrificing spatial accuracy.</div>
+        <div class="zh"><b>QuickDepth — 轻量深度补全模块：</b>快速轻量网络为新 inpaint 区域提供几何一致的深度估计，替换 WonderWorld 中昂贵的引导式深度扩散，同时不牺牲空间精度。</div>
+      </li>
+      <li>
+        <div class="en"><b>FastPaint — 2-step diffusion inpainting:</b> A distilled inpainting diffusion model that runs in only 2 denoising steps instead of the standard 20–50, tuned specifically to maintain spatial appearance consistency for scene disocclusion regions.</div>
+        <div class="zh"><b>FastPaint — 两步扩散 inpainting：</b>蒸馏后的 inpainting 扩散模型仅需 2 步去噪（而非标准 20-50 步），专门调优以维持场景去遮挡区域的空间外观一致性。</div>
+      </li>
+      <li>
+        <div class="en"><b>First real-time interactive 3D scene generation:</b> The combination of StepSplat + QuickDepth + FastPaint achieves 0.72s end-to-end, enabling truly real-time user-driven scene exploration — a first in the field.</div>
+        <div class="zh"><b>首个实时交互 3D 场景生成：</b>StepSplat + QuickDepth + FastPaint 组合实现 0.72s 端到端延迟，首次在该领域实现真正的实时用户驱动场景探索。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Current 3DGS scene + camera move</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Render: detect disocclusion holes</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">QuickDepth: fast depth completion (hole → depth)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">FastPaint: 2-step diffusion inpainting (hole → RGB)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">StepSplat: incremental Gaussian update (0.26s)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Updated 3DGS scene (total: 0.72s)</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>WonderWorld bottleneck analysis:</b> WonderWorld's ~10s latency breaks down into: (a) guided depth diffusion for hole filling (~7s), (b) full Gaussian scene re-optimization (~2s), (c) RGB inpainting (~1s). WonderTurbo replaces all three with faster alternatives.</p>
+      <p style="margin:0 0 8px;"><b>StepSplat (0.26s):</b> Incrementally adds new Gaussian primitives only for newly exposed pixels, anchored to the existing scene graph. No re-optimization of old Gaussians is needed; the update is a feed-forward pass over the new region.</p>
+      <p style="margin:0 0 8px;"><b>QuickDepth:</b> A lightweight encoder-decoder conditioned on rendered partial depth that completes the hole region in a single forward pass. Replaces the multi-step guided depth diffusion of WonderWorld.</p>
+      <p style="margin:0;"><b>FastPaint (2-step diffusion):</b> Uses progressive distillation / consistency distillation to reduce the inpainting diffusion from standard 20+ steps to 2 steps. The model is fine-tuned to prioritize spatial boundary consistency over global photorealism, which is critical for seamless scene compositing.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>WonderWorld 瓶颈分析：</b>WonderWorld 约 10s 延迟分解为：(a) 引导式深度扩散补洞约 7s，(b) 完整 Gaussian 场景重优化约 2s，(c) RGB inpainting 约 1s。WonderTurbo 以更快方案逐一替换。</p>
+      <p style="margin:0 0 8px;"><b>StepSplat（0.26s）：</b>仅为新暴露像素增量添加 Gaussian 基元，锚定到已有场景图，无需重新优化旧 Gaussians，更新是对新区域的前向传播。</p>
+      <p style="margin:0 0 8px;"><b>QuickDepth：</b>以已渲染部分深度为条件的轻量编解码器，单次前向传播补全空洞区域深度，替换 WonderWorld 的多步引导深度扩散。</p>
+      <p style="margin:0;"><b>FastPaint（两步扩散）：</b>使用渐进蒸馏/一致性蒸馏将 inpainting 扩散从标准 20+ 步压缩到 2 步，微调时优先保证空间边界一致性而非全局真实感，对无缝场景合成至关重要。</p>
+    </div>
+  </div>
+
+  <!-- Speed comparison -->
+  <div class="card">
+    <h2>Speed Comparison</h2>
+    <table>
+      <tr><th>Method</th><th>Time per Step</th><th>Representation</th><th>Depth Method</th></tr>
+      <tr><td>WonderJourney (CVPR 2024)</td><td class="num">&gt;700s</td><td>Point Cloud</td><td>Monocular depth + completion</td></tr>
+      <tr><td>WonderWorld (CVPR 2025)</td><td class="num">~10s</td><td>FLAGS (Gaussian Surfels)</td><td>Guided depth diffusion</td></tr>
+      <tr class="ours"><td><b>WonderTurbo (ICCV 2025)</b></td><td class="num"><b>0.72s</b></td><td>3DGS (incremental)</td><td>QuickDepth (lightweight)</td></tr>
+    </table>
+    <p class="mini">15× speedup over WonderWorld; ~1000× over WonderJourney. First method to achieve sub-second interactive 3D scene generation.</p>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Quality vs speed trade-off:</b> The 2-step FastPaint and single-pass QuickDepth sacrifice some visual quality compared to WonderWorld's full diffusion pipeline — fine texture details and depth boundary accuracy are reduced.</div>
+        <div class="zh"><b>质量与速度权衡：</b>两步 FastPaint 和单次 QuickDepth 与 WonderWorld 完整扩散管线相比牺牲了部分视觉质量 — 精细纹理细节和深度边界精度有所下降。</div>
+      </li>
+      <li>
+        <div class="en"><b>Incremental geometry drift:</b> StepSplat's incremental updates can accumulate geometric errors over many steps, especially in scenes with large camera translations or complex occlusion patterns.</div>
+        <div class="zh"><b>增量几何漂移：</b>StepSplat 的增量更新在多步后可能积累几何误差，尤其是在摄像机大幅平移或复杂遮挡模式的场景中。</div>
+      </li>
+      <li>
+        <div class="en"><b>Not dynamic:</b> Like WonderWorld, WonderTurbo generates static scenes only — dynamic objects, physics, or temporal effects require WonderPlay's hybrid simulator approach.</div>
+        <div class="zh"><b>仅限静态：</b>与 WonderWorld 一样，WonderTurbo 只生成静态场景 — 动态物体、物理或时序效果需要 WonderPlay 的混合仿真器方案。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      WonderTurbo (ICCV 2025, arXiv 2504.02261) achieves <b>0.72s interactive 3D scene generation</b> — a 15× speedup over WonderWorld — through three targeted optimizations: <b>StepSplat</b> (incremental Gaussian update in 0.26s), <b>QuickDepth</b> (lightweight depth completion replacing guided diffusion), and <b>FastPaint</b> (2-step distilled inpainting diffusion). It is the first real-time interactive 3D scene generation system. Its engineering breakdown is valuable reference material for understanding where WonderWorld's computational budget is spent and how to reduce it.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

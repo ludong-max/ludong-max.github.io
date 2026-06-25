@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .lineage-box{background:rgba(122,162,255,.05);border:1px solid rgba(122,162,255,.20);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;margin-top:10px;}
+  .highlight-pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid rgba(255,200,80,.5);color:var(--warn);background:rgba(255,200,80,.08);margin-left:6px;font-weight:600;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2605.15195 · Oxford VGG / Meta AI / Microsoft · CVPR 2026 Oral</div>
+    <h1>VGGT-Ω: Scaling Feed-Forward 3D Reconstruction with Efficient Architecture and Self-Supervised Learning <span class="highlight-pill">CVPR 2026 Oral</span></h1>
+    <div class="authors">
+      Jianyuan Wang, Minghao Chen, Shangzhan Zhang, Nikita Karaev, Johannes Schönberger, Patrick Labatut, Piotr Bojanowski, David Novotny, Andrea Vedaldi, Christian Rupprecht<br>
+      <span style="opacity:.7">Oxford VGG · Meta AI · Microsoft</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Scene Reconstruction</span>
+      <span class="tag">Feed-Forward</span>
+      <span class="tag">Static + Dynamic</span>
+      <span class="tag">Self-Supervised</span>
+      <span class="tag">Camera Estimation</span>
+      <span class="tag">Depth Maps</span>
+      <span class="tag tag-blue">CVPR 2026 Oral</span>
+      <span class="tag tag-warn">VGGT Successor</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2605.15195" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2605.15195" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://github.com/facebookresearch/vggt" target="_blank">GitHub (VGGT)</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> VGGT hit a scaling wall — its expensive high-resolution convolutions and global attention made training on larger datasets prohibitively memory-intensive. Can we redesign the architecture to scale to 15× more data while also supporting dynamic scenes?</div>
+      <div class="zh"><b>一句话问题：</b>VGGT 遭遇了扩展瓶颈 — 昂贵的高分辨率卷积和全局注意力使大规模数据集训练在显存上无法承受。能否重新设计架构，以支持 15× 更多数据，同时扩展到动态场景？</div>
+    </div>
+    <div class="lineage-box">
+      <b>演进关系：</b><a href="vggt_base.html" style="color:var(--accent);">VGGT</a> (arXiv 2503.11651, <b>CVPR 2025 Best Paper</b>) → <b>VGGT-Ω</b> (arXiv 2605.15195, CVPR 2026 Oral)<br>
+      VGGT 是同团队（Oxford VGG + Meta AI）的前作，CVPR 2025 最佳论文，首次实现单次前向传播预测相机参数、深度图、点图和 3D 轨迹。VGGT-Ω 在架构效率和训练规模上大幅升级。
+    </div>
+    <div class="stat-row" style="margin-top:14px;">
+      <div class="stat"><span class="stat-n">30%</span><span class="stat-l">of VGGT GPU memory</span></div>
+      <div class="stat"><span class="stat-n">15×</span><span class="stat-l">more supervised data</span></div>
+      <div class="stat"><span class="stat-n">+77%</span><span class="stat-l">camera est. on Sintel</span></div>
+      <div class="stat"><span class="stat-n">Static+Dynamic</span><span class="stat-l">scene support</span></div>
+    </div>
+  </div>
+
+  <!-- Background: VGGT -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Background: VGGT (CVPR 2025 Best Paper)</h2>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;">VGGT (Visual Geometry Grounded Transformer, arXiv 2503.11651) is a feed-forward neural network from the same Oxford VGG + Meta AI team. Given one to hundreds of images of a scene, it predicts in a <b>single forward pass</b>: camera intrinsics, camera extrinsics, depth maps, pointmaps, and 3D point trajectories — outperforming traditional optimization-based reconstructors in under one second.</p>
+      <p style="margin:0;">Architecture: DINOv2 backbone + alternating frame-wise and global self-attention layers. The key bottleneck is expensive high-resolution convolutional upsampling layers in the prediction heads, which consume GPU memory quadratically with resolution, and global attention across all frames, which limits the number of frames and training batch size.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;">VGGT（Visual Geometry Grounded Transformer，arXiv 2503.11651）来自同一 Oxford VGG + Meta AI 团队，给定一张到数百张场景图像，<b>单次前向传播</b>预测相机内参、外参、深度图、点图和 3D 点轨迹，在一秒内超越传统优化重建器。</p>
+      <p style="margin:0;">架构：DINOv2 主干 + 交替帧级和全局自注意力层。核心瓶颈是预测头中昂贵的高分辨率卷积上采样层（显存随分辨率二次增长），以及跨所有帧的全局注意力（限制帧数和训练批大小）。</p>
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions of VGGT-Ω</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Single dense prediction head with multi-task supervision:</b> Replaces VGGT's separate per-task high-resolution convolutional heads with a single shared dense head, eliminating the main memory bottleneck while maintaining accuracy via multi-task supervision signals.</div>
+        <div class="zh"><b>单共享预测头 + 多任务监督：</b>将 VGGT 各任务独立的高分辨率卷积头替换为单一共享密集头，通过多任务监督信号消除主要显存瓶颈，同时维持精度。</div>
+      </li>
+      <li>
+        <div class="en"><b>Register mechanism for scene aggregation:</b> Introduces learnable register tokens that aggregate scene-level information across frames. Register attention restricts inter-frame communication to pass through these registers rather than direct all-to-all attention, drastically reducing the quadratic attention cost over many frames.</div>
+        <div class="zh"><b>场景聚合寄存器机制：</b>引入可学习寄存器 token，跨帧聚合场景级信息；寄存器注意力将帧间通信限制为通过寄存器路由，而非全对全注意力，大幅降低多帧场景下的二次方注意力开销。</div>
+      </li>
+      <li>
+        <div class="en"><b>30% GPU memory of VGGT:</b> The architectural changes together reduce memory consumption to only 30% of the predecessor, enabling training with much larger batches, higher resolutions, and more frames — the prerequisite for scaling up data.</div>
+        <div class="zh"><b>仅需 VGGT 30% 显存：</b>架构改进合计将显存降至前作的 30%，使大批量、高分辨率、多帧训练成为可能 — 这是扩大数据规模的前提条件。</div>
+      </li>
+      <li>
+        <div class="en"><b>15× more supervised data + self-supervised learning on unlabeled video:</b> The efficiency gain unlocks training on 15× more labeled data than VGGT, plus a self-supervised learning protocol that leverages large-scale unlabeled video, dramatically increasing the effective training signal.</div>
+        <div class="zh"><b>15× 有标签数据 + 无标签视频自监督：</b>效率提升解锁了比 VGGT 多 15× 的有标签数据训练，并加入大规模无标签视频的自监督协议，大幅增加有效训练信号。</div>
+      </li>
+      <li>
+        <div class="en"><b>Dynamic scene support with new annotation pipeline:</b> Extends VGGT's static-scene reconstruction to dynamic scenes via a high-quality data annotation pipeline specifically designed for moving objects and deformable content, enabling 4D (3D + time) reconstruction in a feed-forward pass.</div>
+        <div class="zh"><b>动态场景支持 + 新标注管线：</b>通过专为运动物体和可变形内容设计的高质量数据标注管线，将 VGGT 的静态场景重建扩展到动态场景，实现单次前向传播的 4D（3D + 时间）重建。</div>
+      </li>
+      <li>
+        <div class="en"><b>Register tokens for downstream tasks:</b> The learned register tokens can be used as scene-level feature representations for vision-language-action models and language alignment, making VGGT-Ω a multi-purpose geometry-aware feature extractor beyond pure reconstruction.</div>
+        <div class="zh"><b>寄存器 token 赋能下游任务：</b>学习到的寄存器 token 可作为场景级特征表示用于视觉-语言-动作模型和语言对齐，使 VGGT-Ω 成为纯重建之外的多用途几何感知特征提取器。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">N input frames (static or dynamic)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">DINOv2 frame encoder (per-frame tokens)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Register attention layers</span>
+      <span style="color:rgba(232,236,255,.5);font-size:11px;"> (inter-frame via registers, not all-to-all)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Single dense prediction head</span>
+      <span style="color:rgba(232,236,255,.5);font-size:11px;"> (multi-task: depth / pointmap / camera / tracks)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Camera params + Depth maps + 3D point maps + Tracks</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Frame encoder:</b> DINOv2 backbone encodes each input frame independently into per-frame patch tokens, identical in spirit to VGGT. No per-frame pairwise matching is needed.</p>
+      <p style="margin:0 0 8px;"><b>Register attention (inter-frame):</b> Instead of full global attention across all N × T tokens (N frames × T tokens/frame), VGGT-Ω routes inter-frame information through a small set of learnable register tokens. Each frame attends to the registers; registers aggregate and broadcast scene-level context. This reduces cross-frame complexity from O((NT)²) to O(NT·R) where R is the number of registers.</p>
+      <p style="margin:0 0 8px;"><b>Single dense head (multi-task):</b> A single transformer head predicts all outputs jointly (camera intrinsics, extrinsics, per-pixel depth, per-pixel pointmap, 3D point trajectories for dynamic scenes) via multi-task loss, replacing VGGT's separate high-resolution convolutional upsampling heads per task.</p>
+      <p style="margin:0;"><b>Self-supervised protocol:</b> On unlabeled video, the model is trained via consistency losses — predictions from different subsets of frames of the same video should agree in world coordinates. This allows leveraging internet-scale video without 3D ground truth annotations.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>帧编码器：</b>DINOv2 主干独立编码每帧为 patch token，与 VGGT 相同，无需逐帧配对匹配。</p>
+      <p style="margin:0 0 8px;"><b>寄存器注意力（帧间）：</b>不对所有 N×T token（N 帧 × T token/帧）做全局注意力，VGGT-Ω 通过少量可学习寄存器 token 路由帧间信息：每帧只关注寄存器，寄存器聚合并广播场景级上下文。跨帧复杂度从 O((NT)²) 降至 O(NT·R)（R 为寄存器数量）。</p>
+      <p style="margin:0 0 8px;"><b>单共享密集头（多任务）：</b>单 Transformer 预测头通过多任务损失联合预测所有输出（相机内参/外参、逐像素深度、逐像素点图、动态场景 3D 点轨迹），替换 VGGT 各任务独立的高分辨率卷积上采样头。</p>
+      <p style="margin:0;"><b>自监督协议：</b>在无标签视频上，通过一致性损失训练 — 同一视频不同帧子集的预测在世界坐标下应一致。无需 3D 真值标注即可利用互联网规模的视频数据。</p>
+    </div>
+  </div>
+
+  <!-- VGGT vs VGGT-Ω -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>VGGT vs VGGT-Ω — Architecture Evolution</h2>
+    <table>
+      <tr><th>Dimension</th><th>VGGT (CVPR 2025 Best Paper)</th><th>VGGT-Ω (CVPR 2026 Oral)</th></tr>
+      <tr><td>Prediction heads</td><td>Separate high-res conv head per task</td><td>Single dense head, multi-task supervision</td></tr>
+      <tr><td>Inter-frame attention</td><td>Full global attention (all frames × all tokens)</td><td>Register attention (routes through R registers)</td></tr>
+      <tr><td>GPU memory</td><td>Baseline (1×)</td><td class="num">~0.30× (30% of VGGT)</td></tr>
+      <tr><td>Training data</td><td>Baseline supervised set</td><td>15× more supervised + unlabeled video SSL</td></tr>
+      <tr><td>Scene type</td><td>Static scenes</td><td>Static + Dynamic (4D)</td></tr>
+      <tr class="ours"><td>Sintel camera est.</td><td>Prior best</td><td class="num">+77% over prior best</td></tr>
+      <tr><td>Register tokens</td><td>None</td><td>Scene-level features for VLA / language</td></tr>
+    </table>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Reported Results</h2>
+    <table>
+      <tr><th>Benchmark</th><th>Task</th><th>Result</th></tr>
+      <tr class="ours">
+        <td>Sintel</td>
+        <td>Camera estimation accuracy</td>
+        <td class="num">+77% over previous best</td>
+      </tr>
+      <tr>
+        <td>Static scene benchmarks</td>
+        <td>Camera params, depth, pointmap</td>
+        <td>Substantially improved over VGGT across the board</td>
+      </tr>
+      <tr>
+        <td>Dynamic scene benchmarks</td>
+        <td>4D reconstruction (static + moving objects)</td>
+        <td>New capability not in VGGT; competitive with specialized dynamic methods</td>
+      </tr>
+    </table>
+    <p class="mini">Full per-benchmark tables available in the paper. The +77% Sintel camera estimation is the headline number from the abstract.</p>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Register count as a hyperparameter:</b> The number of registers R is a fixed hyperparameter. Too few registers lose scene-level context; too many increase memory. The optimal R likely varies by scene type and complexity.</div>
+        <div class="zh"><b>寄存器数量是超参数：</b>寄存器数量 R 是固定超参数，太少会丢失场景级上下文，太多会增加显存。最优 R 可能因场景类型和复杂度而异。</div>
+      </li>
+      <li>
+        <div class="en"><b>Self-supervised consistency requires multi-view overlap:</b> The self-supervised protocol needs sufficient visual overlap between different frame subsets of the same video to enforce geometric consistency. Videos with very fast motion or low texture can violate this assumption.</div>
+        <div class="zh"><b>自监督一致性需要多视角重叠：</b>自监督协议需要同一视频不同帧子集间充分的视觉重叠以施加几何一致性约束。快速运动或低纹理视频可能违反这一假设。</div>
+      </li>
+      <li>
+        <div class="en"><b>Dynamic scene annotation quality:</b> The new annotation pipeline for dynamic scenes introduces its own noise — automatically annotated 3D ground truth for moving objects at scale is significantly harder to obtain than static scene annotations.</div>
+        <div class="zh"><b>动态场景标注质量：</b>新的动态场景标注管线引入其自身噪声 — 大规模运动物体 3D 真值的自动标注远比静态场景标注困难。</div>
+      </li>
+      <li>
+        <div class="en"><b>No metric scale from monocular video:</b> Like VGGT, reconstruction from unlabeled monocular video via self-supervised learning is up-to-scale. Metric 3D requires calibrated cameras or stereo/depth inputs.</div>
+        <div class="zh"><b>单目视频无度量尺度：</b>与 VGGT 一样，通过自监督学习从无标签单目视频重建是 up-to-scale 的，度量 3D 需要标定相机或立体/深度输入。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to 3D Scene Reconstruction Topic</h2>
+    <table>
+      <tr><th>Comparison Axis</th><th>Wonder* Family (WonderWorld / WonderTurbo)</th><th>VGGT-Ω</th></tr>
+      <tr>
+        <td>Core task</td>
+        <td>Scene <em>generation</em> (novel content inpainted from 1 image)</td>
+        <td>Scene <em>reconstruction</em> (recover geometry from N real images)</td>
+      </tr>
+      <tr>
+        <td>Input</td>
+        <td>1 image + user navigation</td>
+        <td>N images / video frames (1 to hundreds)</td>
+      </tr>
+      <tr>
+        <td>Output</td>
+        <td>Navigable 3DGS / FLAGS scene</td>
+        <td>Camera params + depth maps + pointmaps + 3D tracks</td>
+      </tr>
+      <tr>
+        <td>Hallucination</td>
+        <td>Intentional (fills unseen regions)</td>
+        <td>None — reconstructs only what is visible</td>
+      </tr>
+      <tr>
+        <td>Speed</td>
+        <td>0.72s (Turbo) to ~10s (WW) per step</td>
+        <td>&lt;1s for full forward pass (all N frames)</td>
+      </tr>
+      <tr>
+        <td>Dynamic scene</td>
+        <td>WonderPlay (physics + video loop)</td>
+        <td>Native 4D output in single forward pass</td>
+      </tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;color:rgba(232,236,255,.80);line-height:1.65;">
+      <div class="en"><b>Complementary roles:</b> VGGT-Ω is a <em>reconstruction</em> backbone — given real images, it recovers metric geometry. The Wonder* family is <em>generative</em> — given one image, it hallucinates a navigable 3D world. A strong pipeline could use VGGT-Ω to reconstruct geometry from captured egocentric frames and use WonderWorld/WonderPlay to fill in unseen areas interactively.</div>
+      <div class="zh"><b>互补关系：</b>VGGT-Ω 是<em>重建</em>主干 — 给定真实图像，恢复度量几何；Wonder* 系列是<em>生成式</em> — 给定一张图像，幻化可导航 3D 世界。强力管线可用 VGGT-Ω 从 egocentric 帧重建几何，再用 WonderWorld/WonderPlay 交互式填充未见区域。</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      VGGT-Ω (Oxford VGG + Meta AI, <b>CVPR 2026 Oral</b>, arXiv 2605.15195) is the scaled-up successor to VGGT (CVPR 2025 Best Paper). It solves VGGT's scaling wall via two key architectural changes — a <b>single dense multi-task prediction head</b> (vs. separate high-res conv heads) and <b>register attention</b> (inter-frame communication via learnable registers instead of full all-to-all attention) — cutting GPU memory to <b>30% of VGGT</b>. This enables training on <b>15× more supervised data</b> plus unlabeled video via self-supervised learning. New dynamic scene annotation extends the output to <b>4D reconstruction</b>. The headline result is +77% camera estimation accuracy on Sintel. In this topic cluster, VGGT-Ω is the <em>reconstruction</em> counterpart to the Wonder* generative family — they are complementary tools for building complete 3D scene understanding pipelines.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

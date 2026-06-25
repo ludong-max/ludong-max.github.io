@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+  .lineage-box{background:rgba(122,162,255,.05);border:1px solid rgba(122,162,255,.20);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;margin-top:10px;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2312.03884 · Stanford / Google · CVPR 2024</div>
+    <h1>WonderJourney: Going from Anywhere to Everywhere</h1>
+    <div class="authors">
+      Hong-Xing Yu, Haoyi Duan, Junhwa Hur, Kyle Sargent, Michael Rubinstein, William T. Freeman, Forrester Cole, Deqing Sun, Noah Snavely, Jiajun Wu, Charles Herrmann<br>
+      <span style="opacity:.7">Stanford University · Google Research / DeepMind</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Scene Reconstruction</span>
+      <span class="tag">Perpetual Scene Generation</span>
+      <span class="tag">LLM-Guided</span>
+      <span class="tag">Point Cloud</span>
+      <span class="tag">Text-to-3D</span>
+      <span class="tag tag-blue">CVPR 2024</span>
+      <span class="tag tag-warn">WonderWorld Predecessor</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2312.03884" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2312.03884" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://kovenyu.com/wonderjourney/" target="_blank">Project Page</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Starting from any location (text or image), can we generate an open-ended, coherent journey through a long sequence of diverse and connected 3D scenes?</div>
+      <div class="zh"><b>一句话问题：</b>从任意起点（文字或图像），能否生成一段开放式、连贯且多样的长序列 3D 场景旅程？</div>
+    </div>
+    <div class="lineage-box">
+      <b>团队演进线：</b>WonderJourney (CVPR 2024) → <b>WonderWorld</b> (CVPR 2025) → WonderPlay (ICCV 2025)<br>
+      本文是同一团队的起点，将点云换成 Gaussian surfels 后升级为 WonderWorld，再加入物理仿真后成为 WonderPlay。
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Modular perpetual scene generation framework:</b> WonderJourney separates scene description (LLM), 3D generation (point cloud pipeline), and quality verification (VLM) into independent modules, making each component replaceable as stronger models emerge.</div>
+        <div class="zh"><b>模块化永续场景生成框架：</b>将场景描述（LLM）、3D 生成（点云管线）和质量验证（VLM）解耦为独立模块，随着模型迭代可单独替换各组件。</div>
+      </li>
+      <li>
+        <div class="en"><b>LLM-driven narrative coherence:</b> An LLM generates textual descriptions for each scene step, ensuring semantic continuity across the journey (e.g., walking from a forest to a lakeside village) without requiring per-scene manual prompting.</div>
+        <div class="zh"><b>LLM 驱动叙事连贯性：</b>LLM 为每步场景生成文字描述，确保跨场景的语义连续性（如从森林走到湖畔村庄），无需手动逐场景提示。</div>
+      </li>
+      <li>
+        <div class="en"><b>Text-driven point cloud generation pipeline:</b> Each scene step is realized as a point cloud generated from depth estimation + inpainting, conditioned on both the text description and the previous scene geometry to maintain spatial consistency.</div>
+        <div class="zh"><b>文本驱动点云生成管线：</b>每步场景由深度估计 + inpainting 生成点云，同时以文本描述和前一场景几何为条件，保持空间一致性。</div>
+      </li>
+      <li>
+        <div class="en"><b>VLM-based scene verification:</b> A vision-language model evaluates whether each generated scene matches its text description and is visually plausible, triggering regeneration when quality falls below threshold.</div>
+        <div class="zh"><b>VLM 场景验证：</b>视觉语言模型评估每个生成场景是否与文字描述匹配且视觉合理，低于阈值时触发重新生成。</div>
+      </li>
+      <li>
+        <div class="en"><b>Open-domain starting point:</b> Unlike prior work that assumes a fixed scene type (indoor, outdoor), WonderJourney accepts arbitrary start locations described by text or a single image, making it domain-agnostic.</div>
+        <div class="zh"><b>开放域起点：</b>与仅限室内或室外的先前工作不同，WonderJourney 接受文字或单张图像描述的任意起点，实现跨域场景生成。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Text / Image input</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">LLM: scene sequence description</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Step i: RGB inpainting + depth estimation</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Point cloud layer i</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">VLM verification</span>
+      <span class="arrow">→</span>
+      <span style="color:rgba(232,236,255,.5);">repeat for step i+1 …</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>LLM planning:</b> Given the starting location, an LLM generates a narrative sequence of scene descriptions for the entire journey. Each description specifies the next scene's content and its relationship to the previous one (e.g., "cross the wooden bridge, entering a misty bamboo grove").</p>
+      <p style="margin:0 0 8px;"><b>Point cloud generation per step:</b> A monocular depth model converts the current view (inpainted RGBA + depth) into a point cloud. Newly exposed regions are filled by an RGB inpainting diffusion model conditioned on the LLM scene description, then lifted back into 3D via a depth completion model.</p>
+      <p style="margin:0 0 8px;"><b>VLM verification:</b> After generating each scene step, a VLM (e.g., GPT-4V or similar) compares the rendered view against the LLM description. If the match score is too low, the step is re-sampled with a modified prompt.</p>
+      <p style="margin:0;"><b>Key limitation vs WonderWorld:</b> Point cloud representation leads to aliasing and holes at boundaries; generation per step takes &gt;700 seconds — the main motivation for WonderWorld's FLAGS + guided depth diffusion redesign.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>LLM 规划：</b>给定起点，LLM 为整个旅程生成场景描述序列，每步描述下一场景的内容及其与前一场景的关系（如"穿过木桥，进入薄雾竹林"）。</p>
+      <p style="margin:0 0 8px;"><b>逐步点云生成：</b>单目深度模型将当前视图（inpaint RGBA + 深度）转为点云；新暴露区域由以 LLM 描述为条件的 RGB inpainting 扩散模型填充，再通过深度补全模型提升回 3D。</p>
+      <p style="margin:0 0 8px;"><b>VLM 验证：</b>生成每步场景后，VLM 将渲染视图与 LLM 描述对比，匹配分低于阈值则以修改后的提示重新采样。</p>
+      <p style="margin:0;"><b>相比 WonderWorld 的核心局限：</b>点云表示在边界处易出现走样和空洞；每步生成耗时 &gt;700 秒 — 这正是 WonderWorld 重新设计 FLAGS + 引导深度扩散的主要动机。</p>
+    </div>
+  </div>
+
+  <!-- Comparison with WonderWorld -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>WonderJourney vs WonderWorld — 技术演进对比</h2>
+    <table>
+      <tr><th>维度</th><th>WonderJourney (CVPR 2024)</th><th>WonderWorld (CVPR 2025)</th></tr>
+      <tr><td>3D 表示</td><td>点云 (Point Cloud)</td><td>分层 Gaussian Surfels (FLAGS)</td></tr>
+      <tr><td>深度方法</td><td>单目深度估计 + 补全</td><td>引导式深度扩散 (Guided Depth Diffusion)</td></tr>
+      <tr><td>生成速度</td><td class="num">&gt;700 s / 场景</td><td class="num">~10 s / 场景</td></tr>
+      <tr><td>交互性</td><td>低（batch 生成）</td><td>高（实时用户控制）</td></tr>
+      <tr><td>场景连续性</td><td>较弱（点云拼接边界）</td><td>强（surfels 无缝合成）</td></tr>
+      <tr><td>起点</td><td>文字或图像</td><td>单张图像</td></tr>
+      <tr><td>内容控制</td><td>LLM 文字驱动</td><td>用户交互式布局指定</td></tr>
+    </table>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Very slow generation:</b> Each scene step requires &gt;700 seconds, making real-time or interactive use impossible — the primary bottleneck addressed by WonderWorld.</div>
+        <div class="zh"><b>生成极慢：</b>每步场景需 &gt;700 秒，无法实时或交互使用 — WonderWorld 着力解决的核心瓶颈。</div>
+      </li>
+      <li>
+        <div class="en"><b>Point cloud artifacts:</b> Boundaries between scene steps exhibit aliasing, holes, and floating points that degrade rendering quality under novel viewpoints.</div>
+        <div class="zh"><b>点云 artifact：</b>场景步骤间边界出现走样、空洞和悬浮点，在新视角下渲染质量下降。</div>
+      </li>
+      <li>
+        <div class="en"><b>LLM hallucination risk:</b> Textual coherence from the LLM does not guarantee visual coherence — inconsistent lighting, style breaks, or semantically plausible but visually jarring transitions can occur.</div>
+        <div class="zh"><b>LLM 幻化风险：</b>LLM 的文字连贯不保证视觉连贯，可能出现光照不一致、风格断裂或语义合理但视觉突兀的场景过渡。</div>
+      </li>
+      <li>
+        <div class="en"><b>No user interactivity:</b> The journey is fully scripted by the LLM. Users cannot steer in real time, add objects, or modify the generated scene after creation.</div>
+        <div class="zh"><b>无用户交互：</b>旅程由 LLM 全程脚本控制，用户无法实时引导、添加物体或在生成后修改场景。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      WonderJourney (Stanford + Google, CVPR 2024, arXiv 2312.03884) is the <b>predecessor</b> of WonderWorld by the same team. It generates open-ended perpetual 3D scene journeys from any text or image starting point using an <b>LLM for narrative planning</b>, a <b>point cloud pipeline</b> for 3D generation, and a <b>VLM for quality verification</b>. Its critical limitation — &gt;700s per scene step — directly motivated the WonderWorld redesign with FLAGS and guided depth diffusion. Reading WonderJourney first clarifies why WonderWorld made its key architectural choices.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

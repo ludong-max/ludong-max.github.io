@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+  .lineage-box{background:rgba(122,162,255,.05);border:1px solid rgba(122,162,255,.20);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.75;margin-top:10px;}
+  .highlight-pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid rgba(255,200,80,.5);color:var(--warn);background:rgba(255,200,80,.08);margin-left:6px;font-weight:600;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2505.18151 · Stanford / Utah · ICCV 2025 Highlight</div>
+    <h1>WonderPlay: Dynamic 3D Scene Generation from a Single Image and Actions <span class="highlight-pill">ICCV Highlight</span></h1>
+    <div class="authors">
+      Zizhang Li, Hong-Xing Yu, Wei Liu, Yin Yang, Charles Herrmann, Gordon Wetzstein, Jiajun Wu<br>
+      <span style="opacity:.7">Stanford University · University of Utah · Google DeepMind</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Scene Reconstruction</span>
+      <span class="tag">Dynamic Scene</span>
+      <span class="tag">Physics Simulation</span>
+      <span class="tag">Video Generation</span>
+      <span class="tag">Gaussian Splatting</span>
+      <span class="tag tag-blue">ICCV 2025 Highlight</span>
+      <span class="tag tag-warn">WonderWorld Successor</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2505.18151" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2505.18151" target="_blank">PDF</a>
+      <a class="link-btn link-g" href="https://kyleleey.github.io/WonderPlay/" target="_blank">Project Page</a>
+      <a class="link-btn link-g" href="https://github.com/kyleleey/WonderPlay" target="_blank">GitHub</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Given a single image and a user action (gravity, wind, point force…), can we generate a dynamic 3D scene where objects respond with physically plausible motion across rigid bodies, cloth, liquid, gas, and elastic materials?</div>
+      <div class="zh"><b>一句话问题：</b>给定一张图像和用户动作（重力、风、点力…），能否生成物体对刚体、布料、液体、气体、弹性材料等物理合理地响应的动态 3D 场景？</div>
+    </div>
+    <div class="lineage-box">
+      <b>团队演进线：</b>WonderJourney (CVPR 2024) → WonderWorld (CVPR 2025) → <b>WonderPlay</b> (ICCV 2025 Highlight)<br>
+      WonderPlay 直接基于 WonderWorld 的 FLAGS 场景表示，在其上叠加物理求解器 + 视频生成闭环，将静态场景升级为可交互动态世界。
+    </div>
+  </div>
+
+  <!-- Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Hybrid generative simulator:</b> The core novelty — a physics solver generates coarse 3D dynamics (fast but approximate), which then conditions a video diffusion model to produce fine, realistic motion. The video is back-projected to update the 3D scene, closing the loop.</div>
+        <div class="zh"><b>混合生成式仿真器：</b>核心创新 — 物理求解器生成粗略 3D 动态（快速但近似），以此为条件驱动视频扩散模型生成精细真实的运动；视频被反投影回 3D 场景形成闭环。</div>
+      </li>
+      <li>
+        <div class="en"><b>Broad material support:</b> Handles rigid bodies, thin strands (hair), gas (steam), elastic objects (mushroom), and liquids (honey) — far beyond the rigid-only or simple elastic limits of prior dynamic 3D generation work.</div>
+        <div class="zh"><b>广泛材质支持：</b>支持刚体、细线（头发）、气体（蒸汽）、弹性（蘑菇）和液体（蜂蜜）— 远超先前只限刚体或简单弹性的动态 3D 生成工作。</div>
+      </li>
+      <li>
+        <div class="en"><b>Action-conditioned user control:</b> Users apply physical actions (gravity, wind, point forces, fluid injection) to the scene via simple inputs, and WonderPlay generates the resulting 3D dynamics in response.</div>
+        <div class="zh"><b>动作条件用户控制：</b>用户通过简单输入对场景施加物理动作（重力、风、点力、流体注入），WonderPlay 生成对应的 3D 动态响应。</div>
+      </li>
+      <li>
+        <div class="en"><b>Builds on WonderWorld's FLAGS representation:</b> The static scene from WonderWorld's layered Gaussian surfels serves as the initialization; WonderPlay adds temporal dynamics on top without re-designing the scene representation from scratch.</div>
+        <div class="zh"><b>基于 WonderWorld 的 FLAGS 表示：</b>以 WonderWorld 分层 Gaussian surfels 静态场景为初始化，在其上叠加时序动态，无需从头重新设计场景表示。</div>
+      </li>
+      <li>
+        <div class="en"><b>Physics-video feedback loop:</b> The generated video provides appearance supervision that guides the physics solver in the next iteration, combining the accuracy of physics-based simulators with the expressivity of diffusion-based video generators.</div>
+        <div class="zh"><b>物理-视频反馈闭环：</b>生成视频提供外观监督，引导物理求解器下一次迭代，将物理仿真的精确性与扩散视频生成器的表达力结合。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">Single image + user action</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">WonderWorld FLAGS scene init</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Physics solver: coarse 3D dynamics</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Video diffusion: fine realistic motion</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">Back-project video → update 3D scene</span>
+      <span class="arrow">→</span>
+      <span style="color:rgba(232,236,255,.5);">loop for next timestep</span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Scene initialization:</b> A single RGB image is lifted into a layered Gaussian surfel representation (FLAGS from WonderWorld) using monocular depth estimation, providing the static 3D canvas for dynamics.</p>
+      <p style="margin:0 0 8px;"><b>Physics solver (coarse):</b> A physics-based simulator (e.g., MPM for granular/fluid/elastic, rigid body solver for objects) computes approximate 3D deformations given the user action. This is fast but lacks appearance realism.</p>
+      <p style="margin:0 0 8px;"><b>Video diffusion (fine):</b> The coarse physics simulation is rendered and used as a conditioning signal for a video diffusion model, which generates temporally coherent frames with realistic appearance, fine-grained motion details, and material-specific effects.</p>
+      <p style="margin:0;"><b>3D update loop:</b> The video frames are back-projected into 3D to update the Gaussian surfel positions and appearances, closing the loop so the next physics step starts from the updated 3D state. This hybrid loop runs iteratively for multi-step dynamics.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>场景初始化：</b>单张 RGB 图像通过单目深度估计提升为 FLAGS 分层 Gaussian surfels 表示，作为动态的静态 3D 画布。</p>
+      <p style="margin:0 0 8px;"><b>物理求解器（粗略）：</b>物理仿真器（如粒状/流体/弹性用 MPM，物体用刚体求解器）根据用户动作计算近似 3D 形变，速度快但外观真实感不足。</p>
+      <p style="margin:0 0 8px;"><b>视频扩散（精细）：</b>粗略物理仿真渲染结果作为视频扩散模型的条件信号，生成时序连贯、外观真实、运动细节丰富且材质特异的帧序列。</p>
+      <p style="margin:0;"><b>3D 更新闭环：</b>视频帧被反投影回 3D，更新 Gaussian surfel 的位置和外观，使下一步物理求解从更新后的 3D 状态出发。此混合闭环迭代运行以支持多步动态。</p>
+    </div>
+  </div>
+
+  <!-- Material support -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Supported Material Types & Actions</h2>
+    <table>
+      <tr><th>Material</th><th>Example</th><th>Action Type</th><th>Physics Model</th></tr>
+      <tr class="ours"><td>Rigid body</td><td>Wine glass, hat</td><td>Gravity, point force</td><td>Rigid body solver</td></tr>
+      <tr><td>Thin strands</td><td>Hair, grass</td><td>Wind</td><td>Rod/strand simulation</td></tr>
+      <tr class="ours"><td>Gas</td><td>Steam, smoke</td><td>Heat source, wind</td><td>MPM / fluid sim</td></tr>
+      <tr><td>Elastic</td><td>Mushroom, jelly</td><td>Point force, compression</td><td>Elastic MPM</td></tr>
+      <tr class="ours"><td>Liquid</td><td>Honey, water</td><td>Fluid injection, tilt</td><td>SPH / MPM fluid</td></tr>
+    </table>
+    <p class="mini">Prior dynamic 3D generation works typically support only rigid body or simple elastic materials. WonderPlay's hybrid simulator is the first to unify all five material types in a single-image 3D scene generation framework.</p>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Requires material segmentation:</b> The physics solver needs to know which scene region corresponds to which material type. Automatic material segmentation from a single image remains an unsolved problem and is manually specified in current demos.</div>
+        <div class="zh"><b>需要材质分割：</b>物理求解器需要知道场景各区域对应哪种材质类型，从单张图像自动分割材质仍是未解问题，当前 demo 需手动指定。</div>
+      </li>
+      <li>
+        <div class="en"><b>No metric scale:</b> Inherited from WonderWorld — depth estimates are up-to-scale. Physical simulation magnitudes (force, mass) are therefore also relative, not metric.</div>
+        <div class="zh"><b>无度量尺度：</b>继承自 WonderWorld — 深度估计是 up-to-scale 的，物理仿真量级（力、质量）因此也是相对而非度量的。</div>
+      </li>
+      <li>
+        <div class="en"><b>Static background only:</b> The Gaussian surfel background is static; only the interacted object/region undergoes dynamics. Full-scene fluid flow or global wind effects are not modeled.</div>
+        <div class="zh"><b>仅前景动态：</b>Gaussian surfel 背景是静态的，只有被交互的物体/区域产生动态，不支持全场景流体流动或全局风场建模。</div>
+      </li>
+      <li>
+        <div class="en"><b>Video diffusion latency:</b> The video generation step is the bottleneck — real-time physics feedback is not yet achievable; each dynamic step takes several seconds with a diffusion model.</div>
+        <div class="zh"><b>视频扩散延迟：</b>视频生成步骤是瓶颈 — 目前无法实现实时物理反馈，每步动态仍需扩散模型耗时数秒。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      WonderPlay (Stanford + Utah, <b>ICCV 2025 Highlight</b>, arXiv 2505.18151) is the <b>dynamic successor</b> to WonderWorld by the same team. It introduces a <b>hybrid generative simulator</b>: a physics solver generates coarse 3D dynamics, a video diffusion model refines appearance and fine motion, and the video is back-projected to update the 3D scene in a closed loop. The result is action-conditioned dynamic 3D scenes from a single image supporting <b>rigid, elastic, liquid, gas, and strand materials</b> — a capability gap no prior work had closed. The main open problem is metric scale and automatic material segmentation.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>
