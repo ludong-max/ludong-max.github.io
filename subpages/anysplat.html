@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --warn:#ffc850; --purple:#c084fc; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(192,132,252,.35);color:var(--purple);background:rgba(192,132,252,.05);}
+  .tag-warn{border-color:rgba(255,200,80,.35);color:var(--warn);background:rgba(255,200,80,.05);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  tr.best td{color:var(--accent2);}
+  tr.ours{background:rgba(139,255,207,.04);}
+  .num{font-family:var(--mono);font-size:12px;white-space:nowrap;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-a{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-a:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-g{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-g:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+  .stat{background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;text-align:center;}
+  .stat-n{font-family:var(--mono);font-size:16px;color:var(--accent2);display:block;}
+  .stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+  .note-box{background:rgba(255,200,80,.04);border:1px solid rgba(255,200,80,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(232,236,255,.82);line-height:1.65;margin-top:12px;}
+  .mini{font-size:11.5px;color:rgba(232,236,255,.45);margin:7px 0 0;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <!-- Title -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2505.23716 · ACM Trans. Graph. Vol. 44 No. 6 · SIGGRAPH Asia 2025</div>
+    <h1>AnySplat: Feed-forward 3D Gaussian Splatting from Unconstrained Views</h1>
+    <div class="authors">
+      Lihan Jiang*, Yucheng Mao*, Linning Xu, Tao Lu, Kerui Ren, Yichen Jin, Xudong Xu, Mulin Yu, Jiangmiao Pang, Feng Zhao†, Dahua Lin, Bo Dai†<br>
+      <span style="opacity:.7">USTC · Shanghai AI Lab · CUHK · Brown University · SJTU · HKU &nbsp;|&nbsp; *Equal contribution, †Corresponding author</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">3D Gaussian Splatting</span>
+      <span class="tag">Feed-Forward NVS</span>
+      <span class="tag">Uncalibrated Views</span>
+      <span class="tag">Camera Pose Estimation</span>
+      <span class="tag">Pseudo-label Distillation</span>
+      <span class="tag tag-purple">3D Scene Reconstruction</span>
+      <span class="tag tag-blue">SIGGRAPH Asia 2025</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-a" href="https://arxiv.org/abs/2505.23716" target="_blank">arXiv</a>
+      <a class="link-btn link-a" href="https://arxiv.org/pdf/2505.23716" target="_blank">PDF</a>
+      <a class="link-btn link-a" href="https://city-super.github.io/anysplat/" target="_blank">Project</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Can a single feed-forward pass predict ready-to-render 3D Gaussians and camera poses simultaneously from any number of uncalibrated images — with no per-scene optimization and no pose annotations?</div>
+      <div class="zh"><b>一句话问题：</b>能否仅凭一次 feed-forward 推理，从任意数量的无标定图像中同时预测可直接渲染的 3D Gaussians 和相机姿态——无需每场景优化，无需任何 pose 标注？</div>
+    </div>
+    <div class="note-box">
+      <div class="en"><b>Placement in this bank:</b> AnySplat is not an egocentric body-pose paper. It is included under <b>3D Scene Reconstruction / Feed-Forward 3DGS</b> because feed-forward uncalibrated 3D reconstruction is a foundational capability for ego AR/VR pipelines: it can generate scene Gaussians from casual Aria or ego-camera captures without COLMAP, serving as a fast scene-prior module upstream of body/hand estimation.</div>
+      <div class="zh"><b>在本库中的定位：</b>AnySplat 不是 egocentric body pose 论文。收录于 <b>3D Scene Reconstruction / Feed-Forward 3DGS</b>，理由是 feed-forward 无标定 3D 重建是 ego AR/VR 管线的基础能力：可直接从 Aria 或普通 ego 相机拍摄中生成场景 Gaussian，无需 COLMAP，作为 body/hand estimation 的上游快速场景 prior 模块。</div>
+    </div>
+  </div>
+
+  <!-- Key Contributions -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>One-shot uncalibrated scene reconstruction:</b> A single forward pass simultaneously outputs a set of 3D Gaussian primitives (encoding scene geometry and appearance) and the camera intrinsics + extrinsics for every input image — no COLMAP, no SfM, no per-scene optimization required.</div>
+        <div class="zh"><b>单次推理无标定场景重建：</b>一次 forward pass 同时输出 3D Gaussian 基元（编码场景几何和外观）以及每张输入图像的内参和外参——无需 COLMAP、SfM 或每场景优化。</div>
+      </li>
+      <li>
+        <div class="en"><b>Pseudo-label knowledge distillation (no 3D GT needed):</b> Camera and geometry priors are distilled from the pretrained VGGT model using only raw RGB images, eliminating the need for any 3D SfM or MVS ground truth supervision.</div>
+        <div class="zh"><b>伪标签知识蒸馏（无需 3D GT）：</b>仅用原始 RGB 图像，从预训练 VGGT 模型中蒸馏相机和几何先验，完全不需要 3D SfM 或 MVS 真值监督。</div>
+      </li>
+      <li>
+        <div class="en"><b>Differentiable voxel-guided Gaussian pruning:</b> A differentiable voxelization module clusters pixel-wise Gaussians into voxels, eliminating 30–70% of redundant primitives while maintaining comparable rendering quality — making dense-view inference practical.</div>
+        <div class="zh"><b>可微分体素引导 Gaussian 剪枝：</b>一个可微分体素化模块将逐像素 Gaussian 聚类到体素中，消除 30–70% 冗余基元，同时维持渲染质量，让密集视角推理切实可行。</div>
+      </li>
+      <li>
+        <div class="en"><b>Sparse-to-dense scalability:</b> Unlike prior feed-forward methods limited to 2–24 input images, AnySplat generalizes to hundreds of views in one shot, while also handling as few as 3 sparse views.</div>
+        <div class="zh"><b>稀疏到密集的可扩展性：</b>与以往最多处理 2–24 张输入图像的 feed-forward 方法不同，AnySplat 可一次处理数百张视角，同时也能处理 3 张稀疏视角。</div>
+      </li>
+      <li>
+        <div class="en"><b>Zero-shot generalization:</b> Trained on 9 diverse datasets (indoor/outdoor/object/city), AnySplat matches pose-aware 3DGS baselines and surpasses existing pose-free feed-forward methods in zero-shot evaluations, at an order-of-magnitude lower latency.</div>
+        <div class="zh"><b>零样本泛化：</b>在 9 个多样数据集上训练后，AnySplat 在零样本评测中达到 pose-aware 3DGS 基线水平，超越现有 pose-free feed-forward 方法，且延迟低一个数量级。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Method -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method / Architecture</h2>
+    <div class="arch-box" style="margin-bottom:12px;">
+      <span style="color:rgba(232,236,255,.7);">N uncalibrated RGB images</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Geometry Transformer</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (DINOv2 patchify + L=24 AA-Transformer + camera tokens)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">3 Decoder Heads</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (Gaussian F<sub>G</sub> + Depth F<sub>D</sub> + Camera F<sub>C</sub>)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Differentiable Voxelization</span>
+      <span style="color:rgba(232,236,255,.5);font-size:12px;"> (prune 30–70% primitives)</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--warn);">3D Gaussians {μ,σ,r,s,c}<sup>G</sup> + poses {p}<sup>N</sup></span>
+    </div>
+    <div class="en" style="font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Geometry Transformer:</b> Following VGGT, each image is patchified into H×W/p² tokens (p=14, d=1024) using DINOv2. A learnable camera token is prepended to each image. An L=24 Alternating-Attention Transformer applies: (1) frame-level self-attention over each image's tokens, then (2) global cross-image attention over all N×(H_t+5) tokens jointly. This allows implicit multi-view feature matching without explicit correspondence search.</p>
+      <p style="margin:0 0 8px;"><b>Three decoder heads:</b> (1) <i>Gaussian Head F<sub>G</sub></i>: combines DPT depth features with appearance features and a final CNN to regress per-pixel Gaussian params (center μ, opacity σ, quaternion r, scale s, SH color coefficients c). (2) <i>Depth Head F<sub>D</sub></i>: outputs per-image depth maps D with per-pixel confidence for geometry supervision. (3) <i>Camera Head F<sub>C</sub></i>: four additional self-attention layers + linear projection head predict each image's 9D camera parameter (intrinsics + extrinsics).</p>
+      <p style="margin:0 0 8px;"><b>Differentiable Voxelization:</b> Clusters the G pixel-wise Gaussian centers {μ_g} into S voxels of size ε=0.002 using a confidence-weighted softmax aggregation. Reduces primitive count from ~4.82M to ~3.45M while improving PSNR from 17.77 to 18.25 (ablation Table 5).</p>
+      <p style="margin:0;"><b>Training (distillation only):</b> Total loss = L_rgb (MSE + perceptual) + λ₂·L_g (geometry consistency) + λ₃·L_p (camera pose distillation from VGGT) + λ₄·L_d (depth distillation from VGGT DPT head). λ₁=0.05, λ₂=0.1, λ₃=10, λ₄=1. No 3D GT annotations used. Trained 15K iterations on 16 A800 GPUs (~2 days), ~886M parameters.</p>
+    </div>
+    <div class="zh" style="display:none;font-size:13px;color:rgba(232,236,255,.82);line-height:1.68;">
+      <p style="margin:0 0 8px;"><b>Geometry Transformer：</b>沿用 VGGT 方案，用 DINOv2 将每张图像分块为 H×W/p² 个 token（p=14，d=1024），每张图像前置一个可学习的相机 token。L=24 层 Alternating-Attention Transformer：(1) 逐帧内 self-attention；(2) 跨所有 N 张图像的 global attention。隐式多视角特征匹配，无需显式对应点搜索。</p>
+      <p style="margin:0 0 8px;"><b>三个解码头：</b>(1) <i>Gaussian Head F<sub>G</sub></i>：融合 DPT 深度特征、外观特征和 CNN，回归逐像素 Gaussian 参数（中心 μ、透明度 σ、四元数 r、尺度 s、SH 颜色系数 c）。(2) <i>Depth Head F<sub>D</sub></i>：输出逐图像深度图和逐像素置信度，用于几何监督。(3) <i>Camera Head F<sub>C</sub></i>：4 层额外 self-attention + 线性投影，预测每张图像的 9D 相机参数（内参+外参）。</p>
+      <p style="margin:0 0 8px;"><b>可微分体素化：</b>将 G 个逐像素 Gaussian 中心 {μ_g} 聚类到 S 个大小 ε=0.002 的体素，用置信度加权 softmax 聚合。基元数从约 4.82M 降至 3.45M，PSNR 从 17.77 提升到 18.25（消融表 5）。</p>
+      <p style="margin:0;"><b>训练（纯蒸馏）：</b>总损失 = L_rgb（MSE + perceptual）+ λ₂·L_g（几何一致性）+ λ₃·L_p（相机 pose 蒸馏自 VGGT）+ λ₄·L_d（深度蒸馏自 VGGT DPT head）。无任何 3D GT 标注。16 块 A800 GPU 训练约 2 天，~886M 参数。</p>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Data / Training</h2>
+    <table>
+      <tr><th>Dataset</th><th>Type</th><th>Coverage</th></tr>
+      <tr><td>Hypersim</td><td>Synthetic indoor</td><td>Photorealistic synthetic scenes with diverse indoor geometry</td></tr>
+      <tr><td>ARKitScenes</td><td>Real indoor</td><td>Sequential RGB-D scans from Apple ARKit</td></tr>
+      <tr><td>BlendedMVS</td><td>Real outdoor/mixed</td><td>Multi-view stereo dataset with diverse scene types</td></tr>
+      <tr><td>ScanNet++</td><td>Real indoor</td><td>High-res RGB-D scans with mesh ground truth</td></tr>
+      <tr><td>CO3D-v2</td><td>Real object-centric</td><td>Common-object video reconstructions from 50 categories</td></tr>
+      <tr><td>Objaverse</td><td>Synthetic objects</td><td>Large-scale 3D object asset library</td></tr>
+      <tr><td>Unreal4K</td><td>Synthetic outdoor</td><td>High-res synthetic outdoor scenes via Unreal Engine</td></tr>
+      <tr><td>WildRGB-D</td><td>Real outdoor</td><td>In-the-wild RGB-D captures</td></tr>
+      <tr><td>DL3DV</td><td>Real indoor/outdoor</td><td>Diverse large-scale video capture dataset</td></tr>
+    </table>
+    <p class="mini">No 3D annotations required. All supervision is derived from pseudo-labels distilled from pretrained VGGT. Views are sampled randomly (object-centric: 2–32; sequential: interval-based; unordered: pose-distance-based).</p>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h2>Quantitative Results</h2>
+
+    <div style="font-size:13px;color:rgba(232,236,255,.7);margin-bottom:6px;">Table 1 — Sparse-view NVS on Mip-NeRF360 (zero-shot); higher PSNR/SSIM, lower LPIPS is better; Time = reconstruction time per scene</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>#Views</th><th class="num">PSNR↑</th><th class="num">SSIM↑</th><th class="num">LPIPS↓</th><th>Time↓</th></tr>
+      <tr><td>NoPoSplat</td><td>3</td><td class="num">16.36</td><td class="num">0.420</td><td class="num">0.812</td><td>0.119s</td></tr>
+      <tr><td>Flare</td><td>3</td><td class="num">13.52</td><td class="num">0.356</td><td class="num">0.801</td><td>0.415s</td></tr>
+      <tr class="ours best"><td><b>AnySplat (Ours)</b></td><td>3</td><td class="num"><b>21.25</b></td><td class="num"><b>0.350</b></td><td class="num"><b>0.349</b></td><td><b>0.171s</b></td></tr>
+      <tr class="ours best"><td><b>AnySplat (Ours)</b></td><td>6</td><td class="num"><b>21.85</b></td><td class="num"><b>0.670</b></td><td class="num"><b>0.329</b></td><td><b>0.297s</b></td></tr>
+    </table>
+
+    <div style="font-size:13px;color:rgba(232,236,255,.7);margin-bottom:6px;">Table 1 — Dense-view NVS on Mip-NeRF360 (zero-shot); AnySplat vs optimization-based 3DGS methods</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>#Views</th><th class="num">PSNR↑</th><th class="num">SSIM↑</th><th class="num">LPIPS↓</th><th>Time↓</th></tr>
+      <tr><td>3D-GS</td><td>32</td><td class="num">21.86</td><td class="num">0.640</td><td class="num">0.248</td><td>11min</td></tr>
+      <tr><td>Mip-Splatting</td><td>32</td><td class="num">22.97</td><td class="num">0.645</td><td class="num">0.256</td><td>11min</td></tr>
+      <tr class="ours best"><td><b>AnySplat (Ours)</b></td><td>32</td><td class="num"><b>21.90</b></td><td class="num"><b>0.652</b></td><td class="num"><b>0.247</b></td><td><b>1.4s</b></td></tr>
+      <tr class="ours best"><td><b>AnySplat (Ours)</b></td><td>48</td><td class="num">21.78</td><td class="num">0.638</td><td class="num">0.399</td><td><b>2.7s</b></td></tr>
+      <tr class="ours best"><td><b>AnySplat (Ours)</b></td><td>64</td><td class="num">21.35</td><td class="num">0.389</td><td class="num">0.272</td><td><b>4.1s</b></td></tr>
+    </table>
+
+    <div style="font-size:13px;color:rgba(232,236,255,.7);margin-bottom:6px;">Table 2 — Dense-view NVS, Matrixcity (200 views); Ours = feed-forward, Ours_N = N post-opt steps</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th class="num">PSNR↑</th><th class="num">SSIM↑</th><th class="num">LPIPS↓</th><th>Time↓</th></tr>
+      <tr><td>3D-GS</td><td class="num">19.10</td><td class="num">0.614</td><td class="num">0.450</td><td>10min</td></tr>
+      <tr><td>Mip-Splatting</td><td class="num">18.20</td><td class="num">0.556</td><td class="num">0.485</td><td>11min</td></tr>
+      <tr class="ours"><td><b>AnySplat (Ours)</b></td><td class="num">19.46</td><td class="num">0.574</td><td class="num">0.574</td><td><b>33s</b></td></tr>
+      <tr class="ours"><td><b>AnySplat + 1K post-opt</b></td><td class="num">20.81</td><td class="num">0.635</td><td class="num">0.519</td><td>2min</td></tr>
+      <tr class="ours best"><td><b>AnySplat + 3K post-opt</b></td><td class="num"><b>21.64</b></td><td class="num"><b>0.671</b></td><td class="num"><b>0.421</b></td><td>7min</td></tr>
+    </table>
+
+    <div style="font-size:13px;color:rgba(232,236,255,.7);margin-bottom:6px;">Table 4 — Camera pose estimation AUC (higher = better) vs VGGT</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Method</th><th>Dataset</th><th class="num">AUC@30↑</th><th class="num">AUC@20↑</th><th class="num">AUC@10↑</th><th class="num">AUC@5↑</th></tr>
+      <tr><td>VGGT</td><td>RealEstate10K</td><td class="num">89.1</td><td class="num">84.9</td><td class="num">74.1</td><td class="num">56.9</td></tr>
+      <tr class="ours best"><td><b>AnySplat</b></td><td>RealEstate10K</td><td class="num"><b>89.2</b></td><td class="num"><b>85.1</b></td><td class="num"><b>74.6</b></td><td class="num"><b>57.9</b></td></tr>
+      <tr><td>VGGT</td><td>CO3Dv2</td><td class="num">74.9</td><td class="num">67.2</td><td class="num">50.4</td><td class="num">31.2</td></tr>
+      <tr class="ours best"><td><b>AnySplat</b></td><td>CO3Dv2</td><td class="num"><b>78.3</b></td><td class="num"><b>71.6</b></td><td class="num"><b>56.9</b></td><td class="num"><b>39.2</b></td></tr>
+    </table>
+
+    <p class="mini">All zero-shot evaluations. AnySplat matches or exceeds 3D-GS/Mip-Splatting quality at >100× lower latency (feed-forward only). Post-optimization closes remaining quality gap within minutes. Pose estimation slightly outperforms VGGT teacher on CO3Dv2.</p>
+  </div>
+
+  <!-- Ablation -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Ablation / Design Insights</h2>
+    <table style="margin-bottom:12px;">
+      <tr><th>Variant</th><th class="num">PSNR↑</th><th class="num">SSIM↑</th><th class="num">AbsRel↓</th><th class="num">#GS (M)</th></tr>
+      <tr><td>w/o Distill Loss</td><td class="num">7.28</td><td class="num">0.217</td><td class="num">75.5</td><td class="num">4.80</td></tr>
+      <tr><td>w/o Geometry Consistency Loss</td><td class="num">18.20</td><td class="num">0.635</td><td class="num">94.7</td><td class="num">3.52</td></tr>
+      <tr><td>w/o Differentiable Voxelization</td><td class="num">17.77</td><td class="num">0.609</td><td class="num">95.8</td><td class="num">4.82</td></tr>
+      <tr><td>Frozen AA transformer layers</td><td class="num">17.90</td><td class="num">0.616</td><td class="num">96.5</td><td class="num">3.51</td></tr>
+      <tr><td>Frozen all transformer layers</td><td class="num">17.84</td><td class="num">0.621</td><td class="num">95.3</td><td class="num">3.40</td></tr>
+      <tr class="ours best"><td><b>Full AnySplat</b></td><td class="num"><b>18.25</b></td><td class="num"><b>0.648</b></td><td class="num"><b>96.3</b></td><td class="num"><b>3.45</b></td></tr>
+    </table>
+    <ul>
+      <li>
+        <div class="en"><b>Distillation loss is critical:</b> Removing it collapses PSNR to 7.28 — the model cannot learn stable geometry or camera prediction from rendering loss alone on unposed images. This is the single most important design choice.</div>
+        <div class="zh"><b>蒸馏损失至关重要：</b>去掉后 PSNR 崩溃至 7.28——仅凭渲染损失无法从无 pose 图像中稳定学习几何和相机。这是最重要的单一设计决策。</div>
+      </li>
+      <li>
+        <div class="en"><b>Geometry consistency loss improves multi-view coherence:</b> Adding L_g reduces AbsRel from 94.7% to 96.3% (improvement) and aligns Gaussian depth with DPT depth estimates, preventing "layered sheet" artifacts that degrade rendering fidelity.</div>
+        <div class="zh"><b>几何一致性损失改善多视角连贯性：</b>加入 L_g 让 AbsRel 从 94.7% 提升至 96.3%（改善），使 Gaussian 深度与 DPT 深度估计对齐，防止影响渲染保真度的"层状薄片"伪影。</div>
+      </li>
+      <li>
+        <div class="en"><b>Differentiable voxelization improves quality AND reduces primitives:</b> Without it the model uses 4.82M Gaussians to achieve worse quality (PSNR 17.77). The voxelization reduces to 3.45M while boosting PSNR to 18.25 — redundancy elimination forces each primitive to contribute meaningfully.</div>
+        <div class="zh"><b>可微分体素化同时提升质量和减少基元：</b>不用体素化时，4.82M Gaussian 反而质量更差（PSNR 17.77）。体素化压缩至 3.45M 同时将 PSNR 提升至 18.25——冗余消除迫使每个基元有实质贡献。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Limitations -->
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Quality ceiling set by VGGT teacher:</b> Pseudo-label distillation caps geometry and pose accuracy at what VGGT can predict; errors in the teacher propagate into the student's learned priors.</div>
+        <div class="zh"><b>质量上限受 VGGT 教师制约：</b>伪标签蒸馏使几何和 pose 精度上限取决于 VGGT 的预测质量；教师的误差会传导到学生模型的学习先验中。</div>
+      </li>
+      <li>
+        <div class="en"><b>Static scene only:</b> AnySplat models a single static scene from a set of views. Dynamic objects (people, hands, articulated bodies) are treated as static content and cause blur or artifact Gaussians when present.</div>
+        <div class="zh"><b>仅限静态场景：</b>AnySplat 对一组视角的单个静态场景建模。动态物体（人、手、关节体）被当作静态内容处理，出现时会产生模糊或伪影 Gaussian。</div>
+      </li>
+      <li>
+        <div class="en"><b>No semantic output:</b> The model outputs Gaussians and camera poses — no per-object identity, no segmentation, no semantic labeling. Downstream ego applications needing object tracking or body segmentation require additional modules.</div>
+        <div class="zh"><b>无语义输出：</b>模型只输出 Gaussian 和相机 pose，无逐物体 id、分割或语义标签。需要物体跟踪或人体分割的下游 ego 应用需要额外模块。</div>
+      </li>
+      <li>
+        <div class="en"><b>Not temporally consistent across video:</b> AnySplat processes a bag of images, not a video stream. For egocentric video, frames must be batched explicitly and temporal consistency across batches is not guaranteed.</div>
+        <div class="zh"><b>视频时序不一致：</b>AnySplat 处理一组无序图像，不是视频流。对于自我中心视频，帧需要显式分批，批次间时序一致性无保证。</div>
+      </li>
+      <li>
+        <div class="en"><b>Post-optimization still needed for highest quality dense-view scenarios:</b> While feed-forward inference is fast (seconds), reaching 3DGS-level quality at 200+ views requires 1K–3K post-optimization steps (2–7 min), reducing the real-time advantage.</div>
+        <div class="zh"><b>高质量密集视角仍需后优化：</b>尽管 feed-forward 推理很快（秒级），在 200+ 视角时达到 3DGS 级质量仍需 1K–3K 步后优化（2–7 分钟），削弱了实时优势。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Relation to This Bank -->
+  <div class="card" style="background:rgba(122,162,255,.04);border-color:rgba(122,162,255,.25);">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2 style="color:var(--accent);">Relation to This Bank</h2>
+    <table>
+      <tr><th>Bank Direction</th><th>How AnySplat Helps</th><th>Remaining Gap</th></tr>
+      <tr>
+        <td>EgoSMPL-X proposal</td>
+        <td>AnySplat can reconstruct the static scene geometry from casual ego captures without COLMAP, providing a ready-to-use background Gaussian field for avatar compositing.</td>
+        <td>Needs dynamic human separation; the body+hands+face avatar must be layered on top of the static Gaussian scene.</td>
+      </tr>
+      <tr>
+        <td>Project Aria / NymeriaPlus</td>
+        <td>Aria captures multiple calibrated cameras — AnySplat could reconstruct environment Gaussians without running COLMAP, accelerating the data preprocessing pipeline.</td>
+        <td>Aria provides known calibration, so pose-free reconstruction is less critical; the value is mainly in speed.</td>
+      </tr>
+      <tr>
+        <td>EgoAllo / HaWoR / EgoPoseFormer v2</td>
+        <td>These methods need scene context or SLAM-estimated trajectories; an AnySplat Gaussian scene could serve as a differentiable 3D environment representation for future ego-motion conditioning.</td>
+        <td>Those methods operate on video streams with temporal modeling; AnySplat is frame-bag-based and does not provide per-frame optical flow or depth video.</td>
+      </tr>
+      <tr>
+        <td>Feed-forward 3DGS trend (D4RT)</td>
+        <td>AnySplat is a strong feed-forward scene representation baseline, parallel to D4RT's dynamic-tracking direction; together they map the static-scene vs. dynamic-scene split in the 3D foundation model space.</td>
+        <td>Neither model provides articulated body representation; that bridge remains open.</td>
+      </tr>
+    </table>
+    <div style="margin-top:10px;font-size:13px;line-height:1.65;color:rgba(232,236,255,.80);">
+      <div class="en"><b>Research value:</b> AnySplat represents the emerging paradigm of <em>pose-free feed-forward 3DGS</em>: replace multi-stage SfM+NeRF/3DGS pipelines with a single transformer forward pass. For this paper bank, the most actionable insight is that future ego AR systems can skip COLMAP for background scene reconstruction, reducing the preprocessing bottleneck from minutes to under one second. The open research challenge is handling dynamic foreground humans in the same Gaussian field.</div>
+      <div class="zh"><b>研究价值：</b>AnySplat 代表了 <em>pose-free feed-forward 3DGS</em> 的新兴范式：用单次 Transformer 推理替代多阶段 SfM + NeRF/3DGS 管线。对本库最直接的 insight 是：未来 ego AR 系统可以跳过 COLMAP 做背景场景重建，将预处理瓶颈从数分钟压缩到 1 秒内。尚待解决的研究挑战是在同一 Gaussian field 中处理动态前景人体。</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      AnySplat (USTC / Shanghai AI Lab / CUHK, SIGGRAPH Asia 2025) is a feed-forward transformer that takes any number of uncalibrated images and outputs — in a single pass — a set of <b>3D Gaussian primitives</b> encoding scene geometry and appearance, plus the <b>camera intrinsics and extrinsics</b> for each input image. Key innovations: (1) pseudo-label distillation from VGGT eliminates the need for any 3D ground-truth supervision; (2) differentiable voxelization prunes 30–70% of redundant Gaussians while improving quality; (3) a geometry consistency loss prevents multi-view depth artifacts. In zero-shot benchmarks it <b>matches 3DGS rendering quality on dense-view scenes at >100× lower latency</b> (33s vs 11min on 200 views) and slightly outperforms VGGT on camera pose AUC. For this egocentric paper bank, AnySplat is most relevant as a fast <b>background scene reconstruction module</b> that could eliminate the COLMAP preprocessing step in ego AR pipelines, leaving the open problem of dynamically compositing the SMPL-X human avatar into the Gaussian scene.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>
