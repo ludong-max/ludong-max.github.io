@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2603.17355 · CVPR 2026</div>
+    <h1>OnlineHMR: Video-based Online World-Grounded Human Mesh Recovery</h1>
+    <div class="authors">Yiwen Zhao, Ce Zheng, Yufu Wang, Hsueh-Han Daniel Yang, Liting Wen, Laszlo A. Jeni</div>
+    <div style="margin-top:10px;">
+      <span class="tag">Ego-to-Exo SMPLX Regression</span>
+      <span class="tag">Egocentric Estimation</span>
+      <span class="tag">Online Inference</span>
+      <span class="tag">World-Grounded HMR</span>
+      <span class="tag tag-blue">CVPR 2026</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2603.17355" target="_blank">arXiv</a>
+      <a class="link-btn link-arxiv" href="https://arxiv.org/pdf/2603.17355" target="_blank">PDF</a>
+      <a class="link-btn link-arxiv" href="https://tsukasane.github.io/Video-OnlineHMR/" target="_blank">Project</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Core Problem</h2>
+    <ul>
+      <li><div class="en">Most world-coordinate video HMR methods are offline and depend on future frames or global optimization.</div><div class="zh">大多数世界坐标视频 HMR 仍是离线方案，依赖未来帧或全局优化。</div></li>
+      <li><div class="en">This limits interactive use cases like AR/VR and telepresence where low latency and strict causality are required.</div><div class="zh">这限制了 AR/VR、远程临场等对低延迟与因果性要求严格的交互场景。</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Summary</h2>
+    <div class="arch-box">
+      Streaming monocular video
+      <span class="arrow">→</span>
+      camera-coordinate online HMR branch
+      <span class="arrow">+</span>
+      human-centric incremental SLAM branch
+      <span class="arrow">→</span>
+      online world-grounded mesh + camera trajectory
+      <div style="margin-top:8px;font-size:12px;color:rgba(232,236,255,.75);">
+        Key designs: causal key-value cache, sliding-window learning, physically plausible trajectory correction.
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      OnlineHMR turns world-grounded video HMR from offline to real online processing. It keeps causal, streaming inference through cache-based temporal modeling and incremental SLAM, while reaching accuracy close to chunk-based offline approaches.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

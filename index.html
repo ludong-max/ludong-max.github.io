@@ -521,7 +521,7 @@
 
 <script>
   /* ── Paper data ──────────────────────────────────────────────────────
-     topic  : "Public Datasets" | "Single-View SMPLX regression" | "Ego-to-Exo SMPLX Regression" | "Hand Regression"
+     topic  : "Public Datasets" | "Single-View SMPLX regression" | "Skeleton-to-SMPLX" | "Ego-to-Exo SMPLX Regression" | "Hand Regression" | "Visualization"
      subtopic (optional) : sub-group label shown inside the topic card
   */
   const PAPERS = [
@@ -625,6 +625,17 @@
       subtopic: "Optimization / Prior"
     },
     {
+      id: "dposerx",
+      abbr: "DPoser-X (Diffusion Pose Prior for Whole-Body)",
+      year: 2025,
+      note: "Single-View SMPLX regression: diffusion-based robust whole-body pose prior (body+hand+face) that formulates pose tasks as inverse problems with variational diffusion sampling; uses masked training to mix full-body and part-specific datasets",
+      path: "subpages/dposerx.html",
+      arxiv: "https://arxiv.org/abs/2508.00599",
+      pdf: "https://arxiv.org/pdf/2508.00599",
+      topic: "Single-View SMPLX regression",
+      subtopic: "Optimization / Prior"
+    },
+    {
       id: "osx_ubody",
       abbr: "OSX / UBody (One-Stage Whole-Body SMPL-X)",
       year: 2023,
@@ -634,6 +645,39 @@
       pdf: "https://arxiv.org/pdf/2303.16160",
       topic: "Single-View SMPLX regression",
       subtopic: "One-Stage / Whole-Body"
+    },
+    {
+      id: "hybrik",
+      abbr: "HybrIK (Hybrid Analytical-Neural IK for 3D Pose+Shape)",
+      year: 2021,
+      note: "Skeleton-to-SMPLX: foundational hybrid IK method for SMPL-based human mesh recovery; analytically solves swing from 3D joints and predicts twist from visual cues; CVPR 2021 predecessor of HybrIK-X",
+      path: "subpages/hybrik.html",
+      arxiv: "https://arxiv.org/abs/2011.14672",
+      pdf: "https://arxiv.org/pdf/2011.14672",
+      topic: "Skeleton-to-SMPLX",
+      subtopic: "SMPLX"
+    },
+    {
+      id: "hybrikx",
+      abbr: "HybrIK-X (Hybrid IK for Whole-body Mesh Recovery)",
+      year: 2023,
+      note: "Skeleton-to-SMPLX: hybrid analytical-neural inverse kinematics maps accurate 3D joints to SMPL-X rotations with swing analytically solved and twist predicted from image cues; one-stage whole-body mesh (body + hands + face)",
+      path: "subpages/hybrikx.html",
+      arxiv: "https://arxiv.org/abs/2304.05690",
+      pdf: "https://arxiv.org/pdf/2304.05690",
+      topic: "Skeleton-to-SMPLX",
+      subtopic: "SMPLX"
+    },
+    {
+      id: "learnable_smplify",
+      abbr: "Learnable SMPLify (Optimization-Free Human Pose IK)",
+      year: 2025,
+      note: "Skeleton-to-SMPLX: replaces iterative SMPLify IK with single-pass neural residual regression from initial/target 3D joints; human-centric normalization + temporal pair sampling; reports ~200x speedup vs classical SMPLify",
+      path: "subpages/learnable_smplify.html",
+      arxiv: "https://arxiv.org/abs/2508.13562",
+      pdf: "https://arxiv.org/pdf/2508.13562",
+      topic: "Skeleton-to-SMPLX",
+      subtopic: "SMPLX"
     },
     {
       id: "hmd_poser",
@@ -702,6 +746,39 @@
       subtopic: "Egocentric Estimation"
     },
     {
+      id: "egosmplx_prior_guided",
+      abbr: "EgoSMPLX (Prior-Guided Egocentric Whole-Body Mesh Recovery)",
+      year: 2026,
+      note: "Ego-to-Exo SMPLX Regression: single-image egocentric whole-body SMPL-X recovery with optimization-based pseudo-GT aligned to 3D joints, exocentric foundation prior adaptation, diffusion pose prior, and deterministic fisheye undistortion; ICIP 2026",
+      path: "subpages/egosmplx_prior_guided.html",
+      arxiv: "https://arxiv.org/abs/2605.08606",
+      pdf: "https://arxiv.org/pdf/2605.08606",
+      topic: "Ego-to-Exo SMPLX Regression",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "onlinehmr",
+      abbr: "OnlineHMR (Online World-Grounded Human Mesh Recovery)",
+      year: 2026,
+      note: "Ego-to-Exo SMPLX Regression: fully online monocular video HMR for world-coordinate human mesh and camera trajectory; causal key-value cache + sliding-window learning + human-centric incremental SLAM; CVPR 2026",
+      path: "subpages/onlinehmr.html",
+      arxiv: "https://arxiv.org/abs/2603.17355",
+      pdf: "https://arxiv.org/pdf/2603.17355",
+      topic: "Ego-to-Exo SMPLX Regression",
+      subtopic: "Egocentric Estimation"
+    },
+    {
+      id: "duomo",
+      abbr: "DuoMo (Dual Motion Diffusion for World-Space Human Reconstruction)",
+      year: 2026,
+      note: "Ego-to-Exo SMPLX Regression: two-stage diffusion for world-space human reconstruction from unconstrained monocular video; camera-space motion estimation + world-space refinement; handles noisy/missing observations; CVPR 2026",
+      path: "subpages/duomo.html",
+      arxiv: "https://arxiv.org/abs/2603.03265",
+      pdf: "https://arxiv.org/pdf/2603.03265",
+      topic: "Ego-to-Exo SMPLX Regression",
+      subtopic: "Egocentric Estimation"
+    },
+    {
       id: "hamer",
       abbr: "HaMeR (Hands in 3D with Transformers)",
       year: 2024,
@@ -742,6 +819,17 @@
       path: "subpages/dynhamr.html",
       arxiv: "https://arxiv.org/abs/2412.12861",
       pdf: "https://arxiv.org/pdf/2412.12861",
+      topic: "Hand Regression",
+      subtopic: "MANO Regression"
+    },
+    {
+      id: "hand4wholepp",
+      abbr: "Hand4Whole++ (Conditional Hands Modulator for Whole-Body Pose)",
+      year: 2026,
+      note: "Hand Regression: modular fusion of pretrained whole-body and hand estimators; CHAM injects hand-aware features into whole-body stream for wrist-body coherence; merges detailed finger/shape outputs via differentiable rigid alignment; CVPR 2026",
+      path: "subpages/hand4wholepp.html",
+      arxiv: "https://arxiv.org/abs/2603.14726",
+      pdf: "https://arxiv.org/pdf/2603.14726",
       topic: "Hand Regression",
       subtopic: "MANO Regression"
     },
@@ -788,6 +876,17 @@
       pdf: "https://arxiv.org/pdf/2005.12872",
       topic: "CVPR Trend",
       subtopic: "DETR-style"
+    },
+    {
+      id: "viser",
+      abbr: "Viser (Imperative Web-based 3D Visualization in Python)",
+      year: 2025,
+      note: "Visualization: open-source Python 3D visualization + GUI toolkit for CV/robotics; imperative API with browser-based viewer, SSH-friendly remote usage, and composable scene/GUI primitives; useful for rapid debugging and demos",
+      path: "subpages/viser.html",
+      arxiv: "https://arxiv.org/abs/2507.22885",
+      pdf: "https://arxiv.org/pdf/2507.22885",
+      topic: "Visualization",
+      subtopic: "3D Tooling"
     },
     {
       id: "anysplat",
@@ -913,7 +1012,7 @@
   ];
 
   /* Topic display order */
-  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Ego-to-Exo SMPLX Regression", "Hand Regression", "3D Scene Reconstruction", "Major Group"];
+  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Skeleton-to-SMPLX", "Ego-to-Exo SMPLX Regression", "Hand Regression", "3D Scene Reconstruction", "Visualization", "Major Group"];
 
   let activePaper = null;
 

@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-track{background:rgba(0,0,0,.1);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .tag-purple{border-color:rgba(186,144,255,.38);color:#ba90ff;background:rgba(186,144,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  .step-label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-gh{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-gh:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2603.14726 · CVPR 2026</div>
+    <h1>Enhancing Hands in 3D Whole-Body Pose Estimation with Conditional Hands Modulator</h1>
+    <div class="authors">
+      Gyeongsik Moon<br>
+      <span style="opacity:.7">Hand4Whole++ (CVPR 2026)</span>
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Hand Regression</span>
+      <span class="tag">Whole-Body Pose</span>
+      <span class="tag">CHAM</span>
+      <span class="tag">Modular Fusion</span>
+      <span class="tag tag-purple">MANO + SMPL-X</span>
+      <span class="tag tag-blue">CVPR 2026</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2603.14726" target="_blank">arXiv</a>
+      <a class="link-btn link-arxiv" href="https://arxiv.org/pdf/2603.14726" target="_blank">PDF</a>
+      <a class="link-btn link-gh" href="https://github.com/mks0601/Hand4Whole-plus-plus_RELEASE" target="_blank">Code</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> Whole-body estimators capture global body context but weak hand details, while hand-only estimators capture finger articulation but lack body coherence - can we combine both without retraining an entire whole-body pipeline?</div>
+      <div class="zh"><b>一句话问题：</b>全身估计器有全局身体一致性但手部细节不足，手部专用估计器手指细节强但缺乏身体上下文——能否在不重训整套全身模型的前提下融合两者优势？</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>CHAM (Conditional Hands Modulator):</b> a lightweight modulation module that injects hand-specific features from a pretrained hand estimator into the whole-body feature stream, improving wrist orientation while keeping upper-body kinematics coherent.</div>
+        <div class="zh"><b>CHAM（Conditional Hands Modulator）：</b>轻量调制模块，将预训练手部估计器的手部特征注入全身特征流，在保持上半身运动学一致性的同时提升手腕姿态质量。</div>
+      </li>
+      <li>
+        <div class="en"><b>Direct hand-detail transfer:</b> finger articulation and hand shape predicted by the hand estimator are directly integrated into the whole-body mesh using differentiable rigid alignment.</div>
+        <div class="zh"><b>手部细节直接迁移：</b>将手部估计器预测的手指关节与手形参数通过可微刚体对齐直接并入全身网格。</div>
+      </li>
+      <li>
+        <div class="en"><b>Modular upgrade path:</b> Hand4Whole++ leverages pretrained whole-body and hand models instead of retraining from scratch, making it practical for existing pipelines.</div>
+        <div class="zh"><b>模块化升级路径：</b>Hand4Whole++ 复用现有预训练全身模型与手部模型，无需从零重训，便于接入已有系统。</div>
+      </li>
+      <li>
+        <div class="en"><b>Empirical gains:</b> the paper reports substantial improvements on hand accuracy and overall full-body quality versus the original whole-body baseline.</div>
+        <div class="zh"><b>实验增益：</b>论文报告相对原始全身基线，手部精度与整体全身质量均有显著提升。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Structure</h2>
+    <div class="arch-box">
+      <span class="step-label">Base Inputs</span>
+      <span style="color:rgba(232,236,255,.7);">RGB image</span>
+      <span class="arrow">→</span>
+      <span style="color:var(--accent2);">Pretrained whole-body estimator</span>
+      <span class="arrow">+</span>
+      <span style="color:var(--accent2);">Pretrained hand estimator</span>
+
+      <div style="margin-top:10px;">
+        <span class="step-label">Feature Fusion</span>
+        <span style="color:var(--accent2);">Hand features</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">CHAM modulation</span>
+        <span style="color:rgba(232,236,255,.5);font-size:12px;">(condition whole-body stream with hand cues)</span>
+      </div>
+
+      <div style="margin-top:10px;">
+        <span class="step-label">Mesh-Level Merge</span>
+        <span style="color:rgba(232,236,255,.7);">Whole-body prediction + hand articulation/shape</span>
+        <span class="arrow">→</span>
+        <span style="color:var(--accent2);">Differentiable rigid alignment</span>
+        <span class="arrow">→</span>
+        <span style="color:#ffc850;">Refined SMPL-X whole-body output</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Why It Matters for This Repo</h2>
+    <table>
+      <tr><th>Existing Direction</th><th>How Hand4Whole++ Connects</th></tr>
+      <tr>
+        <td>Hand Regression (MANO)</td>
+        <td>Keeps detailed hand modeling from a specialized hand branch, while adding body-aware consistency through whole-body conditioning.</td>
+      </tr>
+      <tr>
+        <td>Ego full-body estimation trend</td>
+        <td>Provides a practical route to strengthen hand quality in whole-body pipelines without replacing all existing components.</td>
+      </tr>
+      <tr>
+        <td>Pipeline integration</td>
+        <td>Official code release includes demo and training/testing scripts, making it easy to benchmark against Hand4Whole-style baselines.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations / Open Questions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Dependency on upstream models:</b> final quality is bounded by the pretrained whole-body and hand estimators used for fusion.</div>
+        <div class="zh"><b>依赖上游模型：</b>最终效果受所选预训练全身模型与手部模型能力上限约束。</div>
+      </li>
+      <li>
+        <div class="en"><b>Integration complexity:</b> practical deployment still requires careful coordination of model weights, body model files, and preprocessing tools in the released codebase.</div>
+        <div class="zh"><b>集成复杂度：</b>落地时仍需协调模型权重、人体模型文件和预处理工具链。</div>
+      </li>
+      <li>
+        <div class="en"><b>Potential domain gap:</b> robustness in heavily egocentric or extreme hand-object interaction settings may still depend on target-domain finetuning.</div>
+        <div class="zh"><b>潜在域差：</b>在强 egocentric 或极端手物交互场景下，鲁棒性可能仍依赖目标域微调。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      Hand4Whole++ (CVPR 2026) is a modular upgrade for 3D whole-body pose estimation: it uses <b>CHAM</b> to inject hand-specific cues into a whole-body network and then merges high-fidelity hand articulation/shape via <b>differentiable rigid alignment</b>. The main value for this paper bank is clear: it bridges detailed MANO-style hand regression and body-coherent SMPL-X prediction without requiring full pipeline retraining.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

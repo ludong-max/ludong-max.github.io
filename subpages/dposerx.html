@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2508.00599 · 2025</div>
+    <h1>DPoser-X: Diffusion Model as Robust 3D Whole-body Human Pose Prior</h1>
+    <div class="authors">
+      Junzhe Lu, Jing Lin, Hongkun Dou, Ailing Zeng, Yue Deng, Xian Liu, Zhongang Cai, Lei Yang, Yulun Zhang, Haoqian Wang, Ziwei Liu
+    </div>
+    <div style="margin-top:10px;">
+      <span class="tag">Single-View SMPLX regression</span>
+      <span class="tag">Optimization / Prior</span>
+      <span class="tag">Diffusion Prior</span>
+      <span class="tag">Whole-body Pose</span>
+      <span class="tag tag-blue">arXiv 2025</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2508.00599" target="_blank">arXiv</a>
+      <a class="link-btn link-arxiv" href="https://arxiv.org/pdf/2508.00599" target="_blank">PDF</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can we build a robust and versatile whole-body pose prior (body + hand + face) when high-quality full-body datasets are scarce and highly articulated pose space is hard to model?</div>
+      <div class="zh"><b>一句话问题：</b>在高质量全身数据稀缺、姿态空间高度复杂的情况下，如何构建兼顾身体、手部和面部的稳健全身姿态先验？</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li>
+        <div class="en"><b>DPoser-X prior:</b> extends diffusion pose prior modeling from body pose to expressive whole-body human pose.</div>
+        <div class="zh"><b>DPoser-X 先验：</b>将 diffusion 姿态先验从身体扩展到包含手部和面部的表达性全身姿态。</div>
+      </li>
+      <li>
+        <div class="en"><b>Inverse-problem unification:</b> treats pose-centric downstream tasks as inverse problems and solves them with variational diffusion sampling.</div>
+        <div class="zh"><b>逆问题统一建模：</b>将多类姿态任务统一为逆问题，并通过 variational diffusion sampling 求解。</div>
+      </li>
+      <li>
+        <div class="en"><b>Truncated timestep scheduling:</b> introduces a pose-specific diffusion sampling schedule to improve downstream task performance.</div>
+        <div class="zh"><b>截断时间步调度：</b>提出适配姿态数据特性的采样时间步策略，提升下游任务效果。</div>
+      </li>
+      <li>
+        <div class="en"><b>Masked mixed-data training:</b> combines whole-body and part-specific datasets under masking to capture cross-part dependencies while reducing action overfitting.</div>
+        <div class="zh"><b>掩码混合训练：</b>通过掩码机制融合全身数据与局部数据，学习跨部位依赖并降低动作过拟合。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Overview</h2>
+    <div class="arch-box">
+      Diverse pose-centric tasks
+      <span class="arrow">→</span>
+      inverse-problem formulation
+      <span class="arrow">→</span>
+      diffusion prior sampling (DPoser-X)
+      <span class="arrow">→</span>
+      whole-body pose solutions
+      <div style="margin-top:8px;color:rgba(232,236,255,.75);font-size:12px;">
+        Additional design: truncated timestep schedule + masked mixed-data training.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Why It Fits This Repo</h2>
+    <ul>
+      <li>
+        <div class="en"><b>Directly aligns with SMPL-X prior line:</b> This is a whole-body pose prior method, conceptually adjacent to VPoser-style prior modeling but upgraded with diffusion.</div>
+        <div class="zh"><b>直接契合 SMPL-X 先验路线：</b>这是全身姿态先验方法，可视为 VPoser 一类先验建模向 diffusion 路线的升级。</div>
+      </li>
+      <li>
+        <div class="en"><b>Reusable module value:</b> The prior can be plugged into fitting/regression pipelines as a robust regularizer under ambiguous observations.</div>
+        <div class="zh"><b>可复用模块价值：</b>该先验可作为拟合/回归管线中的鲁棒正则项，缓解观测模糊情况下的不稳定。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      DPoser-X models whole-body human pose as a diffusion prior and solves pose tasks through inverse-problem sampling. Its key practical value in this paper bank is as a strong <b>Optimization / Prior</b> component for SMPL-X pipelines, especially when data coverage is incomplete across body, hand, and face.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>
