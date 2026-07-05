@@ -17,6 +17,7 @@ An interactive paper-reading dashboard for egocentric computer vision research, 
 | **Hand Regression (MANO)** | HaMeR, WiLoR, HaWoR, Dyn-HaMR, Hand4Whole++ |
 | **CVPR Trends** | Ego Full-Body Estimation (CVPR 2026+), Works Using Ego-Exo4D, DETR-style / DETR / D4RT |
 | **Visualization** | Viser |
+| **Others** | FramePack |
 | **Major Research Groups** | Project Aria (Meta Reality Labs), non-Meta egocentric groups overview |
 | **Future Work** | EgoSMPL-X unified body+hand+face proposal |
 

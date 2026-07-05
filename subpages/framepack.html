@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0b1020; --text:#e8ecff; --muted:#aeb7e6;
+    --border:rgba(255,255,255,.10); --accent:#7aa2ff; --accent2:#8bffcf;
+    --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  }
+  body{background-color:var(--bg);color:var(--text);font-family:var(--sans);margin:0;padding:16px;box-sizing:border-box;}
+  .card{padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(0,0,0,.10);position:relative;margin-bottom:14px;}
+  h1{margin:6px 0 0;font-size:21px;line-height:1.25;}
+  h2{margin:0 0 10px;font-size:15px;}
+  .label{font-family:var(--mono);color:rgba(232,236,255,.65);font-size:12px;}
+  .authors{margin-top:6px;color:rgba(232,236,255,.6);font-size:12px;line-height:1.5;}
+  .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(139,255,207,.35);color:var(--accent2);background:rgba(139,255,207,.06);margin-right:5px;margin-top:4px;}
+  .tag-blue{border-color:rgba(122,162,255,.4);color:var(--accent);background:rgba(122,162,255,.06);}
+  .toggle-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--muted);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:12px;}
+  .toggle-btn:hover{background:rgba(255,255,255,.13);}
+  .zh{display:none;}
+  ul{margin:0;padding-left:18px;color:rgba(232,236,255,.80);line-height:1.65;}
+  li{margin-bottom:7px;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;}
+  th{color:var(--accent2);font-weight:600;background:rgba(0,0,0,.12);}
+  td{color:rgba(232,236,255,.80);}
+  .arch-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.85;color:rgba(232,236,255,.82);}
+  .arrow{color:var(--accent);margin:0 5px;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;border-radius:8px;text-decoration:none;transition:.12s;}
+  .link-arxiv{border:1px solid rgba(255,255,255,.12);color:var(--muted);background:rgba(255,255,255,.03);}
+  .link-arxiv:hover{border-color:rgba(139,255,207,.5);color:var(--accent2);}
+  .link-gh{border:1px solid rgba(122,162,255,.35);color:var(--accent);background:rgba(122,162,255,.05);}
+  .link-gh:hover{border-color:rgba(122,162,255,.7);color:#a8c8ff;}
+</style>
+<script>
+  function toggleLang(btn){
+    const card=btn.closest('.card');
+    const isEn=btn.dataset.state==='en';
+    card.querySelectorAll('.en').forEach(el=>el.style.display=isEn?'none':'block');
+    card.querySelectorAll('.zh').forEach(el=>el.style.display=isEn?'block':'none');
+    btn.dataset.state=isEn?'zh':'en';
+  }
+</script>
+</head>
+<body>
+<section style="max-width:960px;margin:0 auto;">
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <div class="label">Paper Digest · arXiv 2504.12626 · 2025</div>
+    <h1>Frame Context Packing and Drift Prevention in Next-Frame-Prediction Video Diffusion Models</h1>
+    <div class="authors">Lvmin Zhang, Shengqu Cai, Muyang Li, Gordon Wetzstein, Maneesh Agrawala</div>
+    <div style="margin-top:10px;">
+      <span class="tag">Others</span>
+      <span class="tag">Video Diffusion</span>
+      <span class="tag">FramePack</span>
+      <span class="tag">Drift Prevention</span>
+      <span class="tag tag-blue">arXiv 2025</span>
+    </div>
+    <div class="link-row">
+      <a class="link-btn link-arxiv" href="https://arxiv.org/abs/2504.12626" target="_blank">arXiv</a>
+      <a class="link-btn link-arxiv" href="https://arxiv.org/pdf/2504.12626" target="_blank">PDF</a>
+      <a class="link-btn link-gh" href="https://github.com/lllyasviel/FramePack" target="_blank">Code</a>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;line-height:1.65;color:rgba(232,236,255,.82);">
+      <div class="en"><b>One-sentence problem:</b> How can next-frame video diffusion models keep very long temporal context and avoid autoregressive drift/error accumulation, without exploding context length or sacrificing training throughput?</div>
+      <div class="zh"><b>一句话问题：</b>next-frame 视频扩散模型如何在不让上下文长度爆炸、又不牺牲训练吞吐的前提下，保留超长时序信息并抑制自回归漂移与误差累积？</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Key Contributions</h2>
+    <ul>
+      <li><div class="en"><b>FramePack context compression:</b> allocates variable context budget per frame based on importance, enabling significantly longer effective history under fixed token limits.</div><div class="zh"><b>FramePack 上下文压缩：</b>按帧重要性分配可变上下文预算，在固定 token 上限下保留更长有效历史。</div></li>
+      <li><div class="en"><b>Multiple packing schedules:</b> supports time-proximity, feature-similarity, and hybrid importance metrics, so models can bias context toward temporally recent frames or semantically relevant frames.</div><div class="zh"><b>多种打包策略：</b>支持时间邻近、特征相似度和混合重要性度量，使模型可偏向最近帧或语义相关帧。</div></li>
+      <li><div class="en"><b>Anti-drift design suite:</b> combines endpoint anchoring, sampling-order adjustment, and discrete history representation to reduce observation bias in long-horizon autoregressive rollout.</div><div class="zh"><b>防漂移机制组合：</b>通过端点锚定、采样顺序调整和离散历史表示，降低长时自回归滚动中的观测偏差。</div></li>
+      <li><div class="en"><b>Model-agnostic finetuning recipe:</b> paper reports that existing video diffusion backbones can be finetuned with FramePack rather than retrained from scratch.</div><div class="zh"><b>模型无关微调方案：</b>论文指出现有视频扩散骨干可直接引入 FramePack 微调，而非从零重训。</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Method Pipeline</h2>
+    <div class="arch-box">
+      Historical frames
+      <span class="arrow">→</span>
+      frame-wise importance scoring
+      <span class="arrow">→</span>
+      packed context construction (variable per frame)
+      <span class="arrow">→</span>
+      next-frame prediction diffusion model
+      <span class="arrow">→</span>
+      anti-drift rollout controls
+      <span class="arrow">→</span>
+      long-horizon video generation
+    </div>
+    <div style="margin-top:10px;font-size:13px;color:rgba(232,236,255,.8);line-height:1.65;">
+      <div class="en">Core intuition: instead of giving every past frame equal context length, FramePack spends more context tokens on high-utility frames and compresses low-utility frames, then stabilizes generation with explicit anti-drift rollout rules.</div>
+      <div class="zh">核心直觉：不是给每个历史帧平均上下文，而是把更多上下文 token 分配给高价值帧、压缩低价值帧，再用显式防漂移策略稳定滚动生成。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Packing Schedules (Conceptual)</h2>
+    <table>
+      <tr><th>Schedule</th><th>Importance Signal</th><th>Bias</th><th>Best for</th></tr>
+      <tr><td>Time Proximity</td><td>Temporal distance to current frame</td><td>Recent frames get larger context slices</td><td>Short-term motion continuity, local coherence</td></tr>
+      <tr><td>Feature Similarity</td><td>Embedding-level similarity</td><td>Semantically relevant non-adjacent frames preserved</td><td>Re-appearance, repeated structures, long-term recall</td></tr>
+      <tr><td>Hybrid</td><td>Weighted temporal + feature metric</td><td>Balances local smoothness and global memory</td><td>General long-video generation with diverse dynamics</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Drift Prevention Components</h2>
+    <table>
+      <tr><th>Component</th><th>What it addresses</th><th>Expected effect</th></tr>
+      <tr><td>Early-established endpoints</td><td>Endpoint ambiguity in long rollout</td><td>Anchors trajectory, reducing global drift accumulation</td></tr>
+      <tr><td>Adjusted sampling orders</td><td>Error amplification from naive autoregressive order</td><td>Improves stability by reordering denoising/sampling sequence</td></tr>
+      <tr><td>Discrete history representation</td><td>Compounding noise from soft/continuous history updates</td><td>Keeps historical state cleaner, lowers observation bias</td></tr>
+    </table>
+    <p style="font-size:12px;color:rgba(232,236,255,.5);margin:8px 0 0;">
+      The paper reports ablations validating these anti-drift components in both single-direction streaming and bi-directional generation settings.
+    </p>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Practical Value for This Repo</h2>
+    <ul>
+      <li><div class="en"><b>Long-sequence robustness recipe:</b> directly reusable when your pipeline evolves toward long-horizon video generation or iterative simulation loops.</div><div class="zh"><b>长序列稳健性方案：</b>当你的系统走向长时视频生成或迭代模拟时，这套策略可直接迁移。</div></li>
+      <li><div class="en"><b>Engineering leverage:</b> context packing is a compute/memory optimization pattern, not just a model trick, so it can influence system design choices early.</div><div class="zh"><b>工程杠杆价值：</b>context packing 属于算力/内存优化范式，不只是模型技巧，可提前影响系统架构设计。</div></li>
+      <li><div class="en"><b>Why under Others:</b> this is not an egocentric body benchmark paper itself, but a generally useful video-diffusion systems method.</div><div class="zh"><b>为何归入 Others：</b>该工作不是直接的 egocentric body benchmark 论文，而是通用的视频扩散系统方法。</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <button class="toggle-btn" onclick="toggleLang(this)" data-state="en">中 / En</button>
+    <h2>Limitations / Open Questions</h2>
+    <ul>
+      <li><div class="en"><b>Schedule sensitivity:</b> effectiveness can depend on how importance metrics are chosen and tuned per data domain.</div><div class="zh"><b>策略敏感性：</b>效果可能依赖重要性度量及其在不同数据域中的调参方式。</div></li>
+      <li><div class="en"><b>Compatibility cost:</b> retrofitting existing codebases with packing logic and anti-drift rollout controls may increase implementation complexity.</div><div class="zh"><b>兼容成本：</b>在现有代码中加入 packing 和防漂移滚动控制会增加实现复杂度。</div></li>
+      <li><div class="en"><b>Quality-speed trade-off remains:</b> packing helps context efficiency, but end-to-end latency still depends on backbone size and sampling budget.</div><div class="zh"><b>质量-速度权衡仍在：</b>packing 提升上下文效率，但整体时延仍受骨干规模与采样预算影响。</div></li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:rgba(139,255,207,.04);border-color:rgba(139,255,207,.18);">
+    <h2 style="color:var(--accent2);">TL;DR</h2>
+    <p style="font-size:13px;color:rgba(232,236,255,.85);line-height:1.7;margin:0;">
+      FramePack is a systems-level upgrade for next-frame video diffusion: it reallocates limited context tokens by frame importance (time/similarity/hybrid), then suppresses long-horizon drift with endpoint anchoring + sampling-order adjustment + discrete history design. The practical takeaway is not only better long-context generation behavior, but also a reusable compute-aware design pattern for long video pipelines.
+    </p>
+  </div>
+
+</section>
+</body>
+</html>

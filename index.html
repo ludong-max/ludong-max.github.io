@@ -521,7 +521,7 @@
 
 <script>
   /* ── Paper data ──────────────────────────────────────────────────────
-     topic  : "Public Datasets" | "Single-View SMPLX regression" | "Skeleton-to-SMPLX" | "Ego-to-Exo SMPLX Regression" | "Hand Regression" | "Visualization"
+     topic  : "Public Datasets" | "Single-View SMPLX regression" | "Skeleton-to-SMPLX" | "Ego-to-Exo SMPLX Regression" | "Hand Regression" | "Visualization" | "Others"
      subtopic (optional) : sub-group label shown inside the topic card
   */
   const PAPERS = [
@@ -889,6 +889,17 @@
       subtopic: "3D Tooling"
     },
     {
+      id: "framepack",
+      abbr: "FramePack (Frame Context Packing + Drift Prevention)",
+      year: 2025,
+      note: "Others: next-frame video diffusion structure with frame-wise context packing and anti-drift strategies (early endpoints, adjusted sampling order, discrete history representation); supports long-context inference with thousands of frames",
+      path: "subpages/framepack.html",
+      arxiv: "https://arxiv.org/abs/2504.12626",
+      pdf: "https://arxiv.org/pdf/2504.12626",
+      topic: "Others",
+      subtopic: "Video Diffusion"
+    },
+    {
       id: "anysplat",
       abbr: "AnySplat (Feed-forward 3DGS from Unconstrained Views)",
       year: 2025,
@@ -1012,7 +1023,7 @@
   ];
 
   /* Topic display order */
-  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Skeleton-to-SMPLX", "Ego-to-Exo SMPLX Regression", "Hand Regression", "3D Scene Reconstruction", "Visualization", "Major Group"];
+  const TOPIC_ORDER = ["Public Datasets", "Single-View SMPLX regression", "Skeleton-to-SMPLX", "Ego-to-Exo SMPLX Regression", "Hand Regression", "3D Scene Reconstruction", "Visualization", "Others", "Major Group"];
 
   let activePaper = null;
 
